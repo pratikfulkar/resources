@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resource Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F5C800;
+    --black: #111111;
+    --cream: #FFF8EC;
+    --white: #FFFFFF;
+    --green: #00E676;
+    --pink: #FF4D8D;
+    --blue: #2979FF;
+    --orange: #FF6B2B;
+    --border: 3px solid #111111;
+    --shadow: 6px 6px 0px #111111;
+    --shadow-lg: 9px 9px 0px #111111;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--yellow);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--black);
+    padding: 32px 40px 28px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo-block {}
+
+  .logo-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--yellow);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 800;
+    color: var(--yellow);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  h1 span { color: var(--pink); }
+
+  .header-meta {
+    text-align: right;
+  }
+
+  .count-pill {
+    display: inline-block;
+    background: var(--yellow);
+    border: var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+
+  .header-sub {
+    font-size: 11px;
+    color: #888;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* ── SECTION ── */
+  .section {}
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .section-icon {
+    width: 48px; height: 48px;
+    background: var(--black);
+    border: var(--border);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+  }
+
+  .section-title-wrap {}
+
+  .section-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--black);
+    line-height: 1;
+  }
+
+  .section-count {
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 3px;
+    background: var(--black);
+    border-radius: 2px;
+  }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '↗';
+    position: absolute;
+    top: 16px; right: 18px;
+    font-size: 18px;
+    color: #bbb;
+    transition: color 0.12s, transform 0.12s;
+  }
+
+  .card:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0px #111;
+  }
+
+  .card:hover::after {
+    color: var(--black);
+    transform: translate(2px, -2px);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card-emoji {
+    width: 40px; height: 40px;
+    background: var(--yellow);
+    border: var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .card-text { flex: 1; padding-right: 24px; }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.25;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 2px solid #e0d9cc;
+  }
+
+  .card-url {
+    font-size: 10px;
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border: 2px solid var(--black);
+    border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* tag colors per section */
+  .tag-learn   { background: var(--green);  color: var(--black); }
+  .tag-tool    { background: var(--blue);   color: var(--white); }
+  .tag-project { background: var(--orange); color: var(--white); }
+  .tag-startup { background: var(--pink);   color: var(--white); }
+
+  /* card accent stripe per section */
+  .card.learn   { border-left: 6px solid var(--green); }
+  .card.tool    { border-left: 6px solid var(--blue); }
+  .card.project { border-left: 6px solid var(--orange); }
+  .card.startup { border-left: 6px solid var(--pink); }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--black);
+    border-top: var(--border);
+    border-bottom: var(--border);
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 22s linear infinite;
+    gap: 40px;
+  }
+
+  .ticker-item {
+    font-size: 13px;
+    color: var(--yellow);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ticker-sep { color: var(--pink); font-size: 16px; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-left {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--yellow);
+  }
+
+  .footer-right {
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header { padding: 24px 20px 20px; }
+    main { padding: 28px 16px; gap: 36px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 36px; }
+    .header-meta { display: none; }
+    footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Study & Learning</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Claude Code Tools</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Projects & Refs</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Startup Resources</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI · ML · Dev</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Study & Learning</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Claude Code Tools</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Projects & Refs</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Startup Resources</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI · ML · Dev</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-block">
+    <div class="logo-tag">// Prateek's</div>
+    <h1>Resource<br><span>Vault.</span></h1>
+  </div>
+  <div class="header-meta">
+    <div class="count-pill">📦 25 Links · 4 Sections</div>
+    <div class="header-sub">AI · ML · Dev · Startup</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══════════ STUDY & LEARNING ══════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon">📚</div>
+      <div class="section-title-wrap">
+        <div class="section-name">Study & Learning</div>
+        <div class="section-count">13 RESOURCES</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+    <div class="cards-grid">
+
+      <a class="card learn" href="https://learn.deeplearning.ai/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🧠</div>
+          <div class="card-text">
+            <div class="card-title">Deep Learning AI</div>
+            <div class="card-desc">Short courses on LLMs, agents & RAG by Andrew Ng</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">learn.deeplearning.ai</span>
+          <span class="card-tag tag-learn">Course</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://academy.langchain.com/courses/deep-agents-with-langgraph" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🔗</div>
+          <div class="card-text">
+            <div class="card-title">Deep Agents with LangGraph</div>
+            <div class="card-desc">LangChain Academy — production-grade agent building</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">academy.langchain.com</span>
+          <span class="card-tag tag-learn">Course</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://www.deeplearning.ai/short-courses/ai-python-for-beginners/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🐍</div>
+          <div class="card-text">
+            <div class="card-title">AI Python for Beginners</div>
+            <div class="card-desc">Add AI to your Python learning — DeepLearning.AI</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">deeplearning.ai</span>
+          <span class="card-tag tag-learn">Course</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://www.youtube.com/watch?v=ix9cRaBkVe0" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">▶️</div>
+          <div class="card-text">
+            <div class="card-title">Python — Free Full Course</div>
+            <div class="card-desc">Best free Python course on YouTube</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">youtube.com</span>
+          <span class="card-tag tag-learn">Video</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://academy.zerotomastery.io/a/aff_q316zxhy/external?affcode=441520_jokk7aer" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🚀</div>
+          <div class="card-text">
+            <div class="card-title">Python — Zero to Mastery</div>
+            <div class="card-desc">Project-based comprehensive Python curriculum (Paid)</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">zerotomastery.io</span>
+          <span class="card-tag tag-learn">Paid</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📐</div>
+          <div class="card-text">
+            <div class="card-title">Understanding LLMs — 3Blue1Brown</div>
+            <div class="card-desc">Visual intuition-first series on how transformers work</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">youtube.com</span>
+          <span class="card-tag tag-learn">Series</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">⚙️</div>
+          <div class="card-text">
+            <div class="card-title">Building LLMs — Karpathy</div>
+            <div class="card-desc">Build GPT from scratch — the gold standard deep dive</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">youtube.com — Karpathy</span>
+          <span class="card-tag tag-learn">Series</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://learngitbranching.js.org/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🌿</div>
+          <div class="card-text">
+            <div class="card-title">Learn Git Branching</div>
+            <div class="card-desc">Visual interactive tool for Git branches, rebase & merge</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">learngitbranching.js.org</span>
+          <span class="card-tag tag-learn">Interactive</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://www.youtube.com/watch?v=lEcULR30-GM" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🐳</div>
+          <div class="card-text">
+            <div class="card-title">CI/CD + Docker in One Video</div>
+            <div class="card-desc">Docker and CI/CD pipelines covered together</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">youtube.com</span>
+          <span class="card-tag tag-learn">Video</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://samwho.dev/load-balancing/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">⚖️</div>
+          <div class="card-text">
+            <div class="card-title">Visual Load Balancing — samwho</div>
+            <div class="card-desc">Best animated explainer for load balancing concepts</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">samwho.dev</span>
+          <span class="card-tag tag-learn">Article</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://www.anthropic.com/research/building-effective-agents" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🤖</div>
+          <div class="card-text">
+            <div class="card-title">Building Effective Agents</div>
+            <div class="card-desc">Anthropic's canonical guide for designing agent systems</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">anthropic.com/research</span>
+          <span class="card-tag tag-learn">Paper</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://www.pinecone.io/learn/retrieval-augmented-generation/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📌</div>
+          <div class="card-text">
+            <div class="card-title">RAG Guide — Pinecone</div>
+            <div class="card-desc">Comprehensive intro to Retrieval-Augmented Generation</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">pinecone.io/learn</span>
+          <span class="card-tag tag-learn">Guide</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://docs.google.com/document/d/1iOpE09QlS7rLQIL3E-5GtcnEPB7JGg-FRgd7P0erHCo/edit" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📋</div>
+          <div class="card-text">
+            <div class="card-title">AI/ML Reading List</div>
+            <div class="card-desc">Curated reading list for going deep on AI and ML</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">docs.google.com</span>
+          <span class="card-tag tag-learn">Reading List</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════ CLAUDE CODE ══════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon">🛠️</div>
+      <div class="section-title-wrap">
+        <div class="section-name">Claude Code — Skills & Tools</div>
+        <div class="section-count">5 RESOURCES</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+    <div class="cards-grid">
+
+      <a class="card tool" href="https://github.com/obra/superpowers" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">⚡</div>
+          <div class="card-text">
+            <div class="card-title">Superpowers</div>
+            <div class="card-desc">Structured workflows — planning, TDD, code review</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/obra</span>
+          <span class="card-tag tag-tool">Skill</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://github.com/thedotmack/claude-mem" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🧠</div>
+          <div class="card-text">
+            <div class="card-title">ClaudeMem</div>
+            <div class="card-desc">Persistent memory across Claude Code sessions</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/thedotmack</span>
+          <span class="card-tag tag-tool">Skill</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">⭐</div>
+          <div class="card-text">
+            <div class="card-title">Awesome Claude Code</div>
+            <div class="card-desc">Curated tools, agents, plugins, and workflows</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/hesreallyhim</span>
+          <span class="card-tag tag-tool">List</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🎨</div>
+          <div class="card-text">
+            <div class="card-title">UI/UX Pro Max Skill</div>
+            <div class="card-desc">Professional design systems directly into Claude Code</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/nextlevelbuilder</span>
+          <span class="card-tag tag-tool">Skill</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://console.cloud.google.com/vertex-ai/publishers/anthropic/model-garden/claude-opus-4-6" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">☁️</div>
+          <div class="card-text">
+            <div class="card-title">Claude via Google Vertex AI</div>
+            <div class="card-desc">Run Claude on GCP — free startup credits available</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">console.cloud.google.com</span>
+          <span class="card-tag tag-tool">Credits</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════ PROJECTS & REFERENCES ══════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon">🗂️</div>
+      <div class="section-title-wrap">
+        <div class="section-name">Projects & References</div>
+        <div class="section-count">4 RESOURCES</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+    <div class="cards-grid">
+
+      <a class="card project" href="https://github.com/patchy631/ai-engineering-hub" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🏗️</div>
+          <div class="card-text">
+            <div class="card-title">AI Engineering Hub</div>
+            <div class="card-desc">Hands-on AI projects — RAG, agents, pipelines</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/patchy631</span>
+          <span class="card-tag tag-project">GitHub</span>
+        </div>
+      </a>
+
+      <a class="card project" href="https://github.com/agentscope-ai/agentscope" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🤝</div>
+          <div class="card-text">
+            <div class="card-title">AgentScope</div>
+            <div class="card-desc">Multi-agent framework for scalable agent applications</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/agentscope-ai</span>
+          <span class="card-tag tag-project">GitHub</span>
+        </div>
+      </a>
+
+      <a class="card project" href="https://blog.modelcontextprotocol.io/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🔌</div>
+          <div class="card-text">
+            <div class="card-title">MCP Blog & Docs</div>
+            <div class="card-desc">Official Model Context Protocol — build MCP servers</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">modelcontextprotocol.io</span>
+          <span class="card-tag tag-project">Docs</span>
+        </div>
+      </a>
+
+      <a class="card project" href="https://developers.openai.com/api/reference/overview" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📖</div>
+          <div class="card-text">
+            <div class="card-title">OpenAI API Reference</div>
+            <div class="card-desc">Official docs — completions, embeddings, function calling</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">developers.openai.com</span>
+          <span class="card-tag tag-project">Docs</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════ STARTUP & FREE RESOURCES ══════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon">💸</div>
+      <div class="section-title-wrap">
+        <div class="section-name">Startup & Free Resources</div>
+        <div class="section-count">3 RESOURCES</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+    <div class="cards-grid">
+
+      <a class="card startup" href="https://www.startupperks.xyz/perks" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🎁</div>
+          <div class="card-text">
+            <div class="card-title">Startup Perks</div>
+            <div class="card-desc">Free credits from AWS, GCP, and tools for startups</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">startupperks.xyz</span>
+          <span class="card-tag tag-startup">Perks</span>
+        </div>
+      </a>
+
+      <a class="card startup" href="https://shard-vole-c98.notion.site/15-Free-AI-Tools-From-Google-3137f8611d9f80179d64fb72be6ffae9" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🆓</div>
+          <div class="card-text">
+            <div class="card-title">15 Free AI Tools from Google</div>
+            <div class="card-desc">Notion roundup of free Google AI tools worth knowing</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">notion.site</span>
+          <span class="card-tag tag-startup">Free</span>
+        </div>
+      </a>
+
+      <a class="card startup" href="https://docs.google.com/document/d/1vcnB4ZWPnjvD8F4-5OmULk5x59kwuCGqXfQiaSrjnk0/mobilebasic" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">⚡</div>
+          <div class="card-text">
+            <div class="card-title">Micro-Startup Stack Guide</div>
+            <div class="card-desc">Rapid web app development stack for micro-startups</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">docs.google.com</span>
+          <span class="card-tag tag-startup">Guide</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Resource Vault ✦</div>
+  <div class="footer-right">25 links · Last updated April 2026</div>
+</footer>
+
+</body>
+</html>
