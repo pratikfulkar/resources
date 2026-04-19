@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-Month AI Engineering Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F5C800;
+    --black: #111111;
+    --cream: #FFF8EC;
+    --white: #FFFFFF;
+    --green: #00E676;
+    --pink: #FF4D8D;
+    --blue: #2979FF;
+    --orange: #FF6B2B;
+    --purple: #7C3AED;
+    --border: 3px solid #111111;
+    --shadow: 6px 6px 0px #111111;
+    --shadow-lg: 9px 9px 0px #111111;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--yellow);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--black);
+    border-bottom: var(--border);
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 28s linear infinite;
+    gap: 40px;
+  }
+  .ticker-item { font-size: 12px; color: var(--yellow); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .ticker-sep { color: var(--pink); font-size: 16px; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--black);
+    padding: 36px 40px 32px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .logo-tag { font-size: 11px; color: #888; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    color: var(--yellow);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--pink); }
+
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .salary-pill {
+    background: var(--green);
+    border: var(--border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--black);
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+
+  .header-sub { font-size: 11px; color: #666; letter-spacing: 0.05em; text-align: right; }
+
+  /* ── NAV BACK ── */
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 40px;
+    padding: 8px 16px;
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--black);
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .nav-back:hover { transform: translate(3px,3px); box-shadow: 3px 3px 0 #111; }
+
+  /* ── RULE BANNER ── */
+  .rule-banner {
+    margin: 0 40px 32px;
+    background: var(--black);
+    border: var(--border);
+    border-radius: 14px;
+    padding: 16px 22px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .rule-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    white-space: nowrap;
+  }
+  .rule-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--yellow);
+  }
+  .rule-text span { color: var(--pink); }
+
+  /* ── MAIN ── */
+  main { padding: 0 40px; display: flex; flex-direction: column; gap: 28px; }
+
+  /* ── MONTH CARD ── */
+  .month-card {
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .month-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: var(--border);
+  }
+
+  .month-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--black);
+    padding: 16px 24px;
+    line-height: 1;
+    border-right: var(--border);
+    min-width: 100px;
+    text-align: center;
+    background: var(--yellow);
+  }
+
+  .month-info { padding: 16px 22px; flex: 1; }
+
+  .month-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--black);
+    line-height: 1.1;
+  }
+
+  .month-subtitle { font-size: 11px; color: #666; margin-top: 4px; letter-spacing: 0.05em; }
+
+  .month-badge {
+    margin-right: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border: var(--border);
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .month-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .month-col {
+    padding: 20px 22px;
+  }
+
+  .month-col:first-child { border-right: var(--border); }
+
+  .col-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .learn-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .learn-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  .learn-dot {
+    width: 8px; height: 8px;
+    border: 2px solid var(--black);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  /* ── RESOURCES ── */
+  .res-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .res-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--black);
+    text-decoration: none;
+    padding: 8px 10px;
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: 3px 3px 0 #111;
+    transition: transform 0.1s, box-shadow 0.1s;
+    line-height: 1.35;
+  }
+  .res-link:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111; }
+
+  .res-arrow { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .res-text { flex: 1; }
+  .res-name { font-weight: 700; display: block; }
+  .res-url { color: #888; font-size: 10px; display: block; margin-top: 1px; }
+
+  /* ── OUTPUT BOX ── */
+  .output-box {
+    border-top: var(--border);
+    padding: 16px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--black);
+  }
+
+  .output-icon { font-size: 22px; flex-shrink: 0; }
+
+  .output-content {}
+  .output-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  .output-text {
+    font-size: 13px;
+    color: var(--yellow);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+
+  /* ── STACK SECTION ── */
+  .stack-section {
+    background: var(--black);
+    border: var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    padding: 28px;
+    margin-top: 4px;
+  }
+
+  .stack-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--yellow);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stack-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .stack-pill {
+    padding: 8px 16px;
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    box-shadow: var(--shadow);
+  }
+
+  /* ── SALARY SECTION ── */
+  .salary-section {
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .salary-header {
+    background: var(--black);
+    padding: 18px 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--yellow);
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .salary-tiers { display: grid; grid-template-columns: repeat(3, 1fr); }
+
+  .salary-tier {
+    padding: 20px;
+    text-align: center;
+    border-right: var(--border);
+  }
+  .salary-tier:last-child { border-right: none; }
+
+  .tier-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+
+  .tier-desc { font-size: 11px; color: #555; line-height: 1.5; }
+
+  .tier-bar-wrap {
+    height: 8px;
+    background: #ddd;
+    border: 2px solid var(--black);
+    border-radius: 4px;
+    margin: 10px 0 6px;
+    overflow: hidden;
+  }
+  .tier-bar { height: 100%; border-radius: 2px; }
+
+  /* month color coding */
+  .m1 .month-num { background: var(--green); }
+  .m2 .month-num { background: var(--blue); color: var(--white); }
+  .m3 .month-num { background: var(--orange); }
+  .m4 .month-num { background: var(--purple); color: var(--white); }
+  .m5 .month-num { background: var(--pink); color: var(--white); }
+  .m6 .month-num { background: var(--black); color: var(--yellow); }
+
+  .badge-m1 { background: var(--green); }
+  .badge-m2 { background: var(--blue); color: var(--white); }
+  .badge-m3 { background: var(--orange); }
+  .badge-m4 { background: var(--purple); color: var(--white); }
+  .badge-m5 { background: var(--pink); color: var(--white); }
+  .badge-m6 { background: var(--yellow); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 48px;
+  }
+  .footer-left { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--yellow); }
+  .footer-right { font-size: 11px; color: #666; letter-spacing: 0.05em; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    header { padding: 24px 20px 20px; }
+    .nav-back { margin: 16px 20px; }
+    .rule-banner { margin: 0 20px 24px; }
+    main { padding: 0 20px; }
+    .month-body { grid-template-columns: 1fr; }
+    .month-col:first-child { border-right: none; border-bottom: var(--border); }
+    .salary-tiers { grid-template-columns: 1fr; }
+    .salary-tier { border-right: none; border-bottom: var(--border); }
+    .salary-tier:last-child { border-bottom: none; }
+    footer { padding: 20px; }
+    .header-right { align-items: flex-start; }
+    .header-sub { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Learn</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Build</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Ship</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Post</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">1 CR</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">6 Months</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">3 Projects</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI Engineer</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Learn</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Build</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Ship</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Post</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">1 CR</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">6 Months</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">3 Projects</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI Engineer</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="logo-tag">// Prateek's</div>
+    <h1>6-Month AI<br>Engineering<br><span>Roadmap.</span></h1>
+  </div>
+  <div class="header-right">
+    <div class="salary-pill">1 CR 🎯</div>
+    <div class="header-sub">Learn → Build → Ship → Post<br>One project per month.</div>
+  </div>
+</header>
+
+<!-- BACK LINK -->
+<a class="nav-back" href="index.html">← Back to Resource Vault</a>
+
+<!-- RULE BANNER -->
+<div class="rule-banner">
+  <div class="rule-label">The Rule</div>
+  <div class="rule-text">Learn <span>→</span> Build <span>→</span> Ship <span>→</span> Post. One project per month.</div>
+</div>
+
+<main>
+
+  <!-- ══════ MONTH 1 ══════ -->
+  <div class="month-card m1">
+    <div class="month-header">
+      <div class="month-num">01</div>
+      <div class="month-info">
+        <div class="month-title">AI Foundations + FastAPI</div>
+        <div class="month-subtitle">LLM basics · Embeddings · Async Python</div>
+      </div>
+      <div class="month-badge badge-m1">Foundations</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div>LLM basics: tokens, context windows, temperature, prompting</div>
+          <div class="learn-item"><div class="learn-dot"></div>Embeddings: what they are and why they matter</div>
+          <div class="learn-item"><div class="learn-dot"></div>FastAPI: async endpoints, Pydantic models, dependency injection</div>
+          <div class="learn-item"><div class="learn-dot"></div>Python async/await</div>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <a class="res-link" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Anthropic Prompt Engineering Docs</span><span class="res-url">docs.anthropic.com — free, official</span></span>
+          </a>
+          <a class="res-link" href="https://fastapi.tiangolo.com/tutorial/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">FastAPI Official Tutorial</span><span class="res-url">fastapi.tiangolo.com</span></span>
+          </a>
+          <a class="res-link" href="https://platform.openai.com/docs/guides/embeddings" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">OpenAI Embeddings Guide</span><span class="res-url">platform.openai.com</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="output-box">
+      <div class="output-icon">🚀</div>
+      <div class="output-content">
+        <div class="output-label">Month Output</div>
+        <div class="output-text">Working FastAPI app with 2–3 endpoints calling OpenAI / Anthropic API.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ MONTH 2 ══════ -->
+  <div class="month-card m2">
+    <div class="month-header">
+      <div class="month-num">02</div>
+      <div class="month-info">
+        <div class="month-title">RAG Fundamentals</div>
+        <div class="month-subtitle">Full pipeline · LangChain · FAISS · Chunking</div>
+      </div>
+      <div class="month-badge badge-m2">RAG</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div>Full RAG pipeline: loading, chunking, embedding, retrieval, generation</div>
+          <div class="learn-item"><div class="learn-dot"></div>LangChain: LCEL chains, document loaders, text splitters</div>
+          <div class="learn-item"><div class="learn-dot"></div>FAISS for local vector storage</div>
+          <div class="learn-item"><div class="learn-dot"></div>Basic chunking strategies</div>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <a class="res-link" href="https://python.langchain.com/docs/tutorials/rag/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LangChain Official RAG Tutorial</span><span class="res-url">python.langchain.com</span></span>
+          </a>
+          <a class="res-link" href="https://www.datacamp.com/tutorial/building-a-rag-system-with-langchain-and-fastapi" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">DataCamp: RAG + FastAPI Tutorial</span><span class="res-url">datacamp.com</span></span>
+          </a>
+          <a class="res-link" href="https://blog.futuresmart.ai/langchain-rag-from-basics-to-production-ready-rag-chatbot" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Production RAG Chatbot — FutureSmart</span><span class="res-url">blog.futuresmart.ai</span></span>
+          </a>
+          <a class="res-link" href="https://github.com/anarojoecheburua/RAG-with-Langchain-and-FastAPI" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">GitHub Reference Code</span><span class="res-url">github.com/anarojoecheburua</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="output-box">
+      <div class="output-icon">🏗️</div>
+      <div class="output-content">
+        <div class="output-label">Project 1 — Ship It</div>
+        <div class="output-text">Production RAG API — upload PDFs, ask questions, get answers with citations. Deployed with a live URL.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ MONTH 3 ══════ -->
+  <div class="month-card m3">
+    <div class="month-header">
+      <div class="month-num">03</div>
+      <div class="month-info">
+        <div class="month-title">Advanced RAG — Your Real Edge</div>
+        <div class="month-subtitle">Reranking · Evals · LangSmith · Pinecone</div>
+      </div>
+      <div class="month-badge badge-m3">Advanced</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div>Chunking strategies: recursive, semantic, sentence-window</div>
+          <div class="learn-item"><div class="learn-dot"></div>Retrieval tuning: similarity threshold, top-k, MMR</div>
+          <div class="learn-item"><div class="learn-dot"></div>Reranking: Cohere reranker, cross-encoder models</div>
+          <div class="learn-item"><div class="learn-dot"></div>Evals: retrieval precision, recall, faithfulness metrics</div>
+          <div class="learn-item"><div class="learn-dot"></div>LangSmith for pipeline tracing</div>
+          <div class="learn-item"><div class="learn-dot"></div>Pinecone managed vector DB</div>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <a class="res-link" href="https://python.langchain.com/docs/how_to/#text-splitters" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LangChain Text Splitters Docs</span><span class="res-url">python.langchain.com</span></span>
+          </a>
+          <a class="res-link" href="https://docs.smith.langchain.com/tutorials/Developers/rag" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LangSmith RAG Tracing Tutorial</span><span class="res-url">docs.smith.langchain.com</span></span>
+          </a>
+          <a class="res-link" href="https://www.digitalocean.com/community/tutorials/langsmith-debudding-evaluating-llm-agents" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LangSmith Observability Guide</span><span class="res-url">digitalocean.com</span></span>
+          </a>
+          <a class="res-link" href="https://docs.pinecone.io/guides/get-started/quickstart" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Pinecone Quickstart</span><span class="res-url">docs.pinecone.io</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="output-box">
+      <div class="output-icon">📈</div>
+      <div class="output-content">
+        <div class="output-label">Month Output</div>
+        <div class="output-text">Upgrade Project 1 with reranking, eval metrics, LangSmith tracing. Post on LinkedIn — document what improved and by how much.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ MONTH 4 ══════ -->
+  <div class="month-card m4">
+    <div class="month-header">
+      <div class="month-num">04</div>
+      <div class="month-info">
+        <div class="month-title">AI Agents with LangGraph</div>
+        <div class="month-subtitle">State machines · Tool use · Memory · Multi-step workflows</div>
+      </div>
+      <div class="month-badge badge-m4">Agents</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div>LangGraph: state machines, nodes, edges, conditional routing</div>
+          <div class="learn-item"><div class="learn-dot"></div>Tool use: giving agents ability to call functions/APIs</div>
+          <div class="learn-item"><div class="learn-dot"></div>Memory: short-term (conversation) vs long-term (persistent)</div>
+          <div class="learn-item"><div class="learn-dot"></div>Human-in-the-loop patterns</div>
+          <div class="learn-item"><div class="learn-dot"></div>Multi-step workflows: planner → executor → evaluator</div>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <a class="res-link" href="https://academy.langchain.com/courses/intro-to-langgraph" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LangChain Academy — LangGraph</span><span class="res-url">academy.langchain.com — free, official</span></span>
+          </a>
+          <a class="res-link" href="https://www.datacamp.com/tutorial/langgraph-agents" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">DataCamp: LangGraph Agents Tutorial</span><span class="res-url">datacamp.com</span></span>
+          </a>
+          <a class="res-link" href="https://thenewstack.io/how-to-build-production-ready-ai-agents-with-rag-and-fastapi/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Production Agents + RAG + FastAPI</span><span class="res-url">thenewstack.io</span></span>
+          </a>
+          <a class="res-link" href="https://www.autopilotai.app/blog/langgraph-tutorial-2025-build-a-production-ready-ai-agent-with-fastapi-rag" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LangGraph + FastAPI + RAG — 2025</span><span class="res-url">autopilotai.app</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="output-box">
+      <div class="output-icon">🤖</div>
+      <div class="output-content">
+        <div class="output-label">Project 2 — Ship It</div>
+        <div class="output-text">AI agent automating a real workflow — resume screener, legal doc analyzer, research assistant, or sales drafter. Multi-step, uses tools, has LangSmith tracing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ MONTH 5 ══════ -->
+  <div class="month-card m5">
+    <div class="month-header">
+      <div class="month-num">05</div>
+      <div class="month-info">
+        <div class="month-title">Ship Something with Real Users</div>
+        <div class="month-subtitle">Streamlit / React UI · Deploy · Measure</div>
+      </div>
+      <div class="month-badge badge-m5">Ship It</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 What to Build</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div>Pick a domain with clear pain: HR, legal, finance, recruiting</div>
+          <div class="learn-item"><div class="learn-dot"></div>Wrap your agent/RAG in a simple UI — Streamlit or React</div>
+          <div class="learn-item"><div class="learn-dot"></div>Deploy on Render, Railway, or GCP Cloud Run (free tiers)</div>
+          <div class="learn-item"><div class="learn-dot"></div>Get 10 real people to use it</div>
+          <div class="learn-item"><div class="learn-dot"></div>Measure: response accuracy, latency, user drop-off</div>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <a class="res-link" href="https://docs.render.com/deploy-fastapi" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Render — Deploy FastAPI</span><span class="res-url">docs.render.com</span></span>
+          </a>
+          <a class="res-link" href="https://cloud.google.com/run/docs/quickstarts/build-and-deploy/deploy-python-service" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">GCP Cloud Run Python Deploy</span><span class="res-url">cloud.google.com/run</span></span>
+          </a>
+          <a class="res-link" href="https://docs.streamlit.io/get-started" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Streamlit Docs</span><span class="res-url">docs.streamlit.io</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="output-box">
+      <div class="output-icon">🌍</div>
+      <div class="output-content">
+        <div class="output-label">Project 3 — Ship It</div>
+        <div class="output-text">Live deployed AI product with a real URL, real users, documented metrics.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ MONTH 6 ══════ -->
+  <div class="month-card m6">
+    <div class="month-header">
+      <div class="month-num">06</div>
+      <div class="month-info">
+        <div class="month-title">Positioning + Targeted Job Hunt</div>
+        <div class="month-subtitle">LinkedIn · Apply smart · Founding Engineer roles</div>
+      </div>
+      <div class="month-badge badge-m6">Get Paid</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📣 LinkedIn Strategy</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div>Change headline → "AI Engineer — RAG, Agents, FastAPI"</div>
+          <div class="learn-item"><div class="learn-dot"></div>Post architecture breakdowns of your 3 projects</div>
+          <div class="learn-item"><div class="learn-dot"></div>Post failures and learnings — builds more trust than wins</div>
+          <div class="learn-item"><div class="learn-dot"></div>Post about evals and observability — almost no one does this</div>
+        </div>
+        <div class="col-title" style="margin-top:16px;">🚫 Do NOT Apply To</div>
+        <div class="learn-list">
+          <div class="learn-item" style="color:var(--pink);font-weight:700;"><div class="learn-dot" style="border-color:var(--pink);"></div>Naukri.com, Infosys, Wipro, TCS</div>
+          <div class="learn-item" style="color:var(--pink);font-weight:700;"><div class="learn-dot" style="border-color:var(--pink);"></div>Companies with 500+ engineers — 25-35 LPA ceiling</div>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🎯 Where to Apply</div>
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div><strong>Indian AI startups:</strong> Sarvam AI, Krutrim, Lyzr, Yellow.ai, Sprinklr AI</div>
+          <div class="learn-item"><div class="learn-dot"></div><strong>Global remote:</strong> Series A/B AI startups raised in last 18 months</div>
+          <div class="learn-item"><div class="learn-dot"></div><strong>Titles:</strong> Founding Engineer, AI Engineer, Staff AI Engineer</div>
+        </div>
+        <div class="col-title" style="margin-top:16px;">🔗 Find Them</div>
+        <div class="res-list">
+          <a class="res-link" href="https://www.ycombinator.com/companies" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">YC Companies Directory</span><span class="res-url">ycombinator.com/companies</span></span>
+          </a>
+          <a class="res-link" href="https://wellfound.com/jobs" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Wellfound Jobs</span><span class="res-url">wellfound.com/jobs</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="output-box">
+      <div class="output-icon">💰</div>
+      <div class="output-content">
+        <div class="output-label">End Goal</div>
+        <div class="output-text">Founding Engineer / Staff AI Engineer at a well-funded AI startup. 3 shipped projects. Real users. Public proof of work.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ LOCKED STACK ══════ -->
+  <div class="stack-section">
+    <div class="stack-title">🔒 Locked Stack</div>
+    <div class="stack-pills">
+      <div class="stack-pill">Python</div>
+      <div class="stack-pill">FastAPI</div>
+      <div class="stack-pill">LangChain</div>
+      <div class="stack-pill">LangGraph</div>
+      <div class="stack-pill">FAISS</div>
+      <div class="stack-pill">Pinecone</div>
+      <div class="stack-pill">OpenAI API</div>
+      <div class="stack-pill">Anthropic API</div>
+      <div class="stack-pill">LangSmith</div>
+      <div class="stack-pill">Docker</div>
+      <div class="stack-pill">GCP / Render</div>
+    </div>
+  </div>
+
+  <!-- ══════ SALARY REALITY ══════ -->
+  <div class="salary-section">
+    <div class="salary-header">💸 Honest Salary Reality</div>
+    <div class="salary-tiers">
+      <div class="salary-tier">
+        <div class="tier-amount">30–50 LPA</div>
+        <div class="tier-bar-wrap"><div class="tier-bar" style="width:50%;background:var(--green);"></div></div>
+        <div class="tier-desc">Near-certain if you ship 3 real projects</div>
+      </div>
+      <div class="salary-tier">
+        <div class="tier-amount">60–80 LPA</div>
+        <div class="tier-bar-wrap"><div class="tier-bar" style="width:75%;background:var(--orange);"></div></div>
+        <div class="tier-desc">Strong chance if 1 project has real users</div>
+      </div>
+      <div class="salary-tier">
+        <div class="tier-amount">1 CR+</div>
+        <div class="tier-bar-wrap"><div class="tier-bar" style="width:100%;background:var(--pink);"></div></div>
+        <div class="tier-desc">Achievable — founding engineer at well-funded AI startup. Requires right company, not just right skills.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-left">6-Month Roadmap ✦</div>
+  <div class="footer-right"><a href="index.html" style="color:#666;text-decoration:none;">← Resource Vault</a> &nbsp;·&nbsp; Prateek · April 2026</div>
+</footer>
+
+</body>
+</html>
