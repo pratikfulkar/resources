@@ -30,7 +30,6 @@
     padding-bottom: 80px;
   }
 
-  /* ── TICKER ── */
   .ticker-wrap {
     overflow: hidden;
     background: var(--black);
@@ -47,7 +46,6 @@
   .ticker-sep { color: var(--pink); font-size: 16px; }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* ── HEADER ── */
   header {
     background: var(--black);
     padding: 36px 40px 32px;
@@ -88,7 +86,6 @@
 
   .header-sub { font-size: 11px; color: #666; letter-spacing: 0.05em; text-align: right; }
 
-  /* ── NAV BACK ── */
   .nav-back {
     display: inline-flex;
     align-items: center;
@@ -107,7 +104,6 @@
   }
   .nav-back:hover { transform: translate(3px,3px); box-shadow: 3px 3px 0 #111; }
 
-  /* ── RULE BANNER ── */
   .rule-banner {
     margin: 0 40px 32px;
     background: var(--black);
@@ -120,26 +116,12 @@
     gap: 14px;
     flex-wrap: wrap;
   }
-  .rule-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #888;
-    white-space: nowrap;
-  }
-  .rule-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--yellow);
-  }
+  .rule-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; white-space: nowrap; }
+  .rule-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--yellow); }
   .rule-text span { color: var(--pink); }
 
-  /* ── MAIN ── */
   main { padding: 0 40px; display: flex; flex-direction: column; gap: 28px; }
 
-  /* ── MONTH CARD ── */
   .month-card {
     background: var(--cream);
     border: var(--border);
@@ -148,12 +130,7 @@
     overflow: hidden;
   }
 
-  .month-header {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    border-bottom: var(--border);
-  }
+  .month-header { display: flex; align-items: center; gap: 0; border-bottom: var(--border); }
 
   .month-num {
     font-family: 'Syne', sans-serif;
@@ -169,15 +146,7 @@
   }
 
   .month-info { padding: 16px 22px; flex: 1; }
-
-  .month-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--black);
-    line-height: 1.1;
-  }
-
+  .month-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--black); line-height: 1.1; }
   .month-subtitle { font-size: 11px; color: #666; margin-top: 4px; letter-spacing: 0.05em; }
 
   .month-badge {
@@ -191,16 +160,8 @@
     flex-shrink: 0;
   }
 
-  .month-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-
-  .month-col {
-    padding: 20px 22px;
-  }
-
+  .month-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .month-col { padding: 20px 22px; }
   .month-col:first-child { border-right: var(--border); }
 
   .col-title {
@@ -216,25 +177,9 @@
   }
 
   .learn-list { display: flex; flex-direction: column; gap: 8px; }
+  .learn-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #333; line-height: 1.4; }
+  .learn-dot { width: 8px; height: 8px; border: 2px solid var(--black); border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
 
-  .learn-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 12px;
-    color: #333;
-    line-height: 1.4;
-  }
-
-  .learn-dot {
-    width: 8px; height: 8px;
-    border: 2px solid var(--black);
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-
-  /* ── RESOURCES ── */
   .res-list { display: flex; flex-direction: column; gap: 8px; }
 
   .res-link {
@@ -254,12 +199,31 @@
   }
   .res-link:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111; }
 
+  /* Stolen resource highlight */
+  .res-link.stolen {
+    background: #FFFDE7;
+    border-color: #c9a200;
+    box-shadow: 3px 3px 0 #c9a200;
+  }
+  .res-link.stolen:hover { box-shadow: 1px 1px 0 #c9a200; }
+  .stolen-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--yellow);
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+
   .res-arrow { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
   .res-text { flex: 1; }
   .res-name { font-weight: 700; display: block; }
   .res-url { color: #888; font-size: 10px; display: block; margin-top: 1px; }
 
-  /* ── OUTPUT BOX ── */
   .output-box {
     border-top: var(--border);
     padding: 16px 22px;
@@ -268,26 +232,10 @@
     gap: 12px;
     background: var(--black);
   }
-
   .output-icon { font-size: 22px; flex-shrink: 0; }
+  .output-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+  .output-text { font-size: 13px; color: var(--yellow); line-height: 1.5; font-weight: 700; }
 
-  .output-content {}
-  .output-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 4px;
-  }
-  .output-text {
-    font-size: 13px;
-    color: var(--yellow);
-    line-height: 1.5;
-    font-weight: 700;
-  }
-
-  /* ── STACK SECTION ── */
   .stack-section {
     background: var(--black);
     border: var(--border);
@@ -296,83 +244,21 @@
     padding: 28px;
     margin-top: 4px;
   }
-
-  .stack-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--yellow);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .stack-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--yellow); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
   .stack-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .stack-pill { padding: 8px 16px; background: var(--cream); border: var(--border); border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--black); box-shadow: var(--shadow); }
+  .stack-pill.new { background: #FFFDE7; border-color: #c9a200; box-shadow: 6px 6px 0 #c9a200; }
 
-  .stack-pill {
-    padding: 8px 16px;
-    background: var(--cream);
-    border: var(--border);
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--black);
-    box-shadow: var(--shadow);
-  }
-
-  /* ── SALARY SECTION ── */
-  .salary-section {
-    background: var(--cream);
-    border: var(--border);
-    border-radius: 20px;
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-  }
-
-  .salary-header {
-    background: var(--black);
-    padding: 18px 24px;
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--yellow);
-    border-bottom: var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .salary-section { background: var(--cream); border: var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .salary-header { background: var(--black); padding: 18px 24px; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--yellow); border-bottom: var(--border); display: flex; align-items: center; gap: 10px; }
   .salary-tiers { display: grid; grid-template-columns: repeat(3, 1fr); }
-
-  .salary-tier {
-    padding: 20px;
-    text-align: center;
-    border-right: var(--border);
-  }
+  .salary-tier { padding: 20px; text-align: center; border-right: var(--border); }
   .salary-tier:last-child { border-right: none; }
-
-  .tier-amount {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--black);
-    margin-bottom: 6px;
-  }
-
+  .tier-amount { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--black); margin-bottom: 6px; }
   .tier-desc { font-size: 11px; color: #555; line-height: 1.5; }
-
-  .tier-bar-wrap {
-    height: 8px;
-    background: #ddd;
-    border: 2px solid var(--black);
-    border-radius: 4px;
-    margin: 10px 0 6px;
-    overflow: hidden;
-  }
+  .tier-bar-wrap { height: 8px; background: #ddd; border: 2px solid var(--black); border-radius: 4px; margin: 10px 0 6px; overflow: hidden; }
   .tier-bar { height: 100%; border-radius: 2px; }
 
-  /* month color coding */
   .m1 .month-num { background: var(--green); }
   .m2 .month-num { background: var(--blue); color: var(--white); }
   .m3 .month-num { background: var(--orange); }
@@ -387,7 +273,6 @@
   .badge-m5 { background: var(--pink); color: var(--white); }
   .badge-m6 { background: var(--yellow); }
 
-  /* ── FOOTER ── */
   footer {
     background: var(--black);
     border-top: var(--border);
@@ -402,7 +287,6 @@
   .footer-left { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--yellow); }
   .footer-right { font-size: 11px; color: #666; letter-spacing: 0.05em; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     header { padding: 24px 20px 20px; }
     .nav-back { margin: 16px 20px; }
@@ -421,7 +305,6 @@
 </head>
 <body>
 
-<!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker-inner">
     <span class="ticker-item">Learn</span><span class="ticker-sep">→</span>
@@ -443,7 +326,6 @@
   </div>
 </div>
 
-<!-- HEADER -->
 <header>
   <div>
     <div class="logo-tag">// Prateek's</div>
@@ -455,10 +337,8 @@
   </div>
 </header>
 
-<!-- BACK LINK -->
 <a class="nav-back" href="index.html">← Back to Resource Vault</a>
 
-<!-- RULE BANNER -->
 <div class="rule-banner">
   <div class="rule-label">The Rule</div>
   <div class="rule-text">Learn <span>→</span> Build <span>→</span> Ship <span>→</span> Post. One project per month.</div>
@@ -500,6 +380,13 @@
           <a class="res-link" href="https://platform.openai.com/docs/guides/embeddings" target="_blank">
             <span class="res-arrow">↗</span>
             <span class="res-text"><span class="res-name">OpenAI Embeddings Guide</span><span class="res-url">platform.openai.com</span></span>
+          </a>
+          <a class="res-link stolen" href="https://github.com/anthropics/anthropic-cookbook" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">Anthropic Cookbook <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">github.com/anthropics — tool use, sub-agents, structured outputs. Free.</span>
+            </span>
           </a>
         </div>
       </div>
@@ -551,6 +438,20 @@
           <a class="res-link" href="https://github.com/anarojoecheburua/RAG-with-Langchain-and-FastAPI" target="_blank">
             <span class="res-arrow">↗</span>
             <span class="res-text"><span class="res-name">GitHub Reference Code</span><span class="res-url">github.com/anarojoecheburua</span></span>
+          </a>
+          <a class="res-link stolen" href="https://learn.deeplearning.ai/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">DeepLearning.AI Short Courses <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">learn.deeplearning.ai — 1–2hr hits on RAG, vector DBs, evals. Pick relevant ones each week. Free.</span>
+            </span>
+          </a>
+          <a class="res-link stolen" href="https://cookbook.openai.com/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">OpenAI Cookbook <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">cookbook.openai.com — embeddings + function calling guides. Free.</span>
+            </span>
           </a>
         </div>
       </div>
@@ -605,6 +506,13 @@
             <span class="res-arrow">↗</span>
             <span class="res-text"><span class="res-name">Pinecone Quickstart</span><span class="res-url">docs.pinecone.io</span></span>
           </a>
+          <a class="res-link stolen" href="https://learn.deeplearning.ai/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">DeepLearning.AI Short Courses <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">learn.deeplearning.ai — pick the evals + advanced RAG modules this month. Free.</span>
+            </span>
+          </a>
         </div>
       </div>
     </div>
@@ -657,6 +565,13 @@
             <span class="res-arrow">↗</span>
             <span class="res-text"><span class="res-name">LangGraph + FastAPI + RAG — 2025</span><span class="res-url">autopilotai.app</span></span>
           </a>
+          <a class="res-link stolen" href="https://huggingface.co/learn/agents-course/en/unit0/introduction" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">HuggingFace Agents Course <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">huggingface.co — free, certified, public leaderboard. Run alongside Month 4. Rank = LinkedIn content.</span>
+            </span>
+          </a>
         </div>
       </div>
     </div>
@@ -674,8 +589,8 @@
     <div class="month-header">
       <div class="month-num">05</div>
       <div class="month-info">
-        <div class="month-title">Ship Something with Real Users</div>
-        <div class="month-subtitle">Streamlit / React UI · Deploy · Measure</div>
+        <div class="month-title">MCP + Ship with Real Users</div>
+        <div class="month-subtitle">MCP · Streamlit / React UI · Deploy · Measure</div>
       </div>
       <div class="month-badge badge-m5">Ship It</div>
     </div>
@@ -683,6 +598,7 @@
       <div class="month-col">
         <div class="col-title">📖 What to Build</div>
         <div class="learn-list">
+          <div class="learn-item"><div class="learn-dot"></div><strong>Week 1 only:</strong> Learn MCP — build a server + client. This is the 2026 differentiator.</div>
           <div class="learn-item"><div class="learn-dot"></div>Pick a domain with clear pain: HR, legal, finance, recruiting</div>
           <div class="learn-item"><div class="learn-dot"></div>Wrap your agent/RAG in a simple UI — Streamlit or React</div>
           <div class="learn-item"><div class="learn-dot"></div>Deploy on Render, Railway, or GCP Cloud Run (free tiers)</div>
@@ -693,6 +609,20 @@
       <div class="month-col">
         <div class="col-title">🔗 Resources</div>
         <div class="res-list">
+          <a class="res-link stolen" href="https://modelcontextprotocol.io/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">MCP Official Docs <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">modelcontextprotocol.io — Anthropic's standard for LLM-to-tool connections. Start with quickstart.</span>
+            </span>
+          </a>
+          <a class="res-link stolen" href="https://www.deeplearning.ai/short-courses/mcp-build-rich-context-ai-apps-with-anthropic/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text">
+              <span class="res-name">DeepLearning.AI × Anthropic — MCP Course <span class="stolen-tag">⭐ ADDED</span></span>
+              <span class="res-url">deeplearning.ai — 1.5hrs, co-authored by Anthropic. Build MCP servers + clients with Claude. Free.</span>
+            </span>
+          </a>
           <a class="res-link" href="https://docs.render.com/deploy-fastapi" target="_blank">
             <span class="res-arrow">↗</span>
             <span class="res-text"><span class="res-name">Render — Deploy FastAPI</span><span class="res-url">docs.render.com</span></span>
@@ -712,7 +642,7 @@
       <div class="output-icon">🌍</div>
       <div class="output-content">
         <div class="output-label">Project 3 — Ship It</div>
-        <div class="output-text">Live deployed AI product with a real URL, real users, documented metrics.</div>
+        <div class="output-text">Live deployed AI product with a real URL, real users, documented metrics. MCP-connected if possible — that's the edge.</div>
       </div>
     </div>
   </div>
@@ -731,10 +661,11 @@
       <div class="month-col">
         <div class="col-title">📣 LinkedIn Strategy</div>
         <div class="learn-list">
-          <div class="learn-item"><div class="learn-dot"></div>Change headline → "AI Engineer — RAG, Agents, FastAPI"</div>
+          <div class="learn-item"><div class="learn-dot"></div>Change headline → "AI Engineer — RAG, Agents, MCP, FastAPI"</div>
           <div class="learn-item"><div class="learn-dot"></div>Post architecture breakdowns of your 3 projects</div>
           <div class="learn-item"><div class="learn-dot"></div>Post failures and learnings — builds more trust than wins</div>
           <div class="learn-item"><div class="learn-dot"></div>Post about evals and observability — almost no one does this</div>
+          <div class="learn-item"><div class="learn-dot"></div>Post your HuggingFace leaderboard rank from Month 4</div>
         </div>
         <div class="col-title" style="margin-top:16px;">🚫 Do NOT Apply To</div>
         <div class="learn-list">
@@ -784,6 +715,7 @@
       <div class="stack-pill">OpenAI API</div>
       <div class="stack-pill">Anthropic API</div>
       <div class="stack-pill">LangSmith</div>
+      <div class="stack-pill new">MCP ⭐</div>
       <div class="stack-pill">Docker</div>
       <div class="stack-pill">GCP / Render</div>
     </div>
@@ -815,7 +747,7 @@
 
 <footer>
   <div class="footer-left">6-Month Roadmap ✦</div>
-  <div class="footer-right"><a href="index.html" style="color:#666;text-decoration:none;">← Resource Vault</a> &nbsp;·&nbsp; Prateek · April 2026</div>
+  <div class="footer-right"><a href="index.html" style="color:#666;text-decoration:none;">← Resource Vault</a> &nbsp;·&nbsp; Prateek · May 2026</div>
 </footer>
 
 </body>
