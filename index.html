@@ -15,6 +15,8 @@
     --pink: #FF4D8D;
     --blue: #2979FF;
     --orange: #FF6B2B;
+    --teal: #00BCD4;
+    --red: #FF3B30;
     --border: 3px solid #111111;
     --shadow: 6px 6px 0px #111111;
     --shadow-lg: 9px 9px 0px #111111;
@@ -41,8 +43,6 @@
     gap: 16px;
   }
 
-  .logo-block {}
-
   .logo-tag {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
@@ -63,9 +63,7 @@
 
   h1 span { color: var(--pink); }
 
-  .header-meta {
-    text-align: right;
-  }
+  .header-meta { text-align: right; }
 
   .count-pill {
     display: inline-block;
@@ -98,8 +96,6 @@
   }
 
   /* ── SECTION ── */
-  .section {}
-
   .section-header {
     display: flex;
     align-items: center;
@@ -117,8 +113,6 @@
     box-shadow: var(--shadow);
     flex-shrink: 0;
   }
-
-  .section-title-wrap {}
 
   .section-name {
     font-family: 'Syne', sans-serif;
@@ -140,6 +134,49 @@
     height: 3px;
     background: var(--black);
     border-radius: 2px;
+  }
+
+  /* ── WORKFLOW BANNER ── */
+  .workflow-banner {
+    background: var(--black);
+    border: var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 18px 22px;
+    margin-bottom: 16px;
+  }
+
+  .workflow-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--yellow);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .workflow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .workflow-step {
+    background: var(--cream);
+    border: 2px solid var(--yellow);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    white-space: nowrap;
+  }
+
+  .workflow-arrow {
+    color: var(--yellow);
+    font-size: 16px;
+    font-weight: 700;
   }
 
   /* ── CARDS GRID ── */
@@ -245,19 +282,21 @@
     flex-shrink: 0;
   }
 
-  /* tag colors per section */
   .tag-learn   { background: var(--green);  color: var(--black); }
   .tag-tool    { background: var(--blue);   color: var(--white); }
   .tag-project { background: var(--orange); color: var(--white); }
   .tag-startup { background: var(--pink);   color: var(--white); }
   .tag-career  { background: #7C3AED;       color: var(--white); }
+  .tag-agency  { background: var(--teal);   color: var(--black); }
+  .tag-deploy  { background: var(--red);    color: var(--white); }
 
-  /* card accent stripe per section */
   .card.learn   { border-left: 6px solid var(--green); }
   .card.tool    { border-left: 6px solid var(--blue); }
   .card.project { border-left: 6px solid var(--orange); }
   .card.startup { border-left: 6px solid var(--pink); }
   .card.career  { border-left: 6px solid #7C3AED; }
+  .card.agency  { border-left: 6px solid var(--teal); }
+  .card.deploy  { border-left: 6px solid var(--red); }
 
   /* ── TICKER ── */
   .ticker-wrap {
@@ -271,7 +310,7 @@
 
   .ticker-inner {
     display: inline-flex;
-    animation: ticker 22s linear infinite;
+    animation: ticker 28s linear infinite;
     gap: 40px;
   }
 
@@ -315,7 +354,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     header { padding: 24px 20px 20px; }
     main { padding: 28px 16px; gap: 36px; }
@@ -323,6 +361,7 @@
     h1 { font-size: 36px; }
     .header-meta { display: none; }
     footer { padding: 20px; }
+    .workflow-steps { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -335,12 +374,16 @@
     <span class="ticker-item">Claude Code Tools</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Projects & Refs</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Startup Resources</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Agency & Lead Gen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Free Deploy Stack</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Career & Job Hunt</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">AI · ML · Dev</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Study & Learning</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Claude Code Tools</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Projects & Refs</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Startup Resources</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Agency & Lead Gen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Free Deploy Stack</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">Career & Job Hunt</span><span class="ticker-sep">✦</span>
     <span class="ticker-item">AI · ML · Dev</span><span class="ticker-sep">✦</span>
   </div>
@@ -353,9 +396,9 @@
     <h1>Resource<br><span>Vault.</span></h1>
   </div>
   <div class="header-meta">
-    <div class="count-pill">📦 37 Links · 6 Sections</div>
+    <div class="count-pill">📦 60 Links · 8 Sections</div>
     <a href="roadmap.html" style="display:inline-block;background:var(--pink);border:var(--border);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--white);text-decoration:none;box-shadow:var(--shadow);margin-top:4px;transition:transform 0.1s,box-shadow 0.1s;" onmouseover="this.style.transform='translate(3px,3px)';this.style.boxShadow='3px 3px 0 #111'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">🗺️ 6-Month Roadmap →</a>
-    <div class="header-sub">AI · ML · Dev · Startup</div>
+    <div class="header-sub">AI · ML · Dev · Startup · Agency</div>
   </div>
 </header>
 
@@ -367,7 +410,7 @@
       <div class="section-icon">📚</div>
       <div class="section-title-wrap">
         <div class="section-name">Study & Learning</div>
-        <div class="section-count">13 RESOURCES</div>
+        <div class="section-count">16 RESOURCES</div>
       </div>
       <div class="section-line"></div>
     </div>
@@ -555,6 +598,49 @@
         </div>
       </a>
 
+      <!-- NEW -->
+      <a class="card learn" href="https://www.preprints.org/frontend/manuscript/567757f184a1af99de64c01b54a2d366/download_pub" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🔬</div>
+          <div class="card-text">
+            <div class="card-title">AI Research Paper</div>
+            <div class="card-desc">Preprint research paper — AI systems & analysis (PDF download)</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">preprints.org</span>
+          <span class="card-tag tag-learn">Paper</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://youtu.be/0ML7ZLMdcl4?si=KQMdY0Ro6UTuA1m8" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🌐</div>
+          <div class="card-text">
+            <div class="card-title">AI General Categorization</div>
+            <div class="card-desc">Understanding the AI landscape — categories, capabilities & where the world is headed</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">youtube.com</span>
+          <span class="card-tag tag-learn">Video</span>
+        </div>
+      </a>
+
+      <a class="card learn" href="https://github.com/karpathy/autoresearch" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🧪</div>
+          <div class="card-text">
+            <div class="card-title">AutoResearch — Karpathy</div>
+            <div class="card-desc">Experiment with model parameters, analyze performance metrics — hands-on ML training tool</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/karpathy</span>
+          <span class="card-tag tag-learn">GitHub</span>
+        </div>
+      </a>
+
     </div>
   </section>
 
@@ -564,7 +650,7 @@
       <div class="section-icon">🛠️</div>
       <div class="section-title-wrap">
         <div class="section-name">Claude Code — Skills & Tools</div>
-        <div class="section-count">6 RESOURCES</div>
+        <div class="section-count">11 RESOURCES</div>
       </div>
       <div class="section-line"></div>
     </div>
@@ -654,6 +740,77 @@
         </div>
       </a>
 
+      <!-- NEW -->
+      <a class="card tool" href="https://github.com/safishamsi/graphify" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📊</div>
+          <div class="card-text">
+            <div class="card-title">Graphify — Claude Rate Limit Fix</div>
+            <div class="card-desc">Solves Claude model rate limit issues — graph-based request management</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/safishamsi</span>
+          <span class="card-tag tag-tool">Fix</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://github.com/tirth8205/code-review-graph" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🔍</div>
+          <div class="card-text">
+            <div class="card-title">Code Review Graph</div>
+            <div class="card-desc">Graph-based AI code review — visualise code quality and dependencies</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/tirth8205</span>
+          <span class="card-tag tag-tool">Tool</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://github.com/D4Vinci/Scrapling" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🕷️</div>
+          <div class="card-text">
+            <div class="card-title">Scrapling — Web Scraping</div>
+            <div class="card-desc">Fast, reliable web scraping lib — pairs great with TinyFish for data → Claude pipelines</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/D4Vinci</span>
+          <span class="card-tag tag-tool">Library</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://www.tinyfish.ai/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🐟</div>
+          <div class="card-text">
+            <div class="card-title">TinyFish Web API</div>
+            <div class="card-desc">CLI web data fetcher → returns JSON → feed directly to Claude to clone/analyse any site</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">tinyfish.ai</span>
+          <span class="card-tag tag-tool">API</span>
+        </div>
+      </a>
+
+      <a class="card tool" href="https://github.com/ruvnet/ruflo" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🌊</div>
+          <div class="card-text">
+            <div class="card-title">Ruflo</div>
+            <div class="card-desc">AI workflow automation framework — agent orchestration and flow management</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/ruvnet</span>
+          <span class="card-tag tag-tool">Framework</span>
+        </div>
+      </a>
+
     </div>
   </section>
 
@@ -663,7 +820,7 @@
       <div class="section-icon">🗂️</div>
       <div class="section-title-wrap">
         <div class="section-name">Projects & References</div>
-        <div class="section-count">4 RESOURCES</div>
+        <div class="section-count">6 RESOURCES</div>
       </div>
       <div class="section-line"></div>
     </div>
@@ -725,6 +882,35 @@
         </div>
       </a>
 
+      <!-- NEW -->
+      <a class="card project" href="https://github.com/nousresearch/hermes-agent" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🏛️</div>
+          <div class="card-text">
+            <div class="card-title">Hermes Agent — NousResearch</div>
+            <div class="card-desc">Open-source agent framework by NousResearch — tool use, reasoning, structured outputs</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">github.com/nousresearch</span>
+          <span class="card-tag tag-project">GitHub</span>
+        </div>
+      </a>
+
+      <a class="card project" href="https://comfy.org/cloud/pricing" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🖼️</div>
+          <div class="card-text">
+            <div class="card-title">ComfyOrg Cloud</div>
+            <div class="card-desc">ComfyUI cloud platform — product/startup idea reference for image generation SaaS</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">comfy.org/cloud</span>
+          <span class="card-tag tag-project">Startup Ref</span>
+        </div>
+      </a>
+
     </div>
   </section>
 
@@ -734,7 +920,7 @@
       <div class="section-icon">💸</div>
       <div class="section-title-wrap">
         <div class="section-name">Startup & Free Resources</div>
-        <div class="section-count">3 RESOURCES</div>
+        <div class="section-count">4 RESOURCES</div>
       </div>
       <div class="section-line"></div>
     </div>
@@ -779,6 +965,256 @@
         <div class="card-footer">
           <span class="card-url">docs.google.com</span>
           <span class="card-tag tag-startup">Guide</span>
+        </div>
+      </a>
+
+      <a class="card startup" href="https://www.yorby.ai/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🔎</div>
+          <div class="card-text">
+            <div class="card-title">Yorby.ai — Leakage Analyser</div>
+            <div class="card-desc">Paste any company URL → AI analyses gaps, leakages & growth opportunities. Great for competitor intel.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">yorby.ai</span>
+          <span class="card-tag tag-startup">Tool</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════ FREE DEPLOY STACK ══════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon">🚢</div>
+      <div class="section-title-wrap">
+        <div class="section-name">Free Deploy Stack</div>
+        <div class="section-count">7 RESOURCES · UP TO 10K USERS FREE</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- WORKFLOW BANNER -->
+    <div class="workflow-banner">
+      <div class="workflow-label">⚡ End-to-End Free Stack — Frontend → Backend → DB → Payments → Email → Analytics → Errors</div>
+      <div class="workflow-steps">
+        <span class="workflow-step">Vercel (Next.js)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">CF Workers / Serverless</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Supabase (Postgres)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Dodo Payments</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Resend (Email)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Umami (Analytics)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Sentry (Errors)</span>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+
+      <a class="card deploy" href="https://vercel.com" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">▲</div>
+          <div class="card-text">
+            <div class="card-title">Vercel</div>
+            <div class="card-desc">Frontend deployment for Next.js — generous free tier, instant CDN globally</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">vercel.com</span>
+          <span class="card-tag tag-deploy">Frontend</span>
+        </div>
+      </a>
+
+      <a class="card deploy" href="https://workers.cloudflare.com" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">☁️</div>
+          <div class="card-text">
+            <div class="card-title">Cloudflare Workers</div>
+            <div class="card-desc">Serverless backend at the edge — 100k requests/day free, global low-latency</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">workers.cloudflare.com</span>
+          <span class="card-tag tag-deploy">Backend</span>
+        </div>
+      </a>
+
+      <a class="card deploy" href="https://supabase.com" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🗄️</div>
+          <div class="card-text">
+            <div class="card-title">Supabase</div>
+            <div class="card-desc">Postgres DB + auth + storage + realtime — free tier handles early-stage traffic easily</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">supabase.com</span>
+          <span class="card-tag tag-deploy">Database</span>
+        </div>
+      </a>
+
+      <a class="card deploy" href="https://dodopayments.com" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">💳</div>
+          <div class="card-text">
+            <div class="card-title">Dodo Payments</div>
+            <div class="card-desc">Stripe alternative — global payments, lower fees, works for Indian founders</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">dodopayments.com</span>
+          <span class="card-tag tag-deploy">Payments</span>
+        </div>
+      </a>
+
+      <a class="card deploy" href="https://resend.com" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📧</div>
+          <div class="card-text">
+            <div class="card-title">Resend</div>
+            <div class="card-desc">Developer-first email API — 3k emails/month free, React email templates</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">resend.com</span>
+          <span class="card-tag tag-deploy">Email</span>
+        </div>
+      </a>
+
+      <a class="card deploy" href="https://umami.is" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📈</div>
+          <div class="card-text">
+            <div class="card-title">Umami</div>
+            <div class="card-desc">Privacy-first analytics — self-hostable, no cookies, GDPR compliant alternative to GA</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">umami.is</span>
+          <span class="card-tag tag-deploy">Analytics</span>
+        </div>
+      </a>
+
+      <a class="card deploy" href="https://sentry.io" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🚨</div>
+          <div class="card-text">
+            <div class="card-title">Sentry</div>
+            <div class="card-desc">Error tracking & performance monitoring — free tier covers most early-stage apps</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">sentry.io</span>
+          <span class="card-tag tag-deploy">Errors</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════ AGENCY & LEAD GEN ══════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon">🎯</div>
+      <div class="section-title-wrap">
+        <div class="section-name">Agency & Lead Gen</div>
+        <div class="section-count">5 RESOURCES</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- WORKFLOW BANNER -->
+    <div class="workflow-banner">
+      <div class="workflow-label">🔁 Client Acquisition Workflow — Find → Analyse → Outreach → Book → Scrape B2B</div>
+      <div class="workflow-steps">
+        <span class="workflow-step">Explee (find companies)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Yorby.ai (find leakages)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Apollo.io (outreach)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">Cal.com (book meetings)</span>
+        <span class="workflow-arrow">→</span>
+        <span class="workflow-step">B2B Scraper (instant data)</span>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+
+      <a class="card agency" href="https://explee.com/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🏭</div>
+          <div class="card-text">
+            <div class="card-title">Explee — Company Finder</div>
+            <div class="card-desc">Search companies and find leads — step 1 of the client pipeline. Find prospects, get URLs.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">explee.com</span>
+          <span class="card-tag tag-agency">Lead Gen</span>
+        </div>
+      </a>
+
+      <a class="card agency" href="https://www.yorby.ai/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🔎</div>
+          <div class="card-text">
+            <div class="card-title">Yorby.ai — Gap Analyser</div>
+            <div class="card-desc">Paste a company URL → AI finds leakages, weak points & opportunities. Use as pitch ammo.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">yorby.ai</span>
+          <span class="card-tag tag-agency">Analysis</span>
+        </div>
+      </a>
+
+      <a class="card agency" href="https://www.apollo.io/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🚀</div>
+          <div class="card-text">
+            <div class="card-title">Apollo.io</div>
+            <div class="card-desc">B2B outreach platform — find emails, phone numbers, sequences. Industry standard for sales.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">apollo.io</span>
+          <span class="card-tag tag-agency">Outreach</span>
+        </div>
+      </a>
+
+      <a class="card agency" href="https://cal.com" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">📅</div>
+          <div class="card-text">
+            <div class="card-title">Cal.com</div>
+            <div class="card-desc">Open-source Calendly — schedule calls, send booking links. Free for individuals.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">cal.com</span>
+          <span class="card-tag tag-agency">Scheduling</span>
+        </div>
+      </a>
+
+      <a class="card agency" href="https://www.tinyfish.ai/" target="_blank">
+        <div class="card-top">
+          <div class="card-emoji">🐟</div>
+          <div class="card-text">
+            <div class="card-title">TinyFish — Website Cloner</div>
+            <div class="card-desc">Workflow: TinyFish CLI → get site JSON → feed to Claude → replicate or analyse any website fast</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-url">tinyfish.ai</span>
+          <span class="card-tag tag-agency">Scrape</span>
         </div>
       </a>
 
@@ -847,7 +1283,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-left">Resource Vault ✦</div>
-  <div class="footer-right">29 links · Last updated April 2026</div>
+  <div class="footer-right">60 links · Last updated May 2026</div>
 </footer>
 
 </body>
