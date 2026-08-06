@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA + Infra + Job Plan Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F5C800;
+    --black: #111111;
+    --cream: #FFF8EC;
+    --white: #FFFFFF;
+    --green: #00E676;
+    --pink: #FF4D8D;
+    --blue: #2979FF;
+    --orange: #FF6B2B;
+    --purple: #7C3AED;
+    --border: 3px solid #111111;
+    --shadow: 6px 6px 0px #111111;
+    --shadow-lg: 9px 9px 0px #111111;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--yellow);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--black);
+    border-bottom: var(--border);
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 28s linear infinite;
+    gap: 40px;
+  }
+  .ticker-item { font-size: 12px; color: var(--yellow); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .ticker-sep { color: var(--pink); font-size: 16px; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  header {
+    background: var(--black);
+    padding: 36px 40px 32px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .logo-tag { font-size: 11px; color: #888; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    color: var(--yellow);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--pink); }
+
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .salary-pill {
+    background: var(--green);
+    border: var(--border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--black);
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+
+  .header-sub { font-size: 11px; color: #666; letter-spacing: 0.05em; text-align: right; }
+
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 40px;
+    padding: 8px 16px;
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--black);
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .nav-back:hover { transform: translate(3px,3px); box-shadow: 3px 3px 0 #111; }
+
+  .rule-banner {
+    margin: 0 40px 32px;
+    background: var(--black);
+    border: var(--border);
+    border-radius: 14px;
+    padding: 16px 22px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .rule-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; white-space: nowrap; }
+  .rule-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--yellow); }
+  .rule-text span { color: var(--pink); }
+
+  .section-eyebrow {
+    margin: 0 40px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--white);
+    border: var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    box-shadow: var(--shadow);
+  }
+  .section-eyebrow-line { flex: 1; height: 3px; background: var(--black); opacity: 0.15; }
+
+  main { padding: 0 40px; display: flex; flex-direction: column; gap: 28px; }
+
+  .month-card {
+    background: var(--cream);
+    border: var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .month-header { display: flex; align-items: center; gap: 0; border-bottom: var(--border); }
+
+  .month-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--black);
+    padding: 16px 24px;
+    line-height: 1;
+    border-right: var(--border);
+    min-width: 90px;
+    text-align: center;
+    background: var(--yellow);
+  }
+
+  .month-info { padding: 16px 22px; flex: 1; }
+  .month-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--black); line-height: 1.1; }
+  .month-subtitle { font-size: 11px; color: #666; margin-top: 4px; letter-spacing: 0.05em; }
+
+  .month-badge {
+    margin-right: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border: var(--border);
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .month-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .month-col { padding: 20px 22px; }
+  .month-col:first-child { border-right: var(--border); }
+
+  .col-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .learn-list { display: flex; flex-direction: column; gap: 8px; }
+  .learn-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #333; line-height: 1.4; }
+  .learn-dot { width: 8px; height: 8px; border: 2px solid var(--black); border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+
+  .res-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .res-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--black);
+    text-decoration: none;
+    padding: 8px 10px;
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: 3px 3px 0 #111;
+    transition: transform 0.1s, box-shadow 0.1s;
+    line-height: 1.35;
+  }
+  .res-link:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111; }
+
+  .res-link.given {
+    background: #FFFDE7;
+    border-color: #c9a200;
+    box-shadow: 3px 3px 0 #c9a200;
+  }
+  .res-link.given:hover { box-shadow: 1px 1px 0 #c9a200; }
+  .given-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--yellow);
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+
+  /* Checkboxes / progress tracking */
+  .chk {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--green);
+  }
+  label.learn-item { cursor: pointer; }
+  label.learn-item:hover .item-text { text-decoration: underline; }
+  .checkable.done .item-text { text-decoration: line-through; opacity: 0.45; }
+  .res-row { display: flex; align-items: flex-start; gap: 8px; }
+  .res-row .res-link { flex: 1; }
+  .res-row.done .res-link { opacity: 0.45; }
+  .res-row.done .res-name { text-decoration: line-through; }
+  .res-row .chk { margin-top: 10px; margin-left: 2px; }
+
+  .progress-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border: 2px solid var(--black);
+    border-radius: 20px;
+    background: var(--white);
+    color: var(--black);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+
+  .progress-track {
+    height: 6px;
+    background: rgba(0,0,0,0.1);
+    border-top: var(--border);
+  }
+  .progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.25s ease; }
+
+  /* Job portals grid */
+  .portal-section { background: var(--cream); border: var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .portal-header { background: var(--black); padding: 18px 24px; border-bottom: var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .portal-header-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--yellow); }
+  .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 18px; gap: 12px; }
+  .portal-row { display: flex; align-items: flex-start; gap: 8px; padding: 4px; }
+  .portal-row .res-link { flex: 1; }
+
+  .storage-note {
+    margin: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 0.02em;
+  }
+  .reset-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #111;
+  }
+  .reset-btn:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111; }
+
+  .res-arrow { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .res-text { flex: 1; }
+  .res-name { font-weight: 700; display: block; }
+  .res-url { color: #888; font-size: 10px; display: block; margin-top: 1px; }
+
+  .output-box {
+    border-top: var(--border);
+    padding: 16px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--black);
+  }
+  .output-icon { font-size: 22px; flex-shrink: 0; }
+  .output-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+  .output-text { font-size: 13px; color: var(--yellow); line-height: 1.5; font-weight: 700; }
+
+  .stack-section {
+    background: var(--black);
+    border: var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    padding: 28px;
+    margin-top: 4px;
+  }
+  .stack-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--yellow); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .stack-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .stack-pill { padding: 8px 16px; background: var(--cream); border: var(--border); border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--black); box-shadow: var(--shadow); }
+  .stack-pill.new { background: #FFFDE7; border-color: #c9a200; box-shadow: 6px 6px 0 #c9a200; }
+
+  /* Job plan flow */
+  .flow-section { background: var(--cream); border: var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .flow-header { background: var(--black); padding: 18px 24px; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--yellow); border-bottom: var(--border); display: flex; align-items: center; gap: 10px; }
+  .flow-steps { display: grid; grid-template-columns: repeat(5, 1fr); }
+  .flow-step { padding: 20px 16px; text-align: center; border-right: var(--border); position: relative; }
+  .flow-step:last-child { border-right: none; }
+  .flow-num { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--black); margin-bottom: 6px; }
+  .flow-title { font-size: 12px; font-weight: 700; color: var(--black); margin-bottom: 6px; }
+  .flow-desc { font-size: 10px; color: #555; line-height: 1.5; }
+
+  .weekly-section { background: var(--cream); border: var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .weekly-header { background: var(--black); padding: 18px 24px; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--yellow); border-bottom: var(--border); }
+  .weekly-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .weekly-day { padding: 16px 10px; text-align: center; border-right: var(--border); }
+  .weekly-day:last-child { border-right: none; }
+  .weekly-day-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; color: var(--black); margin-bottom: 8px; }
+  .weekly-day-task { font-size: 10px; color: #555; line-height: 1.5; }
+
+  .m1 .month-num { background: var(--green); }
+  .m2 .month-num { background: var(--blue); color: var(--white); }
+  .m3 .month-num { background: var(--orange); }
+  .m4 .month-num { background: var(--purple); color: var(--white); }
+  .m5 .month-num { background: var(--pink); color: var(--white); }
+  .m6 .month-num { background: var(--black); color: var(--yellow); }
+  .m7 .month-num { background: var(--cream); color: var(--black); }
+
+  .badge-m1 { background: var(--green); }
+  .badge-m2 { background: var(--blue); color: var(--white); }
+  .badge-m3 { background: var(--orange); }
+  .badge-m4 { background: var(--purple); color: var(--white); }
+  .badge-m5 { background: var(--pink); color: var(--white); }
+  .badge-m6 { background: var(--yellow); }
+  .badge-m7 { background: var(--white); }
+
+  footer {
+    background: var(--black);
+    border-top: var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 48px;
+  }
+  .footer-left { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--yellow); }
+  .footer-right { font-size: 11px; color: #666; letter-spacing: 0.05em; }
+
+  @media (max-width: 900px) {
+    .flow-steps { grid-template-columns: repeat(3, 1fr); }
+    .flow-step:nth-child(3) { border-right: none; }
+    .flow-step { border-bottom: var(--border); }
+    .weekly-grid { grid-template-columns: repeat(4, 1fr); }
+    .weekly-day:nth-child(4) { border-right: none; }
+    .weekly-day { border-bottom: var(--border); }
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 24px 20px 20px; }
+    .nav-back { margin: 16px 20px; }
+    .rule-banner { margin: 0 20px 24px; }
+    .section-eyebrow { margin: 0 20px 14px; }
+    main { padding: 0 20px; }
+    .month-body { grid-template-columns: 1fr; }
+    .month-col:first-child { border-right: none; border-bottom: var(--border); }
+    .flow-steps { grid-template-columns: 1fr 1fr; }
+    .flow-step:nth-child(2n) { border-right: none; }
+    .weekly-grid { grid-template-columns: 1fr 1fr; }
+    .weekly-day:nth-child(2n) { border-right: none; }
+    footer { padding: 20px; }
+    .header-right { align-items: flex-start; }
+    .header-sub { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">DSA</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">AI Project</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Docker</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Kubernetes</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">AWS</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">CI/CD</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">System Design</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Job Plan</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">DSA</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">AI Project</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Docker</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">Kubernetes</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">AWS</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">CI/CD</span><span class="ticker-sep">→</span>
+    <span class="ticker-item">System Design</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Job Plan</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<header>
+  <div>
+    <div class="logo-tag">// Prateek's</div>
+    <h1>DSA + Infra +<br>Job Plan<br><span>Roadmap.</span></h1>
+  </div>
+  <div class="header-right">
+    <div class="salary-pill">Interview Ready 🎯</div>
+    <div class="header-sub">DSA · AI Project · Infra Stack · Apply<br>Runs alongside the AI Engineering Roadmap.</div>
+  </div>
+</header>
+
+<a class="nav-back" href="index.html">← Back to Resource Vault</a>
+
+<div class="rule-banner">
+  <div class="rule-label">The Rule</div>
+  <div class="rule-text">Grind DSA daily <span>→</span> Ship the AI project <span>→</span> Learn infra in parallel <span>→</span> Apply.</div>
+</div>
+
+<main>
+
+  <!-- ══════ DSA ══════ -->
+  <div class="section-eyebrow"><div class="section-eyebrow-text">Track 1 · Interview Prep</div><div class="section-eyebrow-line"></div></div>
+  <div class="month-card m1" data-card="dsa">
+    <div class="month-header">
+      <div class="month-num">🧠</div>
+      <div class="month-info">
+        <div class="month-title">DSA System</div>
+        <div class="month-subtitle">Daily reps · Patterns over problems · Mock interviews</div>
+      </div>
+      <div class="progress-pill" data-progress-for="dsa">0/0</div>
+      <div class="month-badge badge-m1">Ongoing</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 What to Cover</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Arrays, strings, hashing, two pointers, sliding window</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Linked lists, stacks, queues</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Trees, graphs — BFS/DFS, topological sort, union-find</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Recursion, backtracking, dynamic programming</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Heaps, greedy, binary search on answer</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Weekly timed mock interview — 2 problems, 45 min</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link" href="https://neetcode.io/roadmap" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">NeetCode 150 Roadmap</span><span class="res-url">neetcode.io — pattern-first, free</span></span>
+          </a></div>
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link" href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Striver's A2Z DSA Sheet</span><span class="res-url">takeuforward.org — free, structured</span></span>
+          </a></div>
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link" href="https://leetcode.com/" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">LeetCode</span><span class="res-url">leetcode.com — daily practice + mock interviews</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="dsa"></div></div>
+    <div class="output-box">
+      <div class="output-icon">🎯</div>
+      <div class="output-content">
+        <div class="output-label">Ongoing Output</div>
+        <div class="output-text">1–2 problems a day, every day, no skipped days. Track streak. Redo the ones you got wrong after 1 week.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ AI PROJECT ══════ -->
+  <div class="section-eyebrow"><div class="section-eyebrow-text">Track 2 · Proof of Work</div><div class="section-eyebrow-line"></div></div>
+  <div class="month-card m2" data-card="ai-project">
+    <div class="month-header">
+      <div class="month-num">🤖</div>
+      <div class="month-info">
+        <div class="month-title">AI Project</div>
+        <div class="month-subtitle">One shipped, deployed, real-user product</div>
+      </div>
+      <div class="progress-pill" data-progress-for="ai-project">0/0</div>
+      <div class="month-badge badge-m2">Build</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 What to Build</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Pick one real problem — RAG search, an agent, or a workflow tool</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Full detail on the build steps lives in the 6-Month AI Engineering Roadmap</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Wrap it in FastAPI + a simple UI, containerize with Docker</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Deploy it live and get real people to use it</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link" href="roadmap.html" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">6-Month AI Engineering Roadmap</span><span class="res-url">full month-by-month build plan — this vault</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="ai-project"></div></div>
+    <div class="output-box">
+      <div class="output-icon">🚀</div>
+      <div class="output-content">
+        <div class="output-label">Output</div>
+        <div class="output-text">A live, deployed AI project with a public repo — this is the thing you point to in every interview.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ INFRA TRACK ══════ -->
+  <div class="section-eyebrow"><div class="section-eyebrow-text">Track 3 · Infra & Systems</div><div class="section-eyebrow-line"></div></div>
+
+  <!-- Docker -->
+  <div class="month-card m1" data-card="docker">
+    <div class="month-header">
+      <div class="month-num">01</div>
+      <div class="month-info">
+        <div class="month-title">Docker</div>
+        <div class="month-subtitle">Images · Containers · Volumes · Compose</div>
+      </div>
+      <div class="progress-pill" data-progress-for="docker">0/0</div>
+      <div class="month-badge badge-m1">Infra</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Images vs containers, layers, caching</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Writing a Dockerfile for a FastAPI app</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Volumes, networks, docker-compose for multi-service apps</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link given" href="https://www.youtube.com/watch?v=31k6AtW-b3Y&list=PLinedj3B30sDc2woh6XncR9_a310zaAyJ" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Docker Full Course <span class="given-tag">YOUR LINK</span></span><span class="res-url">youtube.com — playlist</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="docker"></div></div>
+    <div class="output-box">
+      <div class="output-icon">📦</div>
+      <div class="output-content">
+        <div class="output-label">Output</div>
+        <div class="output-text">Your AI project runs from a single Dockerfile — anyone can `docker run` it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kubernetes -->
+  <div class="month-card m2" data-card="k8s">
+    <div class="month-header">
+      <div class="month-num">02</div>
+      <div class="month-info">
+        <div class="month-title">Kubernetes</div>
+        <div class="month-subtitle">Pods · Deployments · Services · Scaling</div>
+      </div>
+      <div class="progress-pill" data-progress-for="k8s">0/0</div>
+      <div class="month-badge badge-m2">Infra</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Pods, deployments, services, ingress</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">ConfigMaps, secrets, scaling basics</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Running a local cluster with minikube or kind</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link given" href="https://www.youtube.com/watch?v=a-nWPre5QYI" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">Kubernetes Full Course <span class="given-tag">YOUR LINK</span></span><span class="res-url">youtube.com</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="k8s"></div></div>
+    <div class="output-box">
+      <div class="output-icon">☸️</div>
+      <div class="output-content">
+        <div class="output-label">Output</div>
+        <div class="output-text">Deploy your containerized project to a local cluster with a working manifest.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AWS -->
+  <div class="month-card m3" data-card="aws">
+    <div class="month-header">
+      <div class="month-num">03</div>
+      <div class="month-info">
+        <div class="month-title">AWS</div>
+        <div class="month-subtitle">EC2 · S3 · IAM · Deploying real workloads</div>
+      </div>
+      <div class="progress-pill" data-progress-for="aws">0/0</div>
+      <div class="month-badge badge-m3">Infra</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">EC2, S3, IAM roles and permissions</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Deploying a containerized app to AWS</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Basic cost awareness — staying in the free tier</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link given" href="https://www.youtube.com/watch?v=3WZzmiAkYBQ" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">AWS Full Course <span class="given-tag">YOUR LINK</span></span><span class="res-url">youtube.com</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="aws"></div></div>
+    <div class="output-box">
+      <div class="output-icon">☁️</div>
+      <div class="output-content">
+        <div class="output-label">Output</div>
+        <div class="output-text">Your AI project has a second live deployment — this time on AWS instead of Render/GCP.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GitHub Actions / CI-CD -->
+  <div class="month-card m5" data-card="cicd">
+    <div class="month-header">
+      <div class="month-num">04</div>
+      <div class="month-info">
+        <div class="month-title">GitHub Actions + CI/CD</div>
+        <div class="month-subtitle">Automated tests · Automated deploys</div>
+      </div>
+      <div class="progress-pill" data-progress-for="cicd">0/0</div>
+      <div class="month-badge badge-m5">Infra</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Writing a workflow YAML — build, test, deploy stages</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Running tests automatically on every push</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Auto-deploying to Render/AWS on merge to main</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link given" href="https://www.youtube.com/watch?v=y7S2oSjJ8PA" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">GitHub Actions & CI/CD <span class="given-tag">YOUR LINK</span></span><span class="res-url">youtube.com</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="cicd"></div></div>
+    <div class="output-box">
+      <div class="output-icon">⚙️</div>
+      <div class="output-content">
+        <div class="output-label">Output</div>
+        <div class="output-text">Push to main → tests run → project redeploys automatically. No manual deploy steps left.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Design -->
+  <div class="month-card m6" data-card="sysdesign">
+    <div class="month-header">
+      <div class="month-num">05</div>
+      <div class="month-info">
+        <div class="month-title">System Design</div>
+        <div class="month-subtitle">Scaling · Trade-offs · Interview rounds</div>
+      </div>
+      <div class="progress-pill" data-progress-for="sysdesign">0/0</div>
+      <div class="month-badge badge-m6">Infra</div>
+    </div>
+    <div class="month-body">
+      <div class="month-col">
+        <div class="col-title">📖 Learn</div>
+        <div class="learn-list">
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Load balancing, caching, database scaling</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Consistency vs availability trade-offs</span></label>
+          <label class="learn-item checkable"><input type="checkbox" class="chk"><span class="item-text">Designing a system end-to-end in an interview setting</span></label>
+        </div>
+      </div>
+      <div class="month-col">
+        <div class="col-title">🔗 Resources</div>
+        <div class="res-list">
+          <div class="res-row checkable"><input type="checkbox" class="chk"><a class="res-link given" href="https://www.youtube.com/watch?v=lFeYU31TnQ8&list=PLinedj3B30sBlBWRox2V2tg9QJ2zr4M3o" target="_blank">
+            <span class="res-arrow">↗</span>
+            <span class="res-text"><span class="res-name">System Design Playlist <span class="given-tag">YOUR LINK</span></span><span class="res-url">youtube.com — playlist</span></span>
+          </a></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" data-fill-for="sysdesign"></div></div>
+    <div class="output-box">
+      <div class="output-icon">🧩</div>
+      <div class="output-content">
+        <div class="output-label">Output</div>
+        <div class="output-text">You can whiteboard the design of your own AI project — and explain how it'd scale to 100k users.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ WEEKLY RHYTHM ══════ -->
+  <div class="section-eyebrow"><div class="section-eyebrow-text">How the Week Actually Runs</div><div class="section-eyebrow-line"></div></div>
+  <div class="weekly-section">
+    <div class="weekly-header">🗓️ Weekly Rhythm</div>
+    <div class="weekly-grid">
+      <div class="weekly-day"><div class="weekly-day-name">Mon</div><div class="weekly-day-task">DSA + Infra topic</div></div>
+      <div class="weekly-day"><div class="weekly-day-name">Tue</div><div class="weekly-day-task">DSA + AI project</div></div>
+      <div class="weekly-day"><div class="weekly-day-name">Wed</div><div class="weekly-day-task">DSA + Infra topic</div></div>
+      <div class="weekly-day"><div class="weekly-day-name">Thu</div><div class="weekly-day-task">DSA + AI project</div></div>
+      <div class="weekly-day"><div class="weekly-day-name">Fri</div><div class="weekly-day-task">DSA + ship/deploy</div></div>
+      <div class="weekly-day"><div class="weekly-day-name">Sat</div><div class="weekly-day-task">Mock interview + review</div></div>
+      <div class="weekly-day"><div class="weekly-day-name">Sun</div><div class="weekly-day-task">Rest / catch-up buffer</div></div>
+    </div>
+  </div>
+
+  <!-- ══════ JOB PLAN / WORKFLOW ══════ -->
+  <div class="section-eyebrow"><div class="section-eyebrow-text">Track 4 · Job Plan</div><div class="section-eyebrow-line"></div></div>
+  <div class="flow-section">
+    <div class="flow-header">🎯 Job Plan Workflow</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-title">Build</div>
+        <div class="flow-desc">Ship the AI project, containerize it, deploy it live</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-title">Prove</div>
+        <div class="flow-desc">Clean GitHub repos, CI/CD pipeline, README with architecture</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-title">Sharpen</div>
+        <div class="flow-desc">Daily DSA reps + weekly mock interviews + system design practice</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-title">Post</div>
+        <div class="flow-desc">Write up what you built — architecture, trade-offs, what broke</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-title">Apply</div>
+        <div class="flow-desc">Target roles that match the stack you actually built</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ JOB PORTALS ══════ -->
+  <div class="section-eyebrow"><div class="section-eyebrow-text">Track 5 · Where to Apply</div><div class="section-eyebrow-line"></div></div>
+  <div class="portal-section" data-card="portals">
+    <div class="portal-header">
+      <div class="portal-header-title">🌐 Remote Job Portals</div>
+    </div>
+    <div class="portal-grid">
+      <div class="portal-row">
+        <a class="res-link" href="https://remotive.com/" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">Remotive</span><span class="res-url">remotive.com</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://remote.co/" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">Remote.co</span><span class="res-url">remote.co</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://www.flexjobs.com/search?&remoteoptions=100%25%20Remote%20Work&categories=18&categories=12&categories=11&categories=8&searchkeyword=Senior%20Software%20Engineer%7CFront%20End%20Developer%7CBack%20End%20Engineer%7CFull%20Stack%20Developer%7CJavascript%20Developer&careerlevel=Experienced&educations=Bachelor%27s%2FUndergraduate%20Degree&anywhereinworld=1&anywhereinus=1" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">FlexJobs — saved search</span><span class="res-url">flexjobs.com — pre-filtered for SWE/full-stack roles</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://wellfound.com/jobs" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">Wellfound</span><span class="res-url">wellfound.com/jobs</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://weworkremotely.com/job-seekers/onboarding/step_3" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">We Work Remotely</span><span class="res-url">weworkremotely.com</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://www.workingnomads.com/jobs" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">Working Nomads</span><span class="res-url">workingnomads.com/jobs</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://nodesk.co/remote-jobs/" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">NoDesk</span><span class="res-url">nodesk.co/remote-jobs</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://www.skipthedrive.com/" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">Skip The Drive</span><span class="res-url">skipthedrive.com</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://remote100k.com/" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">Remote100k</span><span class="res-url">remote100k.com</span></span>
+        </a>
+      </div>
+      <div class="portal-row">
+        <a class="res-link" href="https://www.ziprecruiter.in/" target="_blank">
+          <span class="res-arrow">↗</span>
+          <span class="res-text"><span class="res-name">ZipRecruiter India</span><span class="res-url">ziprecruiter.in</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ LOCKED STACK ══════ -->
+  <div class="stack-section">
+    <div class="stack-title">🔒 Locked Stack</div>
+    <div class="stack-pills">
+      <div class="stack-pill">Python</div>
+      <div class="stack-pill">FastAPI</div>
+      <div class="stack-pill">Docker</div>
+      <div class="stack-pill new">Kubernetes ⭐</div>
+      <div class="stack-pill new">AWS ⭐</div>
+      <div class="stack-pill">GitHub</div>
+      <div class="stack-pill new">GitHub Actions ⭐</div>
+      <div class="stack-pill">CI/CD</div>
+      <div class="stack-pill">System Design</div>
+      <div class="stack-pill">DSA / LeetCode</div>
+    </div>
+  </div>
+
+  <div class="storage-note">
+    <span>✓ Checkboxes save automatically in this browser and stay checked after closing the tab or browser — no account needed. Clearing this site's browser data resets them.</span>
+    <button class="reset-btn" id="reset-progress">Reset all progress</button>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-left">DSA + Infra Roadmap ✦</div>
+  <div class="footer-right"><a href="index.html" style="color:#666;text-decoration:none;">← Resource Vault</a> &nbsp;·&nbsp; Prateek · Aug 2026</div>
+</footer>
+
+<script>
+(function () {
+  var STORAGE_KEY = 'dsaInfraRoadmapProgress_v1';
+  var state = {};
+  try {
+    state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch (e) {
+    state = {};
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      /* storage unavailable (private mode, quota, etc.) — checkboxes still work for this session */
+    }
+  }
+
+  // Assign a stable key to every checkbox: <card-id>-<index within that card>
+  function assignKeys() {
+    document.querySelectorAll('[data-card]').forEach(function (card) {
+      var cardId = card.getAttribute('data-card');
+      var idx = 0;
+      card.querySelectorAll('.checkable').forEach(function (el) {
+        var chk = el.querySelector('.chk');
+        if (!chk) return;
+        var key = cardId + '-' + idx++;
+        chk.setAttribute('data-key', key);
+      });
+    });
+  }
+
+  function applyState() {
+    document.querySelectorAll('.chk[data-key]').forEach(function (chk) {
+      var checked = !!state[chk.getAttribute('data-key')];
+      chk.checked = checked;
+      var item = chk.closest('.checkable');
+      if (item) item.classList.toggle('done', checked);
+    });
+    updateAllProgress();
+  }
+
+  function updateAllProgress() {
+    document.querySelectorAll('[data-card]').forEach(function (card) {
+      var cardId = card.getAttribute('data-card');
+      var boxes = card.querySelectorAll('.chk');
+      if (!boxes.length) return;
+      var done = 0;
+      boxes.forEach(function (b) { if (b.checked) done++; });
+
+      var pill = document.querySelector('.progress-pill[data-progress-for="' + cardId + '"]');
+      if (pill) pill.textContent = done + '/' + boxes.length;
+
+      var fill = document.querySelector('.progress-fill[data-fill-for="' + cardId + '"]');
+      if (fill) fill.style.width = (boxes.length ? (done / boxes.length * 100) : 0) + '%';
+    });
+  }
+
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('chk')) {
+      var key = e.target.getAttribute('data-key');
+      if (!key) return;
+      state[key] = e.target.checked;
+      save();
+      var item = e.target.closest('.checkable');
+      if (item) item.classList.toggle('done', e.target.checked);
+      updateAllProgress();
+    }
+  });
+
+  var resetBtn = document.getElementById('reset-progress');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      if (window.confirm('Clear all saved checkmarks on this page? This cannot be undone.')) {
+        state = {};
+        save();
+        applyState();
+      }
+    });
+  }
+
+  assignKeys();
+  applyState();
+})();
+</script>
+
+</body>
+</html>
