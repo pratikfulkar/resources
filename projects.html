@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Project Specification — Top 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF1F4;
+    --paper-line: rgba(42,111,151,0.10);
+    --ink:#14213D;
+    --ink-soft:#33415C;
+    --steel:#2A6F97;
+    --steel-deep:#14507A;
+    --amber:#C97A2B;
+    --green:#2F7A4F;
+    --grey:#5C6B73;
+    --card:#FFFFFF;
+    --border: rgba(20,33,61,0.14);
+    --radius: 3px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(0deg, var(--paper-line) 0 1px, transparent 1px 32px),
+      repeating-linear-gradient(90deg, var(--paper-line) 0 1px, transparent 1px 32px),
+      var(--paper);
+    color: var(--ink-soft);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 0 0 80px 0;
+  }
+  a{ color: var(--steel-deep); }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ===== Title block header ===== */
+  .doc-header{
+    max-width: 1040px;
+    margin: 40px auto 28px auto;
+    padding: 0 24px;
+  }
+  .stamp{
+    border: 1.5px solid var(--ink);
+    background: var(--card);
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:stretch;
+  }
+  .stamp-main{ padding: 22px 26px; border-right: 1px solid var(--border); }
+  .stamp-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    color: var(--steel-deep);
+    text-transform: uppercase;
+    margin-bottom:8px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: 30px;
+    color: var(--ink);
+    margin: 0 0 6px 0;
+    letter-spacing: -0.01em;
+  }
+  .doc-sub{ color:var(--grey); font-size:14px; max-width:60ch; }
+  .stamp-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    padding: 22px 22px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    min-width:180px;
+    color: var(--ink-soft);
+  }
+  .stamp-meta div{ margin-bottom:10px; }
+  .stamp-meta span{ display:block; color:var(--grey); text-transform:uppercase; font-size:9.5px; letter-spacing:0.08em; margin-bottom:2px;}
+
+  .note-strip{
+    max-width:1040px; margin: 0 auto 36px auto; padding: 0 24px;
+    font-size:13.5px; color:var(--grey);
+  }
+  .note-strip strong{ color: var(--ink-soft); }
+
+  /* ===== Nav pills ===== */
+  .nav{
+    max-width:1040px; margin: 0 auto 44px auto; padding: 0 24px;
+    display:flex; gap:12px; flex-wrap:wrap;
+  }
+  .nav a{
+    text-decoration:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 9px 14px;
+    border-radius: var(--radius);
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav a .dot{ width:7px; height:7px; border-radius:50%; background:var(--steel); }
+  .nav a.rec .dot{ background:var(--amber); }
+
+  /* ===== Project sheet ===== */
+  .sheet{
+    max-width:1040px; margin: 0 auto 56px auto; padding: 0 24px;
+    scroll-margin-top: 24px;
+  }
+  .sheet-frame{
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .sheet-titleblock{
+    display:grid; grid-template-columns: 1fr auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .sheet-title-main{ padding: 24px 28px; }
+  .doc-id{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--steel-deep);
+    letter-spacing:0.1em; margin-bottom:8px; display:flex; gap:10px; align-items:center;
+  }
+  .status-chip{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.06em;
+    padding:3px 8px; border-radius:2px; text-transform:uppercase;
+  }
+  .status-chip.start{ background: rgba(201,122,43,0.14); color: var(--amber); border:1px solid rgba(201,122,43,0.4);}
+  .status-chip.alt{ background: rgba(42,111,151,0.1); color: var(--steel-deep); border:1px solid rgba(42,111,151,0.35);}
+  .status-chip.backup{ background: rgba(92,107,115,0.12); color: var(--grey); border:1px solid rgba(92,107,115,0.35);}
+
+  h2{
+    font-family:'Space Grotesk', sans-serif; font-size:22px; font-weight:600;
+    color: var(--ink); margin: 0 0 8px 0;
+  }
+  .pitch{ color: var(--ink-soft); font-size:14.5px; max-width: 68ch;}
+
+  .sheet-title-side{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--grey);
+    padding: 24px 22px; border-left:1px solid var(--border); min-width:170px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .kv span{ display:block; text-transform:uppercase; font-size:9.5px; letter-spacing:.08em; color:var(--grey);}
+  .kv strong{ display:block; color:var(--ink); font-weight:600; font-size:13px; font-family:'IBM Plex Sans',sans-serif;}
+
+  .sheet-body{ padding: 26px 28px 30px 28px; }
+
+  .block{ margin-bottom: 26px; }
+  .block:last-child{ margin-bottom:0; }
+  .block-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--steel-deep); margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .block-label::after{ content:""; flex:1; height:1px; background:var(--border); }
+
+  .usecases{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  .usecases li{
+    padding-left:18px; position:relative; font-size:14px; color:var(--ink-soft);
+  }
+  .usecases li::before{
+    content:"–"; position:absolute; left:0; color:var(--steel);
+  }
+
+  .checkpoints{ counter-reset: step; list-style:none; margin:0; padding:0; }
+  .checkpoints li{
+    counter-increment: step;
+    display:grid; grid-template-columns: 34px 1fr; gap:14px;
+    padding: 12px 0; border-bottom: 1px dashed var(--border);
+  }
+  .checkpoints li:last-child{ border-bottom:none; }
+  .checkpoints li::before{
+    content: counter(step, decimal-leading-zero);
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color: var(--amber);
+    font-weight:600; padding-top:1px;
+  }
+  .cp-title{ font-weight:600; color:var(--ink); font-size:14.5px; margin-bottom:3px; }
+  .cp-done{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--green);
+    margin-top:5px;
+  }
+  .cp-done::before{ content:"done when → "; color:var(--grey); }
+
+  .stackbox{
+    display:grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px;
+    background: var(--paper); border:1px solid var(--border); padding:16px 18px;
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
+  }
+  .stackbox div span{ color:var(--grey); }
+  .stackbox div strong{ color:var(--ink); font-weight:600; }
+
+  .why{ font-size:14px; color:var(--ink-soft); background: rgba(201,122,43,0.06); border-left:3px solid var(--amber); padding: 12px 16px; }
+
+  .refs{ list-style:none; margin:0; padding:0; display:grid; gap:7px; }
+  .refs li{ font-size:13px; }
+  .refs a{ text-decoration:none; }
+  .refs a:hover{ text-decoration:underline; }
+  .refs .tag{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--grey); margin-right:8px; }
+
+  footer{
+    max-width:1040px; margin: 0 auto; padding: 0 24px; color:var(--grey); font-size:13px;
+  }
+  footer .line{ height:1px; background:var(--border); margin: 0 0 20px 0; }
+
+  @media (max-width:640px){
+    .stamp{ grid-template-columns: 1fr; }
+    .stamp-main{ border-right:none; border-bottom:1px solid var(--border); }
+    .sheet-titleblock{ grid-template-columns: 1fr; }
+    .sheet-title-side{ border-left:none; border-top:1px solid var(--border); flex-direction:row; flex-wrap:wrap; }
+    .stackbox{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="doc-header">
+    <div class="stamp">
+      <div class="stamp-main">
+        <div class="stamp-eyebrow">Portfolio Build Spec · Starter Scope</div>
+        <h1>Top 3 Project Candidates</h1>
+        <div class="doc-sub">Condensed to build-ready scope: what each project is, who it's for, the leanest v1 that proves the idea, and the sources behind it. Deep research on the chosen project happens after you pick.</div>
+      </div>
+      <div class="stamp-meta">
+        <div><span>Prepared for</span><strong class="mono" style="font-size:12.5px;color:var(--ink)">P. Fulkar</strong></div>
+        <div><span>Candidates</span><strong class="mono" style="font-size:12.5px;color:var(--ink)">03</strong></div>
+        <div><span>Target</span><strong class="mono" style="font-size:12.5px;color:var(--ink)">Remote · $120–150K</strong></div>
+        <div><span>Rev</span><strong class="mono" style="font-size:12.5px;color:var(--ink)">A — Aug 2026</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-strip">
+    <strong>How to use this:</strong> each sheet below is scoped to a startable v1, not the full "ultra" version. Pick one, build the checkpoints in order, and treat everything past v1 as a later research pass.
+  </div>
+
+  <div class="nav">
+    <a href="#p01" class="rec"><span class="dot"></span>P-01 · Behavioral Verification Engine</a>
+    <a href="#p02"><span class="dot"></span>P-02 · Agent Trajectory Evaluation</a>
+    <a href="#p03"><span class="dot"></span>P-03 · MCP Tool-Poisoning Scanner</a>
+  </div>
+
+  <!-- ============ PROJECT 1 ============ -->
+  <div class="sheet" id="p01">
+    <div class="sheet-frame">
+      <div class="sheet-titleblock">
+        <div class="sheet-title-main">
+          <div class="doc-id">P-01 / SPEC <span class="status-chip start">Start here</span></div>
+          <h2>Behavioral Verification Engine</h2>
+          <div class="pitch">An independent checker that catches when an AI code-migration agent silently changes business logic — instead of trusting the same model to grade its own work.</div>
+        </div>
+        <div class="sheet-title-side">
+          <div class="kv"><span>Difficulty</span><strong>Medium–High</strong></div>
+          <div class="kv"><span>Domain fit</span><strong>Direct — your own stack</strong></div>
+          <div class="kv"><span>V1 build time</span><strong>~3–4 weeks</strong></div>
+        </div>
+      </div>
+
+      <div class="sheet-body">
+
+        <div class="block">
+          <div class="block-label">Problem</div>
+          <p style="margin:0;font-size:14.5px;">Legacy modernization tools translate syntax but routinely drop implicit business rules — edge cases, validation branches, exception handling — because there's no independent way to verify old and new code behave the same. Research shows models can't reliably self-judge their own migration output.</p>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Use-case basis</div>
+          <ul class="usecases">
+            <li>An engineer runs an AI migration agent on an Express route and wants proof it didn't change behavior before merging.</li>
+            <li>A team wants a CI gate that blocks merges when AI-modernized code diverges from the original on generated edge-case inputs.</li>
+            <li>A hiring panel wants to see you reason about trusting — or not trusting — AI-generated code changes in production systems.</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <div class="block-label">V1 checkpoints</div>
+          <ol class="checkpoints">
+            <li>
+              <div>
+                <div class="cp-title">Pick one real pattern</div>
+                <div>Choose a single legacy pattern you've actually built — e.g. conditional form-validation logic.</div>
+                <div class="cp-done">pattern is written down as legacy input + expected modern output</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Build input generation</div>
+                <div>Use property-based testing to generate a wide range of inputs for that function, not just happy-path examples.</div>
+                <div class="cp-done">100+ generated inputs cover every branch in the function</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Build the dual-run harness</div>
+                <div>Run legacy and modernized code against the same generated inputs in isolated containers; capture outputs and errors.</div>
+                <div class="cp-done">both versions run headless and log structured output for every input</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Build the diff engine</div>
+                <div>Compare outputs: exact match, equivalent-but-different-shape, or clear drift. No AI needed yet.</div>
+                <div class="cp-done">a deliberately-broken migration gets flagged; a correct one passes clean</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Wire in an AI migration agent</div>
+                <div>Only now add the AI layer: an agent that performs the migration, verified by the harness you already trust.</div>
+                <div class="cp-done">one full run: legacy in → agent migrates → harness scores it</div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Stack</div>
+          <div class="stackbox">
+            <div><span>Language</span> <strong>TypeScript / Node.js</strong></div>
+            <div><span>AST parsing</span> <strong>ts-morph</strong></div>
+            <div><span>Test generation</span> <strong>fast-check (property-based)</strong></div>
+            <div><span>Sandboxing</span> <strong>Docker</strong></div>
+            <div><span>LLM SDKs</span> <strong>Anthropic + OpenAI</strong></div>
+            <div><span>CI packaging</span> <strong>GitHub Actions</strong></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="why">Why this one: existing academic work (AgentModernize) still has an unsolved code-generation reliability gap, and a 2026 AWS-affiliated study found models can't reliably self-review their own modernization. You're not competing to build a better migration agent — you're building the trust layer in front of any of them, using a benchmark drawn from your own production domain.</div>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Resources &amp; references</div>
+          <ul class="refs">
+            <li><span class="tag">PAPER</span><a href="https://arxiv.org/abs/2605.17535" target="_blank" rel="noopener">AgentModernize — Behavioral Specification Graphs (arXiv:2605.17535)</a></li>
+            <li><span class="tag">PAPER</span><a href="https://arxiv.org/html/2605.21537" target="_blank" rel="noopener">Articulate but Wrong — Self-Review Failures in LLM Code Modernization</a></li>
+            <li><span class="tag">TOOL</span><a href="https://ts-morph.com/" target="_blank" rel="noopener">ts-morph — TypeScript AST manipulation</a></li>
+            <li><span class="tag">TOOL</span><a href="https://fast-check.dev/" target="_blank" rel="noopener">fast-check — property-based testing for JS/TS</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PROJECT 2 ============ -->
+  <div class="sheet" id="p02">
+    <div class="sheet-frame">
+      <div class="sheet-titleblock">
+        <div class="sheet-title-main">
+          <div class="doc-id">P-02 / SPEC <span class="status-chip alt">Alternate</span></div>
+          <h2>Agent Trajectory Evaluation Platform</h2>
+          <div class="pitch">Scores how an agent reached an answer — which tools it called, whether it looped, whether it recovered from a bad step — not just whether the final answer was right.</div>
+        </div>
+        <div class="sheet-title-side">
+          <div class="kv"><span>Difficulty</span><strong>Medium–High</strong></div>
+          <div class="kv"><span>Domain fit</span><strong>General — no personal edge</strong></div>
+          <div class="kv"><span>V1 build time</span><strong>~2–3 weeks</strong></div>
+        </div>
+      </div>
+
+      <div class="sheet-body">
+
+        <div class="block">
+          <div class="block-label">Problem</div>
+          <p style="margin:0;font-size:14.5px;">Most agent evaluation checks only the final answer. That misses looping, wrong-tool calls that got silently retried, and unsafe intermediate steps — the actual reasons production agents fail even when benchmark scores look fine.</p>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Use-case basis</div>
+          <ul class="usecases">
+            <li>A team ships an agent that passes offline evals but fails in production, and needs to see the step-by-step trace to know why.</li>
+            <li>An engineer wants to compare two agent designs on efficiency (steps taken, retries) not just correctness.</li>
+            <li>A hiring panel wants to see you reason about agent reliability at the trajectory level, which most eval tutorials skip.</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <div class="block-label">V1 checkpoints</div>
+          <ol class="checkpoints">
+            <li>
+              <div>
+                <div class="cp-title">Build one simple tool-using agent</div>
+                <div>3 tools max — e.g. a support agent with lookup, search, and reply tools.</div>
+                <div class="cp-done">agent completes a basic task end to end</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Instrument every step</div>
+                <div>Log each tool call, its arguments, its result, and the agent's stated reasoning as structured trace data.</div>
+                <div class="cp-done">a full run produces a readable, ordered trace, not just a final answer</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Define trajectory scoring rules</div>
+                <div>Right tool for the task? Right argument? Did it loop or retry without progress?</div>
+                <div class="cp-done">a deliberately-looping run scores worse than a clean run on the same task</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Build a minimal dashboard</div>
+                <div>Visualize one run's trajectory as a timeline, with flags on the steps that scored poorly.</div>
+                <div class="cp-done">you can point at a specific step and say why it was flagged</div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Stack</div>
+          <div class="stackbox">
+            <div><span>Language</span> <strong>TypeScript / Node.js</strong></div>
+            <div><span>Tracing</span> <strong>OpenTelemetry-style spans</strong></div>
+            <div><span>Agent orchestration</span> <strong>Hand-rolled state machine</strong></div>
+            <div><span>Dashboard</span> <strong>Next.js</strong></div>
+            <div><span>LLM SDKs</span> <strong>Anthropic + OpenAI</strong></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="why">Why keep this as an alternate: the gap is real and well-documented — enterprise agent pilots rarely reach production, and compounding step failures are the reason. But this is more generic infrastructure; without a personal domain angle it competes directly with existing eval tooling on polish rather than on a story only you can tell.</div>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Resources &amp; references</div>
+          <ul class="refs">
+            <li><span class="tag">GUIDE</span><a href="https://www.algolia.com/blog/ai/ai-agent-evaluation-frameworks-metrics-testing-strategies" target="_blank" rel="noopener">Algolia — AI Agent Evaluation: Frameworks and Metrics</a></li>
+            <li><span class="tag">GUIDE</span><a href="https://www.morphllm.com/ai-agent-evaluation" target="_blank" rel="noopener">Morph — Agent Evaluation: Metrics, Frameworks, Production Failures</a></li>
+            <li><span class="tag">ANALYSIS</span><a href="https://prefactor.tech/blog/ai-agent-reliability-gap-benchmarks-vs-production" target="_blank" rel="noopener">Prefactor — Why AI Agents Fail Production Evaluation</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PROJECT 3 ============ -->
+  <div class="sheet" id="p03">
+    <div class="sheet-frame">
+      <div class="sheet-titleblock">
+        <div class="sheet-title-main">
+          <div class="doc-id">P-03 / SPEC <span class="status-chip backup">Backup</span></div>
+          <h2>MCP Tool-Poisoning Semantic Scanner</h2>
+          <div class="pitch">Detects malicious or deceptive instructions hidden in MCP tool descriptions — existing open-source scanners rely on pattern matching and carry a high false-positive rate.</div>
+        </div>
+        <div class="sheet-title-side">
+          <div class="kv"><span>Difficulty</span><strong>Medium</strong></div>
+          <div class="kv"><span>Domain fit</span><strong>Security niche</strong></div>
+          <div class="kv"><span>V1 build time</span><strong>~2–3 weeks</strong></div>
+        </div>
+      </div>
+
+      <div class="sheet-body">
+
+        <div class="block">
+          <div class="block-label">Problem</div>
+          <p style="margin:0;font-size:14.5px;">A confirmed malicious MCP server was distributed via npm in 2025 and silently exfiltrated data before detection. Current open-source scanners catch this with YARA-style pattern matching, which one 2026 audit found produces a false-positive rate near 78% — too noisy to trust.</p>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Use-case basis</div>
+          <ul class="usecases">
+            <li>A developer installing a new MCP server wants to know if its tool descriptions contain hidden instructions before connecting an agent to it.</li>
+            <li>A security-conscious team wants fewer false alarms than existing pattern-matching scanners produce.</li>
+            <li>A hiring panel in a security-adjacent AI role wants to see precision/recall reasoning, not just "I built a scanner."</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <div class="block-label">V1 checkpoints</div>
+          <ol class="checkpoints">
+            <li>
+              <div>
+                <div class="cp-title">Build a labeled test set</div>
+                <div>15–20 MCP tool descriptions: some clean, some with injected hidden instructions you write yourself.</div>
+                <div class="cp-done">the set is labeled and versioned before any detector is built</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Build a baseline pattern matcher</div>
+                <div>A simple keyword/regex scanner, mirroring what existing tools do — this becomes your comparison baseline.</div>
+                <div class="cp-done">baseline produces a precision/recall number on your test set</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Build a semantic classifier</div>
+                <div>An LLM-based classifier that reasons about intent in the tool description, not just keywords.</div>
+                <div class="cp-done">semantic classifier beats the baseline's precision on the same test set</div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="cp-title">Package as a CLI scan tool</div>
+                <div>Point it at a live MCP server config and get a report.</div>
+                <div class="cp-done">running it against a real public MCP server produces a readable report</div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Stack</div>
+          <div class="stackbox">
+            <div><span>Language</span> <strong>TypeScript / Node.js</strong></div>
+            <div><span>MCP integration</span> <strong>MCP SDK (client)</strong></div>
+            <div><span>Classifier</span> <strong>Anthropic / OpenAI SDK</strong></div>
+            <div><span>Baseline matcher</span> <strong>Regex / YARA-style rules</strong></div>
+            <div><span>Packaging</span> <strong>Node CLI</strong></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="why">Why keep this as backup: it's a real, current, unsolved precision problem, not a saturated market — but it's narrower and more security-specialist than the other two, which may point you toward security-adjacent roles specifically rather than general AI/backend roles.</div>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Resources &amp; references</div>
+          <ul class="refs">
+            <li><span class="tag">RESEARCH</span><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-mcp-tool-poisoning-ai-agent-exfiltration-2/" target="_blank" rel="noopener">Cloud Security Alliance — MCP Tool Poisoning Research Note</a></li>
+            <li><span class="tag">AUDIT</span><a href="https://appsecsanta.com/research/mcp-server-security-audit-2026" target="_blank" rel="noopener">AppSec Santa — MCP Server Security Audit 2026 (false-positive data)</a></li>
+            <li><span class="tag">OVERVIEW</span><a href="https://pipelab.org/blog/state-of-mcp-security-2026/" target="_blank" rel="noopener">PipeLab — The State of MCP Security 2026</a></li>
+            <li><span class="tag">TOOL REF</span><a href="https://labs.snyk.io/resources/detect-tool-poisoning-mcp-server-security/" target="_blank" rel="noopener">Snyk Labs — Detecting Tool Poisoning in MCP Servers</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line"></div>
+    Source: distilled from the full portfolio research document (AI_Portfolio_Research_Roadmap.md). Deep-dive research, benchmark design, and architecture refinement happen after you pick a project — this sheet is the starting scaffold, not the final spec.
+  </footer>
+
+</body>
+</html>
