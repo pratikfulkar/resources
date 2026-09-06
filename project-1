@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Verification Engine — Build Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --paper:#EEF0EA;
+    --panel:#FFFFFF;
+    --ink:#171C1B;
+    --muted:#5A625B;
+    --line:#D6DBD1;
+    --line-strong:#B7BEB2;
+    --verify:#1E6E52;
+    --verify-bg:#E4EFE8;
+    --drift:#A6431F;
+    --drift-bg:#F3E5DD;
+    --signal:#2C4A6E;
+    --signal-bg:#E3E9EE;
+    --code-bg:#12181A;
+    --code-ink:#DDE6E1;
+    --radius-sm:3px;
+    --radius-md:6px;
+    --serif-line:80ch;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", -apple-system, sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--signal);}
+  code, .mono, .kbd, .tag, table td.num{font-family:"IBM Plex Mono", monospace;}
+  .layout{
+    display:grid;
+    grid-template-columns:252px minmax(0,1fr);
+    max-width:1280px;
+    margin:0 auto;
+  }
+  /* ---------- Sidebar ---------- */
+  nav.toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:28px 18px 40px 28px;
+    border-right:1px solid var(--line);
+  }
+  nav.toc .brand{
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.01em;
+    color:var(--verify);
+    margin-bottom:2px;
+  }
+  nav.toc .brand-sub{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:22px;
+  }
+  nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:sec;}
+  nav.toc ol > li{counter-increment:sec;margin-bottom:2px;}
+  nav.toc ol > li > a{
+    display:flex;
+    gap:8px;
+    text-decoration:none;
+    color:var(--ink);
+    font-size:13.5px;
+    padding:6px 8px;
+    border-radius:var(--radius-sm);
+  }
+  nav.toc ol > li > a::before{
+    content: counter(sec) ".";
+    color:var(--muted);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    min-width:16px;
+  }
+  nav.toc ol > li > a:hover{background:var(--signal-bg);}
+  nav.toc .toc-foot{
+    margin-top:24px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    color:var(--muted);
+  }
+  /* ---------- Main ---------- */
+  main{padding:0 0 120px 0; min-width:0;}
+  .hero{
+    padding:56px 56px 40px 48px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .status-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  .pill{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    padding:3px 9px;
+    border-radius:100px;
+    border:1px solid var(--line-strong);
+    color:var(--muted);
+    background:var(--panel);
+  }
+  .pill.verify{color:var(--verify); border-color:var(--verify); background:var(--verify-bg);}
+  h1.title{
+    font-size:40px;
+    line-height:1.15;
+    font-weight:700;
+    margin:0 0 14px 0;
+    max-width:16ch;
+    letter-spacing:-0.01em;
+  }
+  .hero .dek{
+    font-size:17px;
+    color:var(--muted);
+    max-width:62ch;
+    margin:0 0 28px 0;
+  }
+  .hero-stats{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    max-width:820px;
+  }
+  .hero-stats div{
+    padding:14px 16px;
+    border-right:1px solid var(--line);
+    background:var(--panel);
+  }
+  .hero-stats div:last-child{border-right:none;}
+  .hero-stats .num{font-family:"IBM Plex Mono", monospace; font-size:19px; font-weight:600; display:block;}
+  .hero-stats .lbl{font-size:12px; color:var(--muted);}
+
+  section{
+    padding:48px 56px 8px 48px;
+    border-bottom:1px solid var(--line);
+    max-width:1000px;
+  }
+  section:last-of-type{border-bottom:none;}
+  .section-tag{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  h2{
+    font-size:26px;
+    margin:0 0 18px 0;
+    letter-spacing:-0.01em;
+  }
+  h3{
+    font-size:18px;
+    margin:32px 0 10px 0;
+  }
+  h4{
+    font-size:15px;
+    margin:22px 0 8px 0;
+    color:var(--ink);
+  }
+  p{max-width:74ch; margin:0 0 16px 0;}
+  ul, ol.plain{max-width:74ch; padding-left:22px; margin:0 0 16px 0;}
+  li{margin-bottom:6px;}
+  strong{font-weight:600;}
+
+  .callout{
+    border-left:3px solid var(--signal);
+    background:var(--signal-bg);
+    padding:14px 18px;
+    border-radius:0 var(--radius-md) var(--radius-md) 0;
+    max-width:74ch;
+    margin:0 0 20px 0;
+    font-size:14.5px;
+  }
+  .callout.warn{border-color:var(--drift); background:var(--drift-bg);}
+  .callout.verify{border-color:var(--verify); background:var(--verify-bg);}
+  .callout p:last-child{margin-bottom:0;}
+
+  .diagram-frame{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:22px;
+    margin:8px 0 24px 0;
+    overflow-x:auto;
+  }
+  .diagram-frame .cap{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  .mermaid{display:flex; justify-content:center;}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:0 0 24px 0;
+    font-size:14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+  }
+  th, td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    background:#F5F6F2;
+    font-weight:600;
+    font-size:12.5px;
+    color:var(--muted);
+    text-transform:none;
+  }
+  tr:last-child td{border-bottom:none;}
+  td.num, th.num{font-family:"IBM Plex Mono", monospace; font-size:13px;}
+
+  .checkpoint{
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    background:var(--panel);
+    margin:0 0 22px 0;
+    overflow:hidden;
+  }
+  .checkpoint-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    padding:16px 20px;
+    border-bottom:1px solid var(--line);
+    background:#F6F7F3;
+  }
+  .checkpoint-head .cp-num{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    color:var(--verify);
+    font-weight:600;
+  }
+  .checkpoint-head h3{margin:0; font-size:17px;}
+  .checkpoint-body{padding:18px 20px 6px 20px;}
+  .checkpoint-body p{margin-bottom:12px;}
+  .done-bar{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    font-size:13px;
+    color:var(--verify);
+    background:var(--verify-bg);
+    padding:10px 14px;
+    border-radius:var(--radius-sm);
+    margin:14px 0 0 0;
+  }
+
+  pre{
+    background:var(--code-bg);
+    color:var(--code-ink);
+    padding:16px 18px;
+    border-radius:var(--radius-md);
+    overflow-x:auto;
+    font-size:13px;
+    line-height:1.55;
+    margin:0 0 20px 0;
+  }
+  pre code{font-family:"IBM Plex Mono", monospace; background:none; padding:0;}
+  code.inline{
+    background:#E8EAE4;
+    padding:1px 6px;
+    border-radius:3px;
+    font-size:0.88em;
+  }
+
+  .chart-wrap{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:22px;
+    margin:8px 0 24px 0;
+  }
+  .chart-wrap canvas{max-height:320px;}
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:0 0 24px 0;
+  }
+  @media (max-width: 860px){ .two-col{grid-template-columns:1fr;} }
+
+  .risk-cell{font-size:12px; font-weight:600; padding:3px 8px; border-radius:100px; display:inline-block;}
+  .risk-high{background:var(--drift-bg); color:var(--drift);}
+  .risk-med{background:#F4EEDD; color:#8A6B1F;}
+  .risk-low{background:var(--verify-bg); color:var(--verify);}
+
+  footer{
+    padding:40px 56px 60px 48px;
+    color:var(--muted);
+    font-size:13px;
+    max-width:1000px;
+  }
+  footer a{color:var(--signal);}
+
+  @media (max-width: 920px){
+    .layout{grid-template-columns:1fr;}
+    nav.toc{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line);}
+    .hero, section, footer{padding-left:24px; padding-right:24px;}
+    .hero-stats{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc">
+    <div class="brand">Behavioral Verification Engine</div>
+    <div class="brand-sub mono">v1 build documentation</div>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#problem">The problem, with evidence</a></li>
+      <li><a href="#scope">Scope: v1 boundaries</a></li>
+      <li><a href="#architecture">System architecture</a></li>
+      <li><a href="#concepts">Core concepts</a></li>
+      <li><a href="#workflow">End-to-end workflow</a></li>
+      <li><a href="#plan">Build plan — 5 checkpoints</a></li>
+      <li><a href="#diffengine">The diff engine, in detail</a></li>
+      <li><a href="#ci">CI/CD integration</a></li>
+      <li><a href="#stack">Tech stack</a></li>
+      <li><a href="#repo">Repository layout</a></li>
+      <li><a href="#risks">Risks &amp; open questions</a></li>
+      <li><a href="#metrics">Success metrics</a></li>
+      <li><a href="#roadmap">Roadmap past v1</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+    <div class="toc-foot">Domain fit: direct.<br>Difficulty: medium–high.<br>Target build time: 3–4 weeks.</div>
+  </nav>
+
+  <main>
+
+    <div class="hero" id="overview">
+      <div class="status-row">
+        <span class="pill verify">status: pre-build</span>
+        <span class="pill">difficulty: medium–high</span>
+        <span class="pill">est. 3–4 weeks</span>
+        <span class="pill">stack: TypeScript / Node.js</span>
+      </div>
+      <h1 class="title">Behavioral Verification Engine</h1>
+      <p class="dek">An independent checker that catches when an AI code-migration agent silently changes business logic — instead of trusting the same model to grade its own work. This document is the complete build plan: architecture, workflow, week-by-week checkpoints, the diff engine's decision logic, and the CI gate that ships it.</p>
+      <div class="hero-stats">
+        <div><span class="num">39.7%</span><span class="lbl">drift rate on semantic-trap migrations, independently measured</span></div>
+        <div><span class="num">31.7%</span><span class="lbl">of that drift missed by the model reviewing its own output</span></div>
+        <div><span class="num">100+</span><span class="lbl">generated inputs required per function under test</span></div>
+        <div><span class="num">5</span><span class="lbl">checkpoints from pattern to full agent-in-the-loop run</span></div>
+      </div>
+    </div>
+
+    <!-- ================= PROBLEM ================= -->
+    <section id="problem">
+      <div class="section-tag mono">01 — motivation</div>
+      <h2>The problem, with evidence</h2>
+      <p>Legacy modernization tools are good at syntax translation and bad at preserving intent. A COBOL validation branch, an implicit exception path, an off-by-one that was actually load-bearing — these don't show up as syntax errors when they're dropped. The modernized code compiles, runs, and returns plausible values. It just quietly disagrees with the original on some slice of inputs. Nothing in a normal test suite or code review is built to catch that, because nobody wrote a test for the behavior nobody knew was there.</p>
+      <p>Two recent papers make this concrete rather than anecdotal.</p>
+
+      <h3>Finding 1 — self-review doesn't work</h3>
+      <p>A 2026 study run independently of any LLM vendor (with authors noting the work was conducted outside their employer's data and systems) tested whether a model can be trusted to judge its own migration output. Across <strong>1,980 modernization calls spanning 11 production LLMs from 7 model families</strong>, snippets engineered to contain a real semantic trap — numeric semantics, lazy evaluation, type-model differences between legacy and modern runtimes — drifted in <strong>39.7% of attempts</strong>, versus <strong>7.0%</strong> on a matched benign-control set that needed no real modernization at all. That gap alone shows drift is concentrated, not noise.</p>
+      <p>The more damning number: when each model was then asked to review its <em>own</em> output for behavioral drift, self-review missed <strong>31.7%</strong> of the drift it had just introduced — and per-model behavior was strongly bimodal, including cases where a model correctly described the exact semantic difference between the old and new code in its reasoning, then still declared the migration behavior-preserving.</p>
+      <div class="callout warn">
+        <p><strong>Implication for this project:</strong> asking the migration agent (or a second instance of the same model family) to grade its own diff is not a verification strategy. The checker has to be a separate system with no stake in the answer — deterministic where possible, and blind to which side of the diff is "the AI's."</p>
+      </div>
+
+      <h3>Finding 2 — the fix that exists still has a code-generation gap</h3>
+      <p>A parallel line of work, AgentModernize, treats modernization as a behavior-preservation problem rather than a translation problem. It splits the job across four specialized agents — a legacy analyzer, a specification generator, a modernization transformer, and an equivalence validator — connected through an intermediate artifact called a Behavioral Specification Graph (BSG): a directed graph of operations with explicit preconditions, postconditions, and invariants, generated <em>before</em> any modern code is written, so the extracted business logic is inspectable rather than implicit.</p>
+      <p>That framing is the right one, and this project borrows it. But it still depends on an LLM to close the loop — extracting the graph, generating code from it, and validating equivalence via generated tests and differential trace analysis. Later replication work found the reported gains were sensitive to model backbone and prompting: a full pipeline with feedback beat a single-prompt baseline on a weaker backbone, but the crossover reversed on stronger, more recent backbones. In other words, the BSG approach reduces the search space for errors but doesn't eliminate the need for an independent, non-LLM-graded check on the result.</p>
+
+      <div class="chart-wrap">
+        <canvas id="driftChart" height="110"></canvas>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-top:-10px;">Independently measured drift and self-review miss rates. Source: "Articulate but Wrong" (arXiv:2605.21537), n=660 per condition for the drift comparison.</p>
+
+      <div class="callout">
+        <p>This project doesn't try to build a better migration agent, and it doesn't try to out-prompt AgentModernize. It builds the layer that sits in front of <em>any</em> migration agent — including a good one — and answers one question with evidence instead of an opinion: <strong>did the behavior actually stay the same?</strong></p>
+      </div>
+    </section>
+
+    <!-- ================= SCOPE ================= -->
+    <section id="scope">
+      <div class="section-tag mono">02 — scope</div>
+      <h2>Scope: v1 boundaries</h2>
+      <div class="two-col">
+        <div>
+          <h4>In scope for v1</h4>
+          <ul>
+            <li>One legacy pattern, chosen from real production code you've written — not a toy example.</li>
+            <li>Property-based input generation covering every branch of that one function.</li>
+            <li>A deterministic, containerized dual-run harness for legacy vs. modern code.</li>
+            <li>A diff engine that classifies outcomes without any AI involvement.</li>
+            <li>One AI migration agent wired in last, scored by the harness already proven to work without it.</li>
+            <li>A CI gate (GitHub Action) that fails a PR on detected drift.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Explicitly out of scope for v1</h4>
+          <ul>
+            <li>Repository-scale migration (multiple files, cross-module state, shared databases).</li>
+            <li>Automatic BSG-style extraction of business rules from source — the pattern is hand-specified in v1.</li>
+            <li>Multi-language support beyond one legacy/modern pair (e.g. one Express route pattern).</li>
+            <li>A general-purpose "trust score" for arbitrary LLM output — this is scoped to code-behavior equivalence only.</li>
+            <li>Automatic remediation. V1 flags and reports; it does not attempt to fix drift.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout verify">
+        <p>The ordering of the checkpoints is deliberate: the harness and diff engine are built and trusted <em>before</em> any AI is introduced. If step 5 is your first exposure to whether the system works, you've built a demo, not a verification engine.</p>
+      </div>
+    </section>
+
+    <!-- ================= ARCHITECTURE ================= -->
+    <section id="architecture">
+      <div class="section-tag mono">03 — system design</div>
+      <h2>System architecture</h2>
+      <p>Four subsystems, each independently testable, wired together by a thin orchestrator. The AI migration agent is a pluggable input to the harness, not a component the harness depends on.</p>
+
+      <div class="diagram-frame">
+        <div class="mermaid">
+graph TD
+  A["Legacy source<br/>(e.g. Express route)"] --> B["Pattern spec<br/>legacy input → expected modern shape<br/>(hand-authored, checkpoint 1)"]
+  B --> C["Input generator<br/>fast-check property-based arbitraries"]
+  C --> D["Generated input corpus<br/>100+ cases, every branch covered"]
+  A --> E1["Legacy container<br/>Docker: run legacy fn headless"]
+  F["Modern candidate code<br/>(hand-migrated OR agent-migrated)"] --> E2["Modern container<br/>Docker: run modern fn headless"]
+  D --> E1
+  D --> E2
+  E1 --> G["Structured run log<br/>input, output, error, timing"]
+  E2 --> G
+  G --> H["Diff engine<br/>exact / equivalent-shape / drift"]
+  H --> I["Verdict report<br/>pass, warn, or fail + drift cases"]
+  I --> J["CI gate<br/>GitHub Actions: block merge on fail"]
+  K["AI migration agent<br/>Claude / GPT via SDK"] -.produces.-> F
+  B -.consumed by.-> K
+
+  classDef store fill:#FFFFFF,stroke:#B7BEB2,color:#171C1B;
+  classDef proc fill:#E3E9EE,stroke:#2C4A6E,color:#171C1B;
+  classDef verify fill:#E4EFE8,stroke:#1E6E52,color:#171C1B;
+  classDef agent fill:#F3E5DD,stroke:#A6431F,color:#171C1B;
+  class A,D,G store;
+  class B,C,J proc;
+  class E1,E2,H,I verify;
+  class F,K agent;
+        </div>
+        <div class="cap">Fig. 1 — The verification engine is fully functional (checkpoints 1–4) before the agent ever touches it. Checkpoint 5 slots the agent in as a replacement for a human-written migration, with zero changes to the harness or diff engine.</div>
+      </div>
+
+      <h3>Why isolation matters here</h3>
+      <p>Legacy and modern implementations often disagree on things that have nothing to do with business logic — timezone handling in the host environment, a globally installed package version, leftover module-level state from a previous run. Running both in fresh, isolated Docker containers per input batch removes that entire class of false positives and false negatives before the diff engine ever sees a result.</p>
+    </section>
+
+    <!-- ================= CONCEPTS ================= -->
+    <section id="concepts">
+      <div class="section-tag mono">04 — foundations</div>
+      <h2>Core concepts</h2>
+
+      <h3>The pattern spec</h3>
+      <p>Every run starts from a single artifact: the pattern spec. It names the legacy function, its expected modern equivalent, the input domain, and any known invariants (e.g. "response status is always 400 or 422 on validation failure, never 500"). This is the only hand-authored part of the pipeline, and it's what checkpoint 1 produces.</p>
+      <pre><code>// pattern-spec.ts
+export const validateOrderForm: PatternSpec = {
+  id: "validate-order-form-v1",
+  legacy: { file: "legacy/orderValidation.js", export: "validateOrderForm" },
+  modern: { file: "modern/orderValidation.ts", export: "validateOrderForm" },
+  inputShape: OrderFormArbitrary,   // fast-check arbitrary, see checkpoint 2
+  invariants: [
+    "never throws an unhandled exception",
+    "returns { valid: boolean, errors: string[] }",
+    "errors is non-empty iff valid is false",
+  ],
+};</code></pre>
+
+      <h3>Three-way behavioral classification</h3>
+      <p>The diff engine never returns a single boolean. Two outputs can be textually different and still be behaviorally equivalent — a reordered error array, an ISO string vs. a Date object carrying the same instant. Collapsing that distinction into pass/fail either drowns you in false positives or hides real drift behind a normalizer that's too forgiving.</p>
+      <table>
+        <tr><th>Classification</th><th>Meaning</th><th>CI action</th></tr>
+        <tr><td class="mono">exact_match</td><td>Byte-identical structured output for a given input.</td><td>pass</td></tr>
+        <tr><td class="mono">equivalent_shape</td><td>Output differs syntactically but is provably equivalent under the pattern's declared equivalence rules (e.g. key ordering, type coercion the spec allows).</td><td>pass, logged</td></tr>
+        <tr><td class="mono">drift</td><td>Output differs in a way not covered by any declared equivalence rule, or an invariant is violated.</td><td><strong>fail</strong>, blocks merge</td></tr>
+      </table>
+
+      <h3>Property-based generation vs. hand-written examples</h3>
+      <p>Hand-written test cases encode the branches you remembered to think of. Property-based generation, using fast-check, defines the <em>shape</em> of valid and invalid input space and lets the tool search it — including the boundary values, empty collections, unicode edge cases, and malformed nesting a human tester skips on the fifth example. For this project, coverage is measured against the legacy function's actual branch count, not against an arbitrary input quota.</p>
+    </section>
+
+    <!-- ================= WORKFLOW ================= -->
+    <section id="workflow">
+      <div class="section-tag mono">05 — process</div>
+      <h2>End-to-end workflow</h2>
+      <p>What actually happens, in order, on a single verification run — from an engineer invoking the CLI to a CI check landing on their pull request.</p>
+
+      <div class="diagram-frame">
+        <div class="mermaid">
+sequenceDiagram
+  participant Eng as Engineer
+  participant CLI as CLI / Orchestrator
+  participant Agent as AI migration agent
+  participant Gen as Input generator
+  participant Har as Dual-run harness
+  participant Diff as Diff engine
+  participant CI as CI gate
+
+  Eng->>CLI: run verify --pattern validate-order-form-v1
+  CLI->>Gen: load pattern spec, generate corpus
+  Gen-->>CLI: 100+ inputs, branch coverage report
+  alt candidate code not supplied
+    CLI->>Agent: migrate(legacy source, pattern spec)
+    Agent-->>CLI: candidate modern code
+  else candidate code supplied
+    Note over CLI: use human- or previously-migrated code
+  end
+  CLI->>Har: run(legacy fn, candidate fn, corpus)
+  Har->>Har: spin up isolated containers
+  Har-->>CLI: structured run log (per input: output/error/time)
+  CLI->>Diff: classify(run log, pattern spec invariants)
+  Diff-->>CLI: verdict + drift case list
+  CLI-->>Eng: report.html / report.json
+  CLI->>CI: exit code (0 = pass, 1 = fail)
+  CI-->>Eng: PR check: pass or blocked, with drift cases linked
+        </div>
+        <div class="cap">Fig. 2 — The agent step is optional by design: the same sequence runs identically for a human-authored migration, which is how checkpoints 1–4 get validated before checkpoint 5 exists.</div>
+      </div>
+    </section>
+
+    <!-- ================= BUILD PLAN ================= -->
+    <section id="plan">
+      <div class="section-tag mono">06 — execution</div>
+      <h2>Build plan — 5 checkpoints over 3–4 weeks</h2>
+      <p>Each checkpoint has a hard exit criterion taken directly from the project brief. Don't move to the next checkpoint until the current one's criterion is objectively true — this is a verification tool; it should hold itself to the same standard.</p>
+
+      <div class="chart-wrap">
+        <canvas id="timelineChart" height="150"></canvas>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-head"><span class="cp-num">CP-1</span><h3>Pick one real pattern</h3></div>
+        <div class="checkpoint-body">
+          <p>Choose a single legacy pattern you've actually built and understand at the level of "I know why that weird branch is there." Conditional form-validation logic is the brief's suggested example: it has clear branches, clear invariants, and clear failure modes, without needing a database or network call to reproduce.</p>
+          <p><strong>Work:</strong></p>
+          <ul>
+            <li>Extract the function into a standalone module with no external dependencies beyond what's needed to run it headless.</li>
+            <li>Write the pattern spec (legacy input shape → expected modern output shape) as a typed object, not a comment.</li>
+            <li>Enumerate every branch and exception path by hand once, as a checklist — this becomes your coverage target for checkpoint 2, and your invariant list.</li>
+            <li>Write down, explicitly, what "equivalent but differently shaped" is allowed to mean for this function (e.g. error array order doesn't matter; error message wording does).</li>
+          </ul>
+          <div class="done-bar">✓ Exit criterion: the pattern is written down as legacy input + expected modern output, with an explicit invariant and equivalence-rule list.</div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-head"><span class="cp-num">CP-2</span><h3>Build input generation</h3></div>
+        <div class="checkpoint-body">
+          <p>Use fast-check to define arbitraries that describe the input domain — not a list of examples, a generator that can produce and shrink examples. Shrinking matters here specifically: when the diff engine later finds drift, you want the smallest input that reproduces it, not the 4KB random blob that happened to trigger it first.</p>
+          <pre><code>import fc from "fast-check";
+
+const OrderFormArbitrary = fc.record({
+  customerEmail: fc.oneof(fc.emailAddress(), fc.string()), // valid + malformed
+  quantity: fc.oneof(fc.integer({ min: -10, max: 10000 }), fc.constant(NaN)),
+  couponCode: fc.option(fc.string({ maxLength: 12 }), { nil: undefined }),
+  shippingCountry: fc.constantFrom("US", "CA", "GB", "XX", ""), // XX/"" = invalid
+});
+
+// Coverage check against your CP-1 branch checklist, not just a raw count:
+fc.assert(
+  fc.property(OrderFormArbitrary, (input) => {
+    branchTracker.record(legacyValidateOrderForm, input);
+  }),
+  { numRuns: 500 }
+);
+// numRuns tuned upward until branchTracker reports 100% of the CP-1 checklist hit</code></pre>
+          <div class="done-bar">✓ Exit criterion: 100+ generated inputs, and every branch on the checkpoint-1 checklist is confirmed hit by at least one generated case.</div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-head"><span class="cp-num">CP-3</span><h3>Build the dual-run harness</h3></div>
+        <div class="checkpoint-body">
+          <p>Legacy and modern code run in separate, disposable Docker containers, each fed the identical generated corpus, each logging structured output for every input — including thrown exceptions, which are a result, not a crash of the harness.</p>
+          <pre><code>// harness/runInContainer.ts (shape, not full impl)
+type RunResult =
+  | { kind: "value"; input: unknown; output: unknown; ms: number }
+  | { kind: "error"; input: unknown; errorName: string; message: string; ms: number };
+
+async function runBatch(image: string, entrypoint: string, corpus: unknown[]): Promise<RunResult[]> {
+  const container = await docker.run(image, {
+    Cmd: ["node", entrypoint],
+    HostConfig: { NetworkMode: "none", Memory: 256 * 1024 * 1024 },
+  });
+  // corpus is piped in over stdin as NDJSON; results streamed back the same way
+  return collectResults(container, corpus);
+}</code></pre>
+          <p><strong>Isolation checklist:</strong> no network access from either container, fixed and identical Node.js version pinned in both images, no shared filesystem mounts, wall-clock timeout per input so an infinite loop in either version fails closed rather than hanging CI.</p>
+          <div class="done-bar">✓ Exit criterion: both versions run headless in containers and log structured output — including errors — for every generated input.</div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-head"><span class="cp-num">CP-4</span><h3>Build the diff engine</h3></div>
+        <div class="checkpoint-body">
+          <p>Pure, deterministic, no AI. This is the component you'll actually trust, so it needs to be the easiest one to audit. See the dedicated section below for the full classification logic and pseudocode.</p>
+          <p><strong>Validation for this checkpoint specifically:</strong> before trusting the diff engine on real agent output, prove it on two synthetic cases —</p>
+          <ul>
+            <li>A deliberately broken "migration" (e.g. delete one validation branch) → must be flagged as drift, with the specific input that exposes it surfaced in the report.</li>
+            <li>A correct hand-migration → must pass clean, with zero false-positive drift across the full corpus.</li>
+          </ul>
+          <div class="done-bar">✓ Exit criterion: the deliberately-broken migration is flagged, and the correct migration passes clean — both on the same generated corpus.</div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-head"><span class="cp-num">CP-5</span><h3>Wire in an AI migration agent</h3></div>
+        <div class="checkpoint-body">
+          <p>Only now does an LLM enter the system, and only as a source of candidate code — never as a judge of its own output. The agent receives the legacy source and the pattern spec (input shape, invariants, equivalence rules) and returns a migration attempt, which is scored by the exact harness and diff engine already proven in checkpoints 3–4.</p>
+          <pre><code>// agent/migrate.ts
+async function migrate(legacySource: string, spec: PatternSpec): Promise<string> {
+  const res = await anthropic.messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 4000,
+    messages: [{
+      role: "user",
+      content: `Migrate this legacy function to modern TypeScript.
+Preserve every branch and invariant listed below exactly; do not simplify control flow.
+
+Legacy source:
+${legacySource}
+
+Declared invariants:
+${spec.invariants.join("\\n")}`,
+    }],
+  });
+  return extractCode(res.content);
+}
+// Output goes straight into the CP-3 harness. The harness and diff engine
+// do not know or care that this candidate came from an LLM.</code></pre>
+          <div class="done-bar">✓ Exit criterion: one full run completes end to end — legacy in, agent migrates, harness scores it, verdict comes out — with a real, non-trivial verdict (not just a smoke test).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DIFF ENGINE ================= -->
+    <section id="diffengine">
+      <div class="section-tag mono">07 — core logic</div>
+      <h2>The diff engine, in detail</h2>
+      <p>This is the trust boundary of the whole project, so its decision logic is laid out explicitly rather than left as "compare the outputs."</p>
+
+      <div class="diagram-frame">
+        <div class="mermaid">
+flowchart TD
+  S["For each input in corpus:<br/>legacy_result, modern_result"] --> Q1{"Both threw?"}
+  Q1 -- yes --> Q1a{"Same error class<br/>and declared-equivalent message?"}
+  Q1a -- yes --> R1["exact_match"]
+  Q1a -- no --> R4["drift: divergent failure mode"]
+  Q1 -- one threw, one didn't --> R5["drift: failure-mode mismatch"]
+  Q1 -- neither threw --> Q2{"Structurally<br/>identical (deep-eq)?"}
+  Q2 -- yes --> R1b["exact_match"]
+  Q2 -- no --> Q3{"Matches a declared<br/>equivalence rule from<br/>the pattern spec?"}
+  Q3 -- yes --> R2["equivalent_shape<br/>(logged, not a failure)"]
+  Q3 -- no --> R3["drift: unexplained value difference"]
+  R1 --> INV{"Invariant check<br/>on this input"}
+  R1b --> INV
+  R2 --> INV
+  INV -- violated --> R6["drift: invariant violated<br/>(overrides prior classification)"]
+  INV -- holds --> DONE["record classification"]
+  R3 --> DONE
+  R4 --> DONE
+  R5 --> DONE
+  R6 --> DONE
+  DONE --> AGG["Aggregate across corpus"]
+  AGG --> V{"Any drift cases?"}
+  V -- yes --> FAIL["Verdict: FAIL<br/>list minimal reproducing inputs"]
+  V -- no --> PASS["Verdict: PASS<br/>(+ equivalent_shape log)"]
+
+  classDef ok fill:#E4EFE8,stroke:#1E6E52,color:#171C1B;
+  classDef bad fill:#F3E5DD,stroke:#A6431F,color:#171C1B;
+  class R1,R1b,R2,PASS ok;
+  class R3,R4,R5,R6,FAIL bad;
+        </div>
+        <div class="cap">Fig. 3 — Invariant checks run after equivalence classification and can override it: an output can match the modern shape exactly and still fail if it breaks a stated invariant (e.g. throwing where the spec guarantees it never will).</div>
+      </div>
+
+      <h3>Why exceptions get first-class treatment</h3>
+      <p>The single most common way an AI migration silently changes behavior is in the exception path: a legacy branch that returned a typed error object gets migrated to code that throws instead, or vice versa. Both can look identical on the happy path across dozens of generated inputs and only disagree on the handful of edge cases that hit that branch — which is exactly why property-based generation in checkpoint 2 has to specifically target boundary and malformed inputs, not just realistic ones.</p>
+
+      <h3>Reporting a drift case</h3>
+      <p>Every drift entry in the report carries: the minimal reproducing input (after fast-check shrinking), the legacy output, the modern output, the specific classification reason, and — when the candidate came from an agent — the model and prompt version used, so drift patterns can be tracked per model over time the same way the "Articulate but Wrong" study tracked them per model family.</p>
+    </section>
+
+    <!-- ================= CI ================= -->
+    <section id="ci">
+      <div class="section-tag mono">08 — delivery</div>
+      <h2>CI/CD integration</h2>
+      <p>The CI gate's job is narrow: run the verification engine against the diff in a pull request, and fail the check if the diff engine returns any drift classification. It does not re-run the AI agent unless the PR is specifically requesting a fresh migration.</p>
+
+      <div class="diagram-frame">
+        <div class="mermaid">
+flowchart LR
+  PR["Pull request opened<br/>or updated"] --> T{"Migration<br/>pattern changed?"}
+  T -- no --> SKIP["Skip: no verification needed"]
+  T -- yes --> RUN["Run verify workflow"]
+  RUN --> BUILD["Build legacy + modern<br/>Docker images"]
+  BUILD --> EXEC["Run harness against<br/>stored corpus for this pattern"]
+  EXEC --> CLASSIFY["Diff engine classifies<br/>all results"]
+  CLASSIFY --> G{"Any drift?"}
+  G -- yes --> BLOCK["Check: failed<br/>PR comment with drift cases"]
+  G -- no --> ALLOW["Check: passed<br/>PR comment with coverage summary"]
+
+  classDef bad fill:#F3E5DD,stroke:#A6431F,color:#171C1B;
+  classDef ok fill:#E4EFE8,stroke:#1E6E52,color:#171C1B;
+  class BLOCK bad;
+  class ALLOW ok;
+        </div>
+        <div class="cap">Fig. 4 — The corpus is generated once per pattern and stored (not regenerated per PR run), so results are reproducible across runs and reviewers can diff two CI runs against the exact same inputs.</div>
+      </div>
+
+      <pre><code>## .github/workflows/verify.yml
+name: behavioral-verification
+on:
+  pull_request:
+    paths:
+      - "patterns/**"
+      - "modern/**"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: npm ci
+      - name: Build legacy + modern images
+        run: npm run bve:build-images
+      - name: Run verification for changed patterns
+        run: npm run bve:verify -- --changed-only --report=json
+      - name: Publish report
+        if: always()
+        run: npm run bve:report -- --format=github-comment
+      - name: Enforce gate
+        run: npm run bve:gate  # exits 1 on any drift classification</code></pre>
+    </section>
+
+    <!-- ================= STACK ================= -->
+    <section id="stack">
+      <div class="section-tag mono">09 — implementation</div>
+      <h2>Tech stack</h2>
+      <table>
+        <tr><th>Layer</th><th>Choice</th><th>Why here specifically</th></tr>
+        <tr><td>Language / runtime</td><td class="mono">TypeScript / Node.js</td><td>Matches the Express-route use case in the brief; one runtime for harness, orchestrator, and CLI.</td></tr>
+        <tr><td>AST parsing</td><td class="mono">ts-morph</td><td>Used to mechanically extract the legacy function into a standalone module and to validate that the pattern spec's declared exports actually exist and match signatures before a run starts.</td></tr>
+        <tr><td>Test generation</td><td class="mono">fast-check</td><td>Property-based generation with built-in shrinking — critical for turning a drift hit into a minimal, debuggable repro rather than a 200-line random object.</td></tr>
+        <tr><td>Sandboxing</td><td class="mono">Docker</td><td>Deterministic, network-isolated execution for both legacy and modern code, with pinned runtime versions in both images.</td></tr>
+        <tr><td>LLM SDKs</td><td class="mono">Anthropic + OpenAI</td><td>Lets checkpoint 5 compare migration quality and drift rate across model families, echoing the multi-family design of the self-review study.</td></tr>
+        <tr><td>CI packaging</td><td class="mono">GitHub Actions</td><td>PR-native gate; drift reports post as PR comments, no separate dashboard required for v1.</td></tr>
+      </table>
+    </section>
+
+    <!-- ================= REPO ================= -->
+    <section id="repo">
+      <div class="section-tag mono">10 — implementation</div>
+      <h2>Repository layout</h2>
+      <pre><code>behavioral-verification-engine/
+├── patterns/
+│   └── validate-order-form-v1/
+│       ├── spec.ts              # CP-1: pattern spec, invariants, equivalence rules
+│       ├── legacy/               # original implementation, isolated
+│       └── corpus.ndjson          # generated + committed for reproducibility (CP-2)
+├── generator/
+│   ├── arbitraries.ts             # fast-check arbitraries per pattern (CP-2)
+│   └── branchCoverage.ts          # checks generated corpus against CP-1 checklist
+├── harness/
+│   ├── docker/
+│   │   ├── legacy.Dockerfile
+│   │   └── modern.Dockerfile
+│   ├── runInContainer.ts          # CP-3
+│   └── collectResults.ts
+├── diff-engine/
+│   ├── classify.ts                 # CP-4: core decision logic (Fig. 3)
+│   ├── equivalenceRules.ts
+│   └── invariants.ts
+├── agent/
+│   ├── migrate.ts                  # CP-5: Anthropic / OpenAI SDK calls
+│   └── prompts/
+├── cli/
+│   └── bve.ts                      # verify / build-images / report / gate commands
+├── .github/workflows/verify.yml
+└── reports/                        # generated per run, gitignored except fixtures</code></pre>
+    </section>
+
+    <!-- ================= RISKS ================= -->
+    <section id="risks">
+      <div class="section-tag mono">11 — critique</div>
+      <h2>Risks &amp; open questions</h2>
+      <table>
+        <tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr>
+        <tr>
+          <td>Equivalence rules become a dumping ground — every drift gets "explained" into <span class="mono">equivalent_shape</span> to make CI pass.</td>
+          <td><span class="risk-cell risk-high">high</span></td>
+          <td>Equivalence rules are declared per-pattern in the spec, reviewed like code, and every use is logged in the report — not silently absorbed.</td>
+        </tr>
+        <tr>
+          <td>Property-based generation gives false confidence if the arbitrary's domain doesn't actually match production input reality.</td>
+          <td><span class="risk-cell risk-med">medium</span></td>
+          <td>Branch-coverage check against the CP-1 checklist is a hard gate, not a nice-to-have; seed the corpus with real production edge cases where available.</td>
+        </tr>
+        <tr>
+          <td>Container startup latency makes the harness too slow for a tight PR feedback loop as more patterns are added.</td>
+          <td><span class="risk-cell risk-med">medium</span></td>
+          <td><span class="mono">changed-only</span> filtering in CI (Fig. 4); container image caching; batch multiple inputs per container invocation instead of one container per input.</td>
+        </tr>
+        <tr>
+          <td>Single-pattern v1 doesn't prove the approach generalizes across pattern types (state machines, async flows, DB-touching code).</td>
+          <td><span class="risk-cell risk-med">medium</span></td>
+          <td>Explicitly scoped out of v1; roadmap item for v2 (see below), chosen deliberately rather than by accident.</td>
+        </tr>
+        <tr>
+          <td>Non-determinism in the legacy or modern code itself (e.g. <span class="mono">Date.now()</span>, random IDs) produces false drift.</td>
+          <td><span class="risk-cell risk-low">low</span></td>
+          <td>Clock and RNG injection points identified during CP-1 extraction; harness fixes both to deterministic values inside the containers.</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- ================= METRICS ================= -->
+    <section id="metrics">
+      <div class="section-tag mono">12 — evaluation</div>
+      <h2>Success metrics</h2>
+      <ul>
+        <li><strong>Detection:</strong> the deliberately-broken migration from checkpoint 4 is caught on 100% of the runs it's tested against — this is a correctness bar, not a target to trend toward.</li>
+        <li><strong>False-positive rate:</strong> a correct hand-migration produces zero drift classifications across the full generated corpus, repeated across at least 3 independent corpus regenerations.</li>
+        <li><strong>Coverage:</strong> 100% of the checkpoint-1 branch checklist is exercised by the generated corpus, tracked automatically rather than eyeballed.</li>
+        <li><strong>Agent evaluation (checkpoint 5+):</strong> drift rate per model/prompt combination, reported the way the self-review study reports it — broken out by trap category, not collapsed into one aggregate pass rate.</li>
+        <li><strong>CI latency:</strong> a verification run for one pattern completes within a budget that keeps it usable as a real PR gate (target: under 3 minutes including image build, adjusted once real numbers exist).</li>
+      </ul>
+    </section>
+
+    <!-- ================= ROADMAP ================= -->
+    <section id="roadmap">
+      <div class="section-tag mono">13 — beyond v1</div>
+      <h2>Roadmap past v1</h2>
+      <div class="two-col">
+        <div>
+          <h4>Near-term (v1.x)</h4>
+          <ul>
+            <li>Second and third pattern types: a stateful validator, an async data-fetch-and-transform path.</li>
+            <li>Per-model drift-rate dashboard across migration runs, mirroring the self-review study's per-model bimodal breakdown.</li>
+            <li>Corpus diffing between CI runs to catch cases where a spec change silently narrows coverage.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Longer-term (v2+)</h4>
+          <ul>
+            <li>Lightweight, semi-automatic BSG-style extraction from source, reviewed by a human before it becomes the pattern spec — narrowing but not eliminating the hand-authoring step from checkpoint 1.</li>
+            <li>Multi-file / repository-scale patterns with shared state, once single-function verification is proven reliable.</li>
+            <li>Pluggable equivalence-rule library shared across teams/patterns, versioned and reviewed like a shared lint config.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= REFERENCES ================= -->
+    <section id="references">
+      <div class="section-tag mono">14 — sources</div>
+      <h2>References</h2>
+      <ul>
+        <li>Ahmed, S. N. &amp; Galib, M. (2026). <em>AgentModernize: Preserving Business Logic in Legacy Modernization with Multi-Agent LLMs and Behavioral Specification Graphs.</em> <a href="https://arxiv.org/abs/2605.17535" target="_blank" rel="noopener">arXiv:2605.17535</a></li>
+        <li>Reddy, G. C. P., Lolla, A. &amp; Sanku, H. (2026). <em>Articulate but Wrong: Self-Review Failures in LLM-Based Code Modernization.</em> <a href="https://arxiv.org/abs/2605.21537" target="_blank" rel="noopener">arXiv:2605.21537</a></li>
+        <li>ts-morph — TypeScript AST manipulation. <a href="https://ts-morph.com/" target="_blank" rel="noopener">ts-morph.com</a></li>
+        <li>fast-check — property-based testing for JavaScript/TypeScript. <a href="https://fast-check.dev/" target="_blank" rel="noopener">fast-check.dev</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      Behavioral Verification Engine — build documentation. Generated as a planning artifact; figures (Fig. 1–4) are architecture and workflow diagrams for this project, not benchmark results. The drift-rate chart in Section 01 reproduces published figures from arXiv:2605.21537 for motivation only.
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "base",
+    themeVariables: {
+      background: "#FFFFFF",
+      primaryColor: "#FFFFFF",
+      primaryTextColor: "#171C1B",
+      primaryBorderColor: "#B7BEB2",
+      lineColor: "#5A625B",
+      secondaryColor: "#E3E9EE",
+      tertiaryColor: "#F6F7F3",
+      fontFamily: "IBM Plex Sans, sans-serif",
+      fontSize: "14px"
+    },
+    flowchart: { curve: "basis", htmlLabels: true, nodeSpacing: 34, rankSpacing: 44 },
+    sequence: { actorMargin: 60, boxMargin: 10, messageMargin: 30 }
+  });
+
+  window.addEventListener("load", () => {
+    if (typeof Chart === "undefined") {
+      console.error("Chart.js failed to load from CDN; skipping charts.");
+      return;
+    }
+    const driftCtx = document.getElementById("driftChart");
+    if (driftCtx) {
+      new Chart(driftCtx, {
+        type: "bar",
+        data: {
+          labels: ["Benign-control snippets", "Semantic-trap snippets", "Semantic-trap drift missed by self-review"],
+          datasets: [{
+            label: "Rate (%)",
+            data: [7.0, 39.7, 31.7],
+            backgroundColor: ["#1E6E52", "#A6431F", "#8A6B1F"],
+            borderRadius: 3,
+            barThickness: 46
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          plugins: { legend: { display: false }, title: { display: false } },
+          scales: {
+            x: { beginAtZero: true, max: 50, ticks: { callback: v => v + "%" }, grid: { color: "#E5E8E1" } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    const tlCtx = document.getElementById("timelineChart");
+    if (tlCtx) {
+      new Chart(tlCtx, {
+        type: "bar",
+        data: {
+          labels: ["CP-1 Pick the pattern", "CP-2 Input generation", "CP-3 Dual-run harness", "CP-4 Diff engine", "CP-5 Agent wired in"],
+          datasets: [{
+            label: "Build week",
+            data: [
+              [0, 3],
+              [2, 7],
+              [6, 13],
+              [11, 17],
+              [16, 21]
+            ],
+            backgroundColor: "#2C4A6E",
+            borderRadius: 3,
+            barThickness: 22
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const [start, end] = ctx.raw;
+                  return "Day " + start + " – Day " + end;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { min: 0, max: 21, title: { display: true, text: "Day (approx., 3–4 week build)" }, grid: { color: "#E5E8E1" } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
