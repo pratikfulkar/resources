@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python · Asyncio · FastAPI · PostgreSQL — end‑to‑end study guide</title>
+  <style>
+    /* ========== GLOBAL RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      padding: 2.5rem 3rem;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 1rem 0.5rem; }
+      .container { padding: 1.5rem 1.25rem; border-radius: 1rem; }
+    }
+
+    /* ========== TYPOGRAPHY ========== */
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0b1e33;
+      border-bottom: 5px solid #3b82f6;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 small {
+      display: block;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #475569;
+      letter-spacing: 0;
+      margin-top: 0.3rem;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem 0;
+      color: #1e3a8a;
+      border-left: 6px solid #3b82f6;
+      padding-left: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 650;
+      margin: 1.75rem 0 0.6rem 0;
+      color: #1e293b;
+    }
+
+    h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 1.25rem 0 0.4rem 0;
+      color: #334155;
+    }
+
+    p {
+      margin-bottom: 0.85rem;
+      color: #1e293b;
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 1rem 1.5rem;
+      color: #1e293b;
+    }
+
+    li {
+      margin: 0.3rem 0;
+    }
+
+    /* ========== CODE BLOCKS — CLEAN & READABLE ========== */
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 1.25rem 1.5rem;
+      border-radius: 0.85rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      margin: 0.85rem 0 1.25rem 0;
+      border: 1px solid #1e293b;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+      tab-size: 4;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    /* Inline code */
+    code:not(pre code) {
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.3rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+
+    /* Syntax highlighting (minimal manual spans) */
+    .kw { color: #93c5fd; }
+    .str { color: #86efac; }
+    .cmt { color: #94a3b8; font-style: italic; }
+    .fn { color: #fde047; }
+    .dec { color: #c084fc; }
+    .num { color: #fdba74; }
+
+    /* ========== CARDS & BOXES ========== */
+    .card {
+      background: #f1f5f9;
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+      border: 1px solid #e2e8f0;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.6rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .qa {
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem 1.5rem;
+      border-radius: 0 0.75rem 0.75rem 0;
+      margin: 1.2rem 0;
+    }
+
+    .qa strong {
+      color: #1e3a8a;
+    }
+
+    .tip {
+      background: #fef9c3;
+      border-left: 6px solid #eab308;
+      padding: 0.9rem 1.5rem;
+      border-radius: 0 0.75rem 0.75rem 0;
+      margin: 1.2rem 0;
+      color: #422006;
+    }
+
+    .tip strong {
+      color: #854d0e;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #3b82f6;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-right: 0.4rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    @media (max-width: 700px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 2.5rem 0;
+    }
+
+    .section-lead {
+      font-size: 1.05rem;
+      color: #334155;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 650;
+      color: #0f172a;
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    /* Print */
+    @media print {
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; padding: 1rem; }
+      pre { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; }
+      .kw, .str, .cmt, .fn, .dec, .num { color: #0f172a; font-style: normal; font-weight: normal; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ========== TITLE ========== -->
+  <h1>
+    🐍 Python · Async · FastAPI · PostgreSQL
+    <small>End‑to‑end study guide — simple language, real examples, interview‑ready thinking</small>
+  </h1>
+
+  <p class="section-lead">
+    This guide combines <strong>core Python</strong>, <strong>asyncio &amp; HTTP clients</strong>, <strong>FastAPI</strong>,
+    <strong>Pydantic</strong>, and <strong>PostgreSQL</strong> into one practical, project‑oriented reference.
+    Every section has a short idea, a clean code example, and a “Remember” or “Thinking” box.
+    Type the examples yourself and modify them — that is how you learn.
+  </p>
+
+  <!-- ===================================================================== -->
+  <!-- PART 1: PYTHON CORE -->
+  <!-- ===================================================================== -->
+  <h2>Part 1 — Python core foundations</h2>
+
+  <!-- 1.1 DATA STRUCTURES -->
+  <h3>1.1 Data structures — when to use what</h3>
+
+  <div class="card">
+    <div class="card-title">📋 Quick reference</div>
+    <table>
+      <tr><th>Need</th><th>Use</th></tr>
+      <tr><td>Ordered, will change</td><td><code>list</code></td></tr>
+      <tr><td>Fixed group of values</td><td><code>tuple</code></td></tr>
+      <tr><td>Lookup by key</td><td><code>dict</code></td></tr>
+      <tr><td>Unique items, fast “is it in here?”</td><td><code>set</code></td></tr>
+      <tr><td>Queue with fast pop from the left</td><td><code>deque</code></td></tr>
+      <tr><td>Object with named fields</td><td><code>dataclass</code></td></tr>
+    </table>
+  </div>
+
+  <h4>List — ordered, changeable</h4>
+<pre><code>fruits = ["apple", "banana", "cherry"]
+fruits.append("mango")      # add at end
+fruits.insert(0, "kiwi")    # add at position 0
+fruits.remove("banana")     # remove by value
+last = fruits.pop()         # remove and return last item
+
+print(fruits[0])            # first item
+print(fruits[-1])           # last item
+print(fruits[1:3])          # slice: items at index 1 and 2
+print(len(fruits))          # how many items</code></pre>
+
+  <h4>Tuple — ordered, NOT changeable</h4>
+<pre><code>point = (10, 20)
+x, y = point               # unpacking
+print(x, y)                # 10 20
+# point[0] = 5             # ERROR: tuples cannot change</code></pre>
+
+  <h4>Dictionary — key/value lookup</h4>
+<pre><code>user = {"name": "Asha", "age": 25}
+
+user["city"] = "Mumbai"            # add
+print(user["name"])                # Asha
+print(user.get("phone"))           # None (no error if missing)
+print(user.get("phone", "n/a"))    # n/a (custom default)
+
+for key, value in user.items():
+    print(key, value)
+
+if "age" in user:                  # check a key exists
+    print("has age")</code></pre>
+
+  <h4>Set — unique values only</h4>
+<pre><code>numbers = [1, 2, 2, 3, 3, 3]
+unique = set(numbers)              # {1, 2, 3}
+
+a = {1, 2, 3}
+b = {3, 4, 5}
+print(a &amp; b)    # intersection: {3}
+print(a | b)    # union: {1, 2, 3, 4, 5}
+print(a - b)    # difference: {1, 2}</code></pre>
+
+  <h4>Comprehensions — short loops</h4>
+<pre><code>squares = [n * n for n in range(5)]                  # [0, 1, 4, 9, 16]
+evens   = [n for n in range(10) if n % 2 == 0]       # [0, 2, 4, 6, 8]
+lengths = {w: len(w) for w in ["hi", "hello"]}       # {'hi': 2, 'hello': 5}
+letters = {c for c in "hello"}                       # {'h', 'e', 'l', 'o'}</code></pre>
+
+  <h4>Useful helpers from collections</h4>
+<pre><code><span class="kw">from</span> collections <span class="kw">import</span> Counter, defaultdict, deque
+
+<span class="cmt"># Counter: count things</span>
+print(Counter(<span class="str">"banana"</span>))           <span class="cmt"># Counter({'a': 3, 'n': 2, 'b': 1})</span>
+
+<span class="cmt"># defaultdict: no KeyError for new keys</span>
+groups = defaultdict(list)
+<span class="kw">for</span> word <span class="kw">in</span> [<span class="str">"apple"</span>, <span class="str">"avocado"</span>, <span class="str">"banana"</span>]:
+    groups[word[0]].append(word)
+print(dict(groups))                <span class="cmt"># {'a': ['apple', 'avocado'], 'b': ['banana']}</span>
+
+<span class="cmt"># deque: fast add/remove at both ends (good for queues)</span>
+q = deque([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+q.append(<span class="num">4</span>)
+q.popleft()                        <span class="cmt"># removes 1</span></code></pre>
+
+  <h4>Dataclass — clean data holder</h4>
+<pre><code><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="fn">Product</span>:
+    name: str
+    price: float
+    in_stock: bool = True
+
+p = Product(<span class="str">"Pen"</span>, <span class="num">10.5</span>)
+print(p)           <span class="cmt"># Product(name='Pen', price=10.5, in_stock=True)</span></code></pre>
+
+  <div class="tip">
+    <strong>Remember:</strong> Checking <code>x in my_list</code> is slow for big lists.
+    Checking <code>x in my_set</code> or <code>x in my_dict</code> is fast (O(1)).
+  </div>
+
+  <!-- 1.2 TYPING -->
+  <h3>1.2 Typing — hints for humans and tools</h3>
+
+  <p>Type hints tell readers, your editor, and tools like <code>mypy</code> what kind of data a function expects.
+  Python does <strong>not</strong> enforce them at runtime — they are documentation that tools can check.</p>
+
+<pre><code><span class="cmt"># Basic hints</span>
+<span class="kw">def</span> <span class="fn">greet</span>(name: str, times: int = <span class="num">1</span>) -&gt; str:
+    <span class="kw">return</span> (<span class="str">"Hello "</span> + name + <span class="str">"! "</span>) * times
+
+age: int = <span class="num">30</span>
+price: float = <span class="num">9.99</span>
+active: bool = <span class="kw">True</span>
+
+<span class="cmt"># Collections (Python 3.9+)</span>
+scores: list[int] = [<span class="num">90</span>, <span class="num">80</span>]
+profile: dict[str, str] = {<span class="str">"name"</span>: <span class="str">"Asha"</span>}
+unique_ids: set[int] = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>}
+
+<span class="cmt"># Optional / Union (Python 3.10+)</span>
+<span class="kw">def</span> <span class="fn">find_user</span>(user_id: int) -&gt; str | <span class="kw">None</span>:
+    users = {<span class="num">1</span>: <span class="str">"Asha"</span>, <span class="num">2</span>: <span class="str">"Ravi"</span>}
+    <span class="kw">return</span> users.get(user_id)       <span class="cmt"># may return None</span>
+
+<span class="cmt"># Callable, Any, Literal</span>
+<span class="kw">from</span> typing <span class="kw">import</span> Any, Callable, Literal
+
+<span class="kw">def</span> <span class="fn">run</span>(action: Callable[[int], int], value: int) -&gt; int:
+    <span class="kw">return</span> action(value)
+
+Mode = Literal[<span class="str">"read"</span>, <span class="str">"write"</span>]
+
+<span class="cmt"># Generics with TypeVar</span>
+<span class="kw">from</span> typing <span class="kw">import</span> TypeVar
+T = TypeVar(<span class="str">"T"</span>)
+
+<span class="kw">def</span> <span class="fn">first</span>(items: list[T]) -&gt; T:
+    <span class="kw">return</span> items[<span class="num">0</span>]</code></pre>
+
+  <div class="qa">
+    <strong>🧠 Thinking question:</strong> “Why does <code>find_user</code> return <code>str | None</code> instead of just <code>str</code>?”<br>
+    <em>Answer:</em> A dict lookup can miss. Saying so in the hint forces you (and your editor) to handle the <code>None</code> case, preventing a crash like <code>None.upper()</code>.
+  </div>
+
+  <!-- 1.3 MODULES -->
+  <h3>1.3 Modules and packages — splitting code</h3>
+
+  <p>A <strong>module</strong> is one <code>.py</code> file. A <strong>package</strong> is a folder of modules.
+  They let you split a big program into small, reusable pieces.</p>
+
+<pre><code><span class="cmt"># Importing</span>
+<span class="kw">import</span> math
+print(math.sqrt(<span class="num">16</span>))                <span class="cmt"># 4.0</span>
+
+<span class="kw">from</span> math <span class="kw">import</span> sqrt, pi
+print(sqrt(<span class="num">25</span>), pi)
+
+<span class="kw">import</span> datetime <span class="kw">as</span> dt               <span class="cmt"># alias</span>
+print(dt.date.today())</code></pre>
+
+<pre><code><span class="cmt"># mathutils.py</span>
+<span class="kw">def</span> <span class="fn">add</span>(a: int, b: int) -&gt; int:
+    <span class="kw">return</span> a + b
+
+PI = <span class="num">3.14159</span>
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="cmt"># runs only when you do: python mathutils.py</span>
+    print(add(<span class="num">2</span>, <span class="num">3</span>))</code></pre>
+
+<pre><code><span class="cmt"># main.py (same folder)</span>
+<span class="kw">from</span> mathutils <span class="kw">import</span> add, PI
+print(add(<span class="num">10</span>, <span class="num">20</span>))</code></pre>
+
+  <div class="card">
+    <div class="card-title">📁 Package structure</div>
+<pre><code>shop/
+    __init__.py        # marks the folder as a package (can be empty)
+    cart.py
+    payment.py
+main.py</code></pre>
+<pre><code><span class="cmt"># main.py</span>
+<span class="kw">from</span> shop.cart <span class="kw">import</span> add_item
+<span class="kw">from</span> shop <span class="kw">import</span> payment
+
+<span class="cmt"># shop/payment.py — relative import</span>
+<span class="kw">from</span> .cart <span class="kw">import</span> total     <span class="cmt"># "." = same package</span></code></pre>
+  </div>
+
+  <div class="tip">
+    <strong>Remember:</strong> Never name your file the same as a standard library module
+    (e.g., <code>random.py</code> or <code>json.py</code>). Python will import yours instead of the real one,
+    causing confusing breakage.
+  </div>
+
+  <!-- 1.4 EXCEPTIONS -->
+  <h3>1.4 Exceptions — handling errors cleanly</h3>
+
+<pre><code><span class="kw">try</span>:
+    number = int(<span class="str">"abc"</span>)
+<span class="kw">except</span> ValueError:
+    print(<span class="str">"That is not a number"</span>)
+
+<span class="cmt"># Full structure: try / except / else / finally</span>
+<span class="kw">def</span> <span class="fn">read_number</span>(text: str) -&gt; int | <span class="kw">None</span>:
+    <span class="kw">try</span>:
+        value = int(text)
+    <span class="kw">except</span> ValueError <span class="kw">as</span> err:
+        print(<span class="str">"Bad input:"</span>, err)
+        <span class="kw">return</span> <span class="kw">None</span>
+    <span class="kw">else</span>:
+        <span class="cmt"># runs only if NO error happened</span>
+        <span class="kw">return</span> value
+    <span class="kw">finally</span>:
+        <span class="cmt"># ALWAYS runs (good for cleanup)</span>
+        print(<span class="str">"done checking"</span>)</code></pre>
+
+<pre><code><span class="cmt"># Custom exceptions</span>
+<span class="kw">class</span> <span class="fn">AppError</span>(Exception):
+    <span class="str">"""Base error for my app."""</span>
+
+<span class="kw">class</span> <span class="fn">PaymentError</span>(AppError):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, order_id: int, reason: str):
+        <span class="kw">super</span>().__init__(f<span class="str">"Order {order_id} failed: {reason}"</span>)
+        self.order_id = order_id
+
+<span class="kw">try</span>:
+    <span class="kw">raise</span> PaymentError(<span class="num">42</span>, <span class="str">"card declined"</span>)
+<span class="kw">except</span> AppError <span class="kw">as</span> err:           <span class="cmt"># catches PaymentError too</span>
+    print(err)
+
+<span class="cmt"># Chaining errors — keeps the original traceback</span>
+<span class="kw">try</span>:
+    int(<span class="str">"x"</span>)
+<span class="kw">except</span> ValueError <span class="kw">as</span> err:
+    <span class="kw">raise</span> RuntimeError(<span class="str">"Could not load config"</span>) <span class="kw">from</span> err</code></pre>
+
+  <div class="card">
+    <div class="card-title">📋 Common built‑in exceptions</div>
+    <table>
+      <tr><th>Error</th><th>When it happens</th></tr>
+      <tr><td><code>ValueError</code></td><td>Right type, wrong value (<code>int("abc")</code>)</td></tr>
+      <tr><td><code>TypeError</code></td><td>Wrong type (<code>"a" + 1</code>)</td></tr>
+      <tr><td><code>KeyError</code></td><td>Missing dict key</td></tr>
+      <tr><td><code>IndexError</code></td><td>List index too big</td></tr>
+      <tr><td><code>FileNotFoundError</code></td><td>File does not exist</td></tr>
+      <tr><td><code>ZeroDivisionError</code></td><td>Divide by zero</td></tr>
+      <tr><td><code>AttributeError</code></td><td>Object has no such attribute</td></tr>
+    </table>
+  </div>
+
+  <div class="tip">
+    <strong>Remember:</strong> Catch the <em>specific</em> error you expect.
+    Avoid bare <code>except:</code> or <code>except Exception:</code> unless you log it — it hides real bugs.
+  </div>
+
+  <!-- 1.5 ITERATORS & GENERATORS -->
+  <h3>1.5 Iterators and generators — lazy, memory‑friendly loops</h3>
+
+<pre><code><span class="cmt"># What an iterator does under the hood</span>
+nums = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>]
+it = iter(nums)
+print(next(it))          <span class="cmt"># 10</span>
+print(next(it))          <span class="cmt"># 20</span>
+print(next(it))          <span class="cmt"># 30</span>
+<span class="cmt"># next(it) now raises StopIteration</span>
+
+<span class="cmt"># A generator: function with yield</span>
+<span class="kw">def</span> <span class="fn">countdown</span>(start: int):
+    <span class="kw">while</span> start &gt; <span class="num">0</span>:
+        <span class="kw">yield</span> start
+        start -= <span class="num">1</span>
+
+<span class="kw">for</span> n <span class="kw">in</span> countdown(<span class="num">3</span>):
+    print(n)             <span class="cmt"># 3, 2, 1</span>
+
+<span class="cmt"># Low-memory file reading</span>
+<span class="kw">def</span> <span class="fn">read_big_file</span>(path: str):
+    <span class="kw">with</span> open(path) <span class="kw">as</span> f:
+        <span class="kw">for</span> line <span class="kw">in</span> f:
+            <span class="kw">yield</span> line.strip()      <span class="cmt"># one line at a time</span>
+
+<span class="cmt"># Generator expression (lazy, no big list)</span>
+total = sum(n * n <span class="kw">for</span> n <span class="kw">in</span> range(<span class="num">1_000_000</span>))</code></pre>
+
+  <div class="tip">
+    <strong>Remember:</strong> A generator can be used only once. After it finishes, it is empty.
+  </div>
+
+  <!-- 1.6 CONTEXT MANAGERS -->
+  <h3>1.6 Context managers — setup and guaranteed cleanup</h3>
+
+<pre><code><span class="cmt"># Classic: file handling</span>
+<span class="kw">with</span> open(<span class="str">"notes.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    f.write(<span class="str">"hello"</span>)
+<span class="cmt"># file is closed automatically, even if write() failed</span>
+
+<span class="cmt"># Custom context manager via decorator</span>
+<span class="kw">from</span> contextlib <span class="kw">import</span> contextmanager
+
+<span class="dec">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">opened_connection</span>(name: str):
+    print(f<span class="str">"connecting to {name}"</span>)
+    conn = {<span class="str">"name"</span>: name}
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> conn
+    <span class="kw">finally</span>:
+        print(f<span class="str">"closing {name}"</span>)
+
+<span class="kw">with</span> opened_connection(<span class="str">"db"</span>) <span class="kw">as</span> c:
+    print(<span class="str">"using"</span>, c)</code></pre>
+
+  <div class="tip">
+    <strong>Remember:</strong> Use <code>with</code> for anything that must be closed or released:
+    files, network connections, locks, database transactions.
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 2: ASYNCIO -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 2 — Asyncio and concurrency</h2>
+
+  <h3>2.1 The big idea — waiting vs. working</h3>
+
+  <p>Most slow programs are not busy thinking — they are <strong>waiting</strong> (for a web server, a database, a file).
+  While waiting, the CPU does nothing. Think of a cook making tea and toast:</p>
+  <ul>
+    <li><strong>Blocking cook:</strong> boils water, stares until it boils, then makes toast.</li>
+    <li><strong>Async cook:</strong> starts the water, puts bread in the toaster, handles whichever is ready first.</li>
+  </ul>
+
+  <div class="card">
+    <div class="card-title">🔑 Three words to keep straight</div>
+    <table>
+      <tr><th>Word</th><th>Meaning</th><th>Python tool</th></tr>
+      <tr><td>Concurrency</td><td>Many tasks in progress, taking turns</td><td><code>asyncio</code>, threads</td></tr>
+      <tr><td>Parallelism</td><td>Many tasks running at the exact same instant on different CPU cores</td><td><code>multiprocessing</code></td></tr>
+      <tr><td>Async</td><td>Concurrency where tasks politely pause while waiting</td><td><code>asyncio</code></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧰 Which tool for which job?</div>
+    <table>
+      <tr><th>Your task is mostly…</th><th>Best choice</th></tr>
+      <tr><td>Waiting on network or disk (I/O-bound), many things at once</td><td><code>asyncio</code></td></tr>
+      <tr><td>Waiting, but the library is not async</td><td>threads (<code>asyncio.to_thread</code>)</td></tr>
+      <tr><td>Heavy math or CPU work</td><td><code>multiprocessing</code></td></tr>
+    </table>
+  </div>
+
+  <div class="tip">
+    <strong>Remember:</strong> asyncio speeds up <em>waiting</em>, not <em>calculating</em>. It runs on one thread.
+  </div>
+
+  <!-- 2.2 ASYNC/AWAIT BASICS -->
+  <h3>2.2 async and await basics</h3>
+
+<pre><code><span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">say_hello</span>():
+    print(<span class="str">"Hello"</span>)
+    <span class="kw">await</span> asyncio.sleep(<span class="num">1</span>)      <span class="cmt"># pause here, let others run</span>
+    print(<span class="str">"World"</span>)
+
+asyncio.run(say_hello())</code></pre>
+
+  <div class="card">
+    <div class="card-title">📌 Three things to learn</div>
+    <ol>
+      <li><code>async def</code> creates a <strong>coroutine function</strong>. Calling it does not run it — it returns a coroutine object.</li>
+      <li><code>await</code> means “pause me until this finishes, and let other tasks run meanwhile.” Only valid inside <code>async def</code>.</li>
+      <li><code>asyncio.run(...)</code> starts the event loop and runs your main coroutine. Call it once, at the top level.</li>
+    </ol>
+  </div>
+
+  <h4>Sequential vs concurrent — see the difference</h4>
+
+<pre><code><span class="cmt"># Sequential (slow): ~3 seconds</span>
+<span class="kw">import</span> asyncio, time
+
+<span class="kw">async def</span> <span class="fn">fetch</span>(name: str, delay: float) -&gt; str:
+    <span class="kw">await</span> asyncio.sleep(delay)          <span class="cmt"># pretend network call</span>
+    <span class="kw">return</span> f<span class="str">"{name} done"</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    start = time.perf_counter()
+    a = <span class="kw">await</span> fetch(<span class="str">"A"</span>, <span class="num">1</span>)
+    b = <span class="kw">await</span> fetch(<span class="str">"B"</span>, <span class="num">1</span>)
+    c = <span class="kw">await</span> fetch(<span class="str">"C"</span>, <span class="num">1</span>)
+    print(a, b, c)
+    print(f<span class="str">"{time.perf_counter() - start:.1f}s"</span>)   <span class="cmt"># ~3.0s</span>
+
+asyncio.run(main())</code></pre>
+
+<pre><code><span class="cmt"># Concurrent (fast): ~1 second</span>
+<span class="kw">async def</span> <span class="fn">main</span>():
+    start = time.perf_counter()
+    results = <span class="kw">await</span> asyncio.gather(
+        fetch(<span class="str">"A"</span>, <span class="num">1</span>),
+        fetch(<span class="str">"B"</span>, <span class="num">1</span>),
+        fetch(<span class="str">"C"</span>, <span class="num">1</span>),
+    )
+    print(results)                                  <span class="cmt"># ['A done', 'B done', 'C done']</span>
+    print(f<span class="str">"{time.perf_counter() - start:.1f}s"</span>)   <span class="cmt"># ~1.0s</span>
+
+asyncio.run(main())</code></pre>
+
+  <div class="tip">
+    <strong>⚠️ Common beginner mistake:</strong> forgetting <code>await</code>.<br>
+<pre><code><span class="kw">async def</span> <span class="fn">main</span>():
+    fetch(<span class="str">"A"</span>, <span class="num">1</span>)        <span class="cmt"># WRONG: forgot await, nothing runs</span>
+    <span class="kw">await</span> fetch(<span class="str">"A"</span>, <span class="num">1</span>)  <span class="cmt"># RIGHT</span></code></pre>
+    Python warns you: <em>coroutine was never awaited</em>.
+  </div>
+
+  <!-- 2.3 RUNNING MANY TASKS -->
+  <h3>2.3 Running many tasks</h3>
+
+<pre><code><span class="cmt"># asyncio.gather — run together, results in order</span>
+results = <span class="kw">await</span> asyncio.gather(fetch(<span class="str">"A"</span>, <span class="num">1</span>), fetch(<span class="str">"B"</span>, <span class="num">2</span>))
+
+<span class="cmt"># Collect errors instead of raising</span>
+results = <span class="kw">await</span> asyncio.gather(
+    fetch(<span class="str">"A"</span>, <span class="num">1</span>),
+    might_fail(),
+    return_exceptions=<span class="kw">True</span>,       <span class="cmt"># errors come back as list items</span>
+)
+<span class="kw">for</span> r <span class="kw">in</span> results:
+    <span class="kw">if</span> isinstance(r, Exception):
+        print(<span class="str">"failed:"</span>, r)</code></pre>
+
+<pre><code><span class="cmt"># create_task — start now, await later</span>
+<span class="kw">async def</span> <span class="fn">main</span>():
+    task1 = asyncio.create_task(fetch(<span class="str">"A"</span>, <span class="num">2</span>))
+    task2 = asyncio.create_task(fetch(<span class="str">"B"</span>, <span class="num">1</span>))
+
+    print(<span class="str">"both started, doing other work..."</span>)
+    <span class="kw">await</span> asyncio.sleep(<span class="num">0.5</span>)
+
+    print(<span class="kw">await</span> task1)
+    print(<span class="kw">await</span> task2)
+
+asyncio.run(main())</code></pre>
+
+  <div class="tip">
+    <strong>Important:</strong> keep a reference to your tasks (like the variables above).
+    If you throw the reference away, Python may delete the task before it finishes.
+  </div>
+
+<pre><code><span class="cmt"># TaskGroup (Python 3.11+) — the safest way</span>
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> asyncio.TaskGroup() <span class="kw">as</span> tg:
+        t1 = tg.create_task(fetch(<span class="str">"A"</span>, <span class="num">1</span>))
+        t2 = tg.create_task(fetch(<span class="str">"B"</span>, <span class="num">2</span>))
+    <span class="cmt"># we reach here only when ALL tasks are done</span>
+    print(t1.result(), t2.result())
+
+asyncio.run(main())</code></pre>
+
+<pre><code><span class="cmt"># Timeouts (Python 3.11+)</span>
+<span class="kw">async def</span> <span class="fn">slow</span>():
+    <span class="kw">await</span> asyncio.sleep(<span class="num">10</span>)
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">try</span>:
+        <span class="kw">async with</span> asyncio.timeout(<span class="num">2</span>):
+            <span class="kw">await</span> slow()
+    <span class="kw">except</span> TimeoutError:
+        print(<span class="str">"too slow!"</span>)
+
+<span class="cmt"># Older Python: await asyncio.wait_for(slow(), timeout=2)</span></code></pre>
+
+<pre><code><span class="cmt"># Limit concurrency with Semaphore</span>
+sem = asyncio.Semaphore(<span class="num">5</span>)          <span class="cmt"># only 5 at a time</span>
+
+<span class="kw">async def</span> <span class="fn">limited_fetch</span>(i: int) -&gt; int:
+    <span class="kw">async with</span> sem:
+        <span class="kw">await</span> asyncio.sleep(<span class="num">1</span>)      <span class="cmt"># pretend request</span>
+        <span class="kw">return</span> i
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    results = <span class="kw">await</span> asyncio.gather(*(limited_fetch(i) <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">20</span>)))
+    print(len(results))             <span class="cmt"># 20, in about 4 seconds, not 20</span>
+
+asyncio.run(main())</code></pre>
+
+<pre><code><span class="cmt"># Queue — producers and consumers</span>
+<span class="kw">async def</span> <span class="fn">producer</span>(q: asyncio.Queue):
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">5</span>):
+        <span class="kw">await</span> q.put(i)
+    <span class="kw">await</span> q.put(<span class="kw">None</span>)               <span class="cmt"># signal: no more work</span>
+
+<span class="kw">async def</span> <span class="fn">consumer</span>(q: asyncio.Queue):
+    <span class="kw">while</span> <span class="kw">True</span>:
+        item = <span class="kw">await</span> q.get()
+        <span class="kw">if</span> item <span class="kw">is</span> <span class="kw">None</span>:
+            <span class="kw">break</span>
+        print(<span class="str">"processing"</span>, item)
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    q: asyncio.Queue = asyncio.Queue()
+    <span class="kw">await</span> asyncio.gather(producer(q), consumer(q))
+
+asyncio.run(main())</code></pre>
+
+  <div class="qa">
+    <strong>🧠 Interview / thinking question:</strong> “You need to call 100 external APIs.
+    How do you avoid overwhelming them while still being fast?”<br>
+    <em>Answer outline:</em> Use <code>httpx.AsyncClient</code> with <code>asyncio.gather</code>,
+    wrap each call in an <code>asyncio.Semaphore(5…10)</code> to cap concurrency,
+    set per‑request timeouts, and use retries with exponential backoff.
+    Never start 1000 requests without a limit.
+  </div>
+
+  <!-- 2.4 BLOCKING CODE -->
+  <h3>2.4 Blocking code — the biggest trap</h3>
+
+<pre><code><span class="kw">import</span> time
+
+<span class="kw">async def</span> <span class="fn">bad</span>():
+    time.sleep(<span class="num">3</span>)             <span class="cmt"># BLOCKS the whole loop. Nothing else runs!</span>
+
+<span class="kw">async def</span> <span class="fn">good</span>():
+    <span class="kw">await</span> asyncio.sleep(<span class="num">3</span>)    <span class="cmt"># lets other tasks run</span></code></pre>
+
+<pre><code><span class="cmt"># If you must call blocking code, push it to a thread</span>
+<span class="kw">import</span> asyncio, time
+
+<span class="kw">def</span> <span class="fn">slow_blocking_job</span>(n: int) -&gt; int:
+    time.sleep(<span class="num">2</span>)
+    <span class="kw">return</span> n * <span class="num">2</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    results = <span class="kw">await</span> asyncio.gather(
+        asyncio.to_thread(slow_blocking_job, <span class="num">1</span>),
+        asyncio.to_thread(slow_blocking_job, <span class="num">2</span>),
+        asyncio.to_thread(slow_blocking_job, <span class="num">3</span>),
+    )
+    print(results)            <span class="cmt"># [2, 4, 6] in about 2 seconds</span>
+
+asyncio.run(main())</code></pre>
+
+  <div class="tip">
+    <strong>Remember:</strong> inside <code>async def</code>, never use <code>time.sleep</code>,
+    <code>requests.get</code>, or other blocking calls. For heavy CPU work, use
+    <code>multiprocessing</code> or <code>ProcessPoolExecutor</code> — threads do not help because of Python’s GIL.
+  </div>
+
+  <!-- 2.5 ASYNC ITERATORS & CONTEXT MANAGERS -->
+  <h3>2.5 Async iterators and async context managers</h3>
+
+<pre><code><span class="cmt"># async with</span>
+<span class="kw">class</span> <span class="fn">AsyncConnection</span>:
+    <span class="kw">async def</span> <span class="fn">__aenter__</span>(self):
+        print(<span class="str">"connecting"</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="num">0.1</span>)
+        <span class="kw">return</span> self
+
+    <span class="kw">async def</span> <span class="fn">__aexit__</span>(self, exc_type, exc, tb):
+        print(<span class="str">"closing"</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="num">0.1</span>)
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> AsyncConnection() <span class="kw">as</span> conn:
+        print(<span class="str">"working"</span>)
+
+asyncio.run(main())
+
+<span class="cmt"># Decorator version</span>
+<span class="kw">from</span> contextlib <span class="kw">import</span> asynccontextmanager
+
+<span class="dec">@asynccontextmanager</span>
+<span class="kw">async def</span> <span class="fn">connect</span>():
+    print(<span class="str">"open"</span>)
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> <span class="str">"connection"</span>
+    <span class="kw">finally</span>:
+        print(<span class="str">"close"</span>)</code></pre>
+
+<pre><code><span class="cmt"># async for / async generators</span>
+<span class="kw">async def</span> <span class="fn">ticker</span>(n: int):
+    <span class="kw">for</span> i <span class="kw">in</span> range(n):
+        <span class="kw">await</span> asyncio.sleep(<span class="num">0.5</span>)
+        <span class="kw">yield</span> i                       <span class="cmt"># async generator</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async for</span> value <span class="kw">in</span> ticker(<span class="num">3</span>):
+        print(value)
+
+    <span class="cmt"># Async comprehension also works:</span>
+    squares = [v * v <span class="kw">async for</span> v <span class="kw">in</span> ticker(<span class="num">3</span>)]
+
+asyncio.run(main())</code></pre>
+
+  <!-- ===================================================================== -->
+  <!-- PART 3: HTTP CLIENTS -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 3 — HTTP clients</h2>
+
+  <div class="card">
+    <div class="card-title">📦 Library comparison</div>
+    <table>
+      <tr><th>Library</th><th>Style</th><th>Notes</th></tr>
+      <tr><td><code>requests</code></td><td>Sync (blocking)</td><td>Simple, popular, fine for scripts</td></tr>
+      <tr><td><code>httpx</code></td><td>Sync and async</td><td>Modern, requests‑like API, great default</td></tr>
+      <tr><td><code>aiohttp</code></td><td>Async only</td><td>Fast, also has a server</td></tr>
+    </table>
+    <p style="margin-top:0.5rem; font-size:0.9rem; color:#475569;">Install: <code>pip install requests httpx aiohttp</code></p>
+  </div>
+
+<pre><code><span class="cmt"># Sync first: requests</span>
+<span class="kw">import</span> requests
+
+resp = requests.get(<span class="str">"https://httpbin.org/get"</span>, params={<span class="str">"q"</span>: <span class="str">"python"</span>}, timeout=<span class="num">10</span>)
+resp.raise_for_status()        <span class="cmt"># raises for 4xx / 5xx</span>
+print(resp.status_code)        <span class="cmt"># 200</span>
+print(resp.json())             <span class="cmt"># parsed JSON as dict</span>
+
+resp = requests.post(<span class="str">"https://httpbin.org/post"</span>, json={<span class="str">"name"</span>: <span class="str">"Asha"</span>}, timeout=<span class="num">10</span>)</code></pre>
+
+  <div class="tip">
+    <strong>Always set a timeout.</strong> Without it, a request can wait forever.
+  </div>
+
+<pre><code><span class="cmt"># Async with httpx</span>
+<span class="kw">import</span> asyncio
+<span class="kw">import</span> httpx
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> httpx.AsyncClient(timeout=<span class="num">10</span>) <span class="kw">as</span> client:
+        resp = <span class="kw">await</span> client.get(<span class="str">"https://httpbin.org/get"</span>, params={<span class="str">"q"</span>: <span class="str">"python"</span>})
+        resp.raise_for_status()
+        print(resp.status_code)
+        print(resp.json())
+
+asyncio.run(main())</code></pre>
+
+  <div class="tip">
+    <strong>Create one client and reuse it.</strong> It keeps connections open,
+    which is much faster than making a new client for every request.
+  </div>
+
+<pre><code><span class="cmt"># Many requests at once</span>
+<span class="kw">import</span> asyncio, httpx
+
+URLS = [f<span class="str">"https://httpbin.org/delay/1?id={i}"</span> <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">10</span>)]
+
+<span class="kw">async def</span> <span class="fn">fetch</span>(client: httpx.AsyncClient, url: str) -&gt; int:
+    resp = <span class="kw">await</span> client.get(url)
+    <span class="kw">return</span> resp.status_code
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> httpx.AsyncClient(timeout=<span class="num">10</span>) <span class="kw">as</span> client:
+        codes = <span class="kw">await</span> asyncio.gather(*(fetch(client, u) <span class="kw">for</span> u <span class="kw">in</span> URLS))
+    print(codes)            <span class="cmt"># finishes in ~1-2s, not 10s</span>
+
+asyncio.run(main())</code></pre>
+
+<pre><code><span class="cmt"># Error handling</span>
+<span class="kw">async def</span> <span class="fn">safe_get</span>(client: httpx.AsyncClient, url: str) -&gt; dict | <span class="kw">None</span>:
+    <span class="kw">try</span>:
+        resp = <span class="kw">await</span> client.get(url)
+        resp.raise_for_status()
+        <span class="kw">return</span> resp.json()
+    <span class="kw">except</span> httpx.TimeoutException:
+        print(<span class="str">"timed out:"</span>, url)
+    <span class="kw">except</span> httpx.HTTPStatusError <span class="kw">as</span> err:
+        print(<span class="str">"bad status"</span>, err.response.status_code, url)
+    <span class="kw">except</span> httpx.RequestError <span class="kw">as</span> err:
+        print(<span class="str">"network problem:"</span>, err)
+    <span class="kw">return</span> <span class="kw">None</span>
+
+<span class="cmt"># Retry with a delay</span>
+<span class="kw">async def</span> <span class="fn">get_with_retry</span>(client, url, tries: int = <span class="num">3</span>):
+    <span class="kw">for</span> attempt <span class="kw">in</span> range(<span class="num">1</span>, tries + <span class="num">1</span>):
+        <span class="kw">try</span>:
+            resp = <span class="kw">await</span> client.get(url)
+            resp.raise_for_status()
+            <span class="kw">return</span> resp.json()
+        <span class="kw">except</span> (httpx.RequestError, httpx.HTTPStatusError):
+            <span class="kw">if</span> attempt == tries:
+                <span class="kw">raise</span>
+            <span class="kw">await</span> asyncio.sleep(<span class="num">2</span> ** attempt)    <span class="cmt"># wait 2s, then 4s...</span></code></pre>
+
+  <!-- ===================================================================== -->
+  <!-- PART 4: FASTAPI -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 4 — FastAPI essentials</h2>
+
+  <h3>4.1 Routes, Pydantic models, dependency injection</h3>
+
+<pre><code><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI, Depends, HTTPException
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+
+app = FastAPI()
+
+<span class="kw">class</span> <span class="fn">Item</span>(BaseModel):
+    name: str
+    price: float
+    tax: float | <span class="kw">None</span> = <span class="kw">None</span>
+
+<span class="dec">@app.post</span>(<span class="str">"/items/"</span>)
+<span class="kw">async def</span> <span class="fn">create_item</span>(item: Item):
+    <span class="kw">return</span> {<span class="str">"item"</span>: item, <span class="str">"total"</span>: item.price + (item.tax <span class="kw">or</span> <span class="num">0</span>)}
+
+<span class="cmt"># Dependency injection</span>
+<span class="kw">def</span> <span class="fn">get_db</span>():
+    db = {<span class="str">"connection"</span>: <span class="str">"fake_db_connection"</span>}
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> db
+    <span class="kw">finally</span>:
+        db.clear()
+
+<span class="dec">@app.get</span>(<span class="str">"/users/"</span>)
+<span class="kw">async def</span> <span class="fn">read_users</span>(db = Depends(get_db)):
+    <span class="kw">return</span> {<span class="str">"db_status"</span>: bool(db)}
+
+<span class="cmt"># Background tasks</span>
+<span class="kw">from</span> fastapi <span class="kw">import</span> BackgroundTasks
+
+<span class="kw">def</span> <span class="fn">send_email</span>(address: str):
+    print(f<span class="str">"Sending email to {address} …"</span>)
+
+<span class="dec">@app.post</span>(<span class="str">"/register/"</span>)
+<span class="kw">async def</span> <span class="fn">register</span>(email: str, bg: BackgroundTasks):
+    bg.add_task(send_email, email)
+    <span class="kw">return</span> {<span class="str">"message"</span>: <span class="str">"User registered, email queued"</span>}</code></pre>
+
+  <div class="qa">
+    <strong>🧠 Real project scenario:</strong> “How do you handle validation errors globally in FastAPI?”<br>
+    <em>Approach:</em> Add an exception handler for <code>RequestValidationError</code> that returns a clean JSON error format.
+    For business logic errors, raise <code>HTTPException</code> with status codes and details.
+    Never leak stack traces in production.
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 5: PYDANTIC -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 5 — Pydantic: validation, settings, structured outputs</h2>
+
+<pre><code><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel, Field, field_validator
+
+<span class="kw">class</span> <span class="fn">User</span>(BaseModel):
+    username: str = Field(..., min_length=<span class="num">3</span>, max_length=<span class="num">20</span>)
+    age: int = Field(..., ge=<span class="num">18</span>, le=<span class="num">120</span>)
+
+    <span class="dec">@field_validator</span>(<span class="str">"username"</span>)
+    <span class="kw">def</span> <span class="fn">no_special_chars</span>(cls, v):
+        <span class="kw">if</span> <span class="kw">not</span> v.isalnum():
+            <span class="kw">raise</span> ValueError(<span class="str">"Username must be alphanumeric"</span>)
+        <span class="kw">return</span> v
+
+<span class="cmt"># User(username="ab", age=10) → ValidationError</span>
+
+<span class="cmt"># Settings management (reads env vars automatically)</span>
+<span class="kw">from</span> pydantic_settings <span class="kw">import</span> BaseSettings
+
+<span class="kw">class</span> <span class="fn">Settings</span>(BaseSettings):
+    database_url: str = <span class="str">"postgresql://localhost/mydb"</span>
+    debug: bool = <span class="kw">False</span>
+
+settings = Settings()</code></pre>
+
+  <div class="tip">
+    <strong>💡 Structured outputs:</strong> use Pydantic models as response models
+    (<code>response_model=UserOut</code>) to guarantee the API returns exactly the shape you promise —
+    and to filter internal fields.
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 6: POSTGRESQL -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 6 — PostgreSQL: SQL, transactions, indexes</h2>
+
+<pre><code><span class="cmt">-- Safe join + filter + aggregation</span>
+<span class="kw">SELECT</span> u.name, <span class="kw">COUNT</span>(o.id) <span class="kw">AS</span> order_count
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> o.user_id = u.id
+<span class="kw">WHERE</span> u.created_at &gt; <span class="str">'2026-01-01'</span>
+<span class="kw">GROUP BY</span> u.id, u.name
+<span class="kw">ORDER BY</span> order_count <span class="kw">DESC</span>;
+
+<span class="cmt">-- Index example: speed up lookups on email</span>
+<span class="kw">CREATE INDEX</span> idx_users_email <span class="kw">ON</span> users(email);</code></pre>
+
+<pre><code><span class="cmt"># Transaction example with psycopg2</span>
+<span class="kw">import</span> psycopg2
+<span class="kw">from</span> contextlib <span class="kw">import</span> closing
+
+<span class="kw">with</span> closing(psycopg2.connect(DATABASE_URL)) <span class="kw">as</span> conn:
+    <span class="kw">with</span> conn.cursor() <span class="kw">as</span> cur:
+        <span class="kw">try</span>:
+            cur.execute(<span class="str">"BEGIN"</span>)
+            cur.execute(<span class="str">"UPDATE accounts SET balance = balance - 100 WHERE id = 1"</span>)
+            cur.execute(<span class="str">"UPDATE accounts SET balance = balance + 100 WHERE id = 2"</span>)
+            conn.commit()
+        <span class="kw">except</span> Exception:
+            conn.rollback()
+            <span class="kw">raise</span></code></pre>
+
+  <div class="qa">
+    <strong>🧠 Real‑world question:</strong> “You have a slow query on a 1M‑row table. How do you approach it?”<br>
+    <em>Steps:</em> 1) <code>EXPLAIN ANALYZE</code> to see the plan.
+    2) Check for missing indexes on filter/join columns.
+    3) Avoid <code>SELECT *</code> — fetch only needed columns.
+    4) Consider composite indexes if filtering on multiple fields.
+    5) For heavy analytics, use materialized views or read replicas.
+  </div>
+
+  <div class="tip">
+    <strong>💡 Transaction thinking:</strong> always wrap multiple related writes in a transaction.
+    Use <code>SERIALIZABLE</code> only when necessary — it adds overhead.
+    Default <code>READ COMMITTED</code> is fine for most services.
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 7: MINI PROJECT -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 7 — Mini project: Fast URL Checker</h2>
+
+  <p>This uses almost everything above: typing, dataclass, exceptions, context managers, asyncio,
+  semaphore, and an HTTP client.</p>
+
+<pre><code><span class="cmt"># checker.py — run with: python checker.py</span>
+<span class="kw">import</span> asyncio
+<span class="kw">import</span> time
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> contextlib <span class="kw">import</span> contextmanager
+
+<span class="kw">import</span> httpx
+
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="fn">Result</span>:
+    url: str
+    status: int | <span class="kw">None</span>
+    error: str | <span class="kw">None</span> = <span class="kw">None</span>
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">ok</span>(self) -&gt; bool:
+        <span class="kw">return</span> self.status <span class="kw">is not</span> <span class="kw">None</span> <span class="kw">and</span> self.status &lt; <span class="num">400</span>
+
+
+<span class="dec">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">timer</span>(label: str):
+    start = time.perf_counter()
+    <span class="kw">try</span>:
+        <span class="kw">yield</span>
+    <span class="kw">finally</span>:
+        print(f<span class="str">"{label}: {time.perf_counter() - start:.2f}s"</span>)
+
+
+<span class="kw">async def</span> <span class="fn">check</span>(client: httpx.AsyncClient, sem: asyncio.Semaphore, url: str) -&gt; Result:
+    <span class="kw">async with</span> sem:
+        <span class="kw">try</span>:
+            resp = <span class="kw">await</span> client.get(url)
+            <span class="kw">return</span> Result(url, resp.status_code)
+        <span class="kw">except</span> httpx.TimeoutException:
+            <span class="kw">return</span> Result(url, <span class="kw">None</span>, <span class="str">"timeout"</span>)
+        <span class="kw">except</span> httpx.RequestError <span class="kw">as</span> err:
+            <span class="kw">return</span> Result(url, <span class="kw">None</span>, type(err).__name__)
+
+
+<span class="kw">async def</span> <span class="fn">main</span>(urls: list[str]) -&gt; <span class="kw">None</span>:
+    sem = asyncio.Semaphore(<span class="num">5</span>)
+    <span class="kw">async with</span> httpx.AsyncClient(timeout=<span class="num">5</span>, follow_redirects=<span class="kw">True</span>) <span class="kw">as</span> client:
+        results = <span class="kw">await</span> asyncio.gather(*(check(client, sem, u) <span class="kw">for</span> u <span class="kw">in</span> urls))
+
+    <span class="kw">for</span> r <span class="kw">in</span> results:
+        mark = <span class="str">"OK  "</span> <span class="kw">if</span> r.ok <span class="kw">else</span> <span class="str">"FAIL"</span>
+        print(mark, r.url, r.status <span class="kw">or</span> r.error)
+
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    urls = [
+        <span class="str">"https://www.python.org"</span>,
+        <span class="str">"https://httpbin.org/status/404"</span>,
+        <span class="str">"https://httpbin.org/delay/2"</span>,
+        <span class="str">"https://this-site-does-not-exist-12345.com"</span>,
+    ]
+    <span class="kw">with</span> timer(<span class="str">"total"</span>):
+        asyncio.run(main(urls))</code></pre>
+
+  <div class="tip">
+    <strong>Try this:</strong> change the semaphore from <code>5</code> to <code>1</code> and see the total time grow.
+    Then add retries with <code>asyncio.sleep(2 ** attempt)</code>.
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 8: COMMON MISTAKES -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 8 — Common mistakes checklist</h2>
+
+  <table>
+    <tr><th>Mistake</th><th>Fix</th></tr>
+    <tr><td>Forgot <code>await</code></td><td>Add it; watch for “never awaited” warnings</td></tr>
+    <tr><td>Used <code>time.sleep</code> in async code</td><td>Use <code>await asyncio.sleep</code></td></tr>
+    <tr><td>Used <code>requests</code> inside <code>async def</code></td><td>Use <code>httpx.AsyncClient</code> or <code>asyncio.to_thread</code></td></tr>
+    <tr><td>Called <code>asyncio.run</code> inside a running loop</td><td>Use <code>await</code> instead</td></tr>
+    <tr><td>Created a new HTTP client per request</td><td>Create one client and reuse it</td></tr>
+    <tr><td>No timeout on requests</td><td>Always set a timeout</td></tr>
+    <tr><td>Started 1000 requests at once</td><td>Use <code>asyncio.Semaphore</code></td></tr>
+    <tr><td>Threw away task reference</td><td>Store tasks in a variable or use <code>TaskGroup</code></td></tr>
+    <tr><td>Swallowed <code>CancelledError</code></td><td>Re‑raise it after cleanup</td></tr>
+    <tr><td>Mutable default argument <code>def f(x=[])</code></td><td>Use <code>x=None</code> then create the list inside</td></tr>
+    <tr><td>Bare <code>except:</code></td><td>Catch specific exceptions</td></tr>
+    <tr><td>CPU‑heavy loop in async code</td><td>Use <code>multiprocessing</code> / <code>ProcessPoolExecutor</code></td></tr>
+  </table>
+
+  <!-- ===================================================================== -->
+  <!-- PART 9: INTERVIEW THINKING -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 9 — Interview‑ready thinking &amp; design logic</h2>
+
+  <div class="card">
+    <div class="card-title">🔍 How to answer “design this service” questions</div>
+    <ol>
+      <li><strong>Clarify</strong> — what are the inputs, outputs, scale, and edge cases?</li>
+      <li><strong>Sketch the API</strong> — endpoints, request/response models (Pydantic).</li>
+      <li><strong>Data layer</strong> — tables, indexes, transactions. Start simple, then optimise.</li>
+      <li><strong>Async or sync?</strong> — most I/O can be async; CPU‑bound → worker threads/processes.</li>
+      <li><strong>Error handling</strong> — consistent HTTP codes, global exception handlers.</li>
+      <li><strong>Testing</strong> — unit tests with <code>TestClient</code>, integration tests with a test DB.</li>
+    </ol>
+  </div>
+
+  <div class="qa">
+    <strong>🧠 “Your endpoint is slow. Walk me through your debugging process.”</strong><br>
+    <em>Response outline:</em> 1) Check if it’s CPU or I/O bound (logs, metrics).
+    2) If DB‑heavy, use <code>EXPLAIN</code> and add indexes.
+    3) If external API, add timeouts and caching.
+    4) Review async code for accidental blocking calls.
+    5) Profile with <code>cProfile</code> / <code>py-spy</code> if needed.
+  </div>
+
+  <div class="qa">
+    <strong>🧠 “How would you ensure data consistency when a user places an order?”</strong><br>
+    <em>Real‑practical:</em> Use a single database transaction: decrement inventory and create the order
+    in the same transaction. If you call an external payment service, use the saga pattern or outbox pattern
+    to avoid distributed transactions. Idempotency keys help with retries.
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 10: CHEAT SHEET -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 10 — Cheat sheet</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📦 Data structures</div>
+<pre><code>list:  [1, 2]
+tuple: (1, 2)
+dict:  {"a": 1}
+set:   {1, 2}
+
+[x for x in items if cond]
+{k: v for k, v in pairs}</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔤 Typing</div>
+<pre><code>def f(a: int, b: str | None = None) -&gt; list[str]: ...</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚠️ Exceptions</div>
+<pre><code>try: ...
+except SpecificError as err: ...
+else: ...        # no error
+finally: ...     # always
+
+raise MyError("message") from err</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔁 Generator &amp; context manager</div>
+<pre><code>def gen():
+    yield value
+
+@contextmanager
+def cm():
+    setup()
+    try:
+        yield thing
+    finally:
+        cleanup()</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚡ Asyncio</div>
+<pre><code>async def f(): ...                       # define coroutine
+asyncio.run(main())                      # start (once)
+await coro()                             # wait for it
+await asyncio.gather(a(), b())           # run together
+
+async with asyncio.TaskGroup() as tg:    # safest group (3.11+)
+    tg.create_task(a())
+
+async with asyncio.timeout(5): ...       # timeout (3.11+)
+await asyncio.to_thread(blocking_fn)     # run blocking code safely
+asyncio.Semaphore(n)                     # limit concurrency</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🌐 HTTP (httpx)</div>
+<pre><code>async with httpx.AsyncClient(timeout=10) as client:
+    resp = await client.get(url)
+    resp.raise_for_status()
+    data = resp.json()</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🚀 FastAPI</div>
+<pre><code>@app.post("/items/", response_model=ItemOut)
+async def create_item(item: ItemIn):
+    return item
+
+@app.get("/items/{id}")
+async def read_item(id: int, db = Depends(get_db)):
+    ...</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🗄️ SQL (PostgreSQL)</div>
+<pre><code>SELECT u.name, COUNT(o.id)
+FROM users u
+LEFT JOIN orders o ON o.user_id = u.id
+GROUP BY u.id, u.name;
+
+CREATE INDEX idx_users_email ON users(email);</code></pre>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PART 11: STUDY PLAN -->
+  <!-- ===================================================================== -->
+  <hr>
+  <h2>Part 11 — Suggested study plan (8 days)</h2>
+
+  <table>
+    <tr><th>Day</th><th>Topic</th><th>Goal</th></tr>
+    <tr><td>1</td><td>Data structures</td><td>Type every example; finish a small counting exercise</td></tr>
+    <tr><td>2</td><td>Typing + modules</td><td>Add hints to an old script, run <code>mypy</code></td></tr>
+    <tr><td>3</td><td>Exceptions</td><td>Write one custom exception and use it</td></tr>
+    <tr><td>4</td><td>Iterators &amp; generators</td><td>Write a generator that reads a file lazily</td></tr>
+    <tr><td>5</td><td>Context managers</td><td>Rewrite a file script using <code>with</code></td></tr>
+    <tr><td>6</td><td>Asyncio basics</td><td>Run sequential vs concurrent; add a timeout</td></tr>
+    <tr><td>7</td><td>HTTP clients</td><td>Fetch 20 URLs with a semaphore and retries</td></tr>
+    <tr><td>8</td><td>Mini project</td><td>Extend the URL checker; build your own idea</td></tr>
+  </table>
+
+  <div class="tip" style="margin-top:1.5rem;">
+    <strong>🏁 Where to go next:</strong> official Python tutorial, asyncio docs, httpx docs,
+    <code>pytest-asyncio</code>, FastAPI, <code>asyncpg</code> / SQLAlchemy async mode, and Pydantic.
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    Built for clarity — simple language, real examples, and the logic behind the code.<br>
+    <span style="margin-top:0.5rem; display:inline-block;">
+      <span class="pill">Nov–Dec 2026</span>
+      <span class="pill">Interview ready</span>
+      <span class="pill">Project ready</span>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
