@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applied AI Career Roadmap | November 2026 – June 2027</title>
+<style>
+:root{
+  --bg:#f4f6fb;--paper:#fff;--ink:#172033;--muted:#647089;--line:#e4e8f0;
+  --blue:#315efb;--blue2:#eaf0ff;--green:#137a55;--green2:#e8f6ef;
+  --amber:#9a5b00;--amber2:#fff4df;--red:#a43b43;--red2:#fff0f0;
+  --shadow:0 12px 34px rgba(23,32,51,.07);--radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:auto;padding:28px 22px 70px}
+.hero{background:linear-gradient(135deg,#172554,#2448a5 60%,#4775ed);color:#fff;padding:42px;border-radius:24px;box-shadow:var(--shadow)}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:800;opacity:.8}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:12px 0}
+.hero p{max-width:760px;color:#e1e9ff;font-size:17px;margin:12px 0 0}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.pill{display:inline-flex;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.14);font-size:12px;font-weight:700}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:24px;margin-top:24px}
+nav{position:sticky;top:18px;align-self:start;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+nav strong{display:block;margin:0 0 10px}
+nav a{display:block;padding:7px 9px;border-radius:9px;color:#44506a;font-size:13px}
+nav a:hover{background:var(--blue2);text-decoration:none;color:var(--blue)}
+main{min-width:0}
+section,.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:26px;margin-bottom:20px;box-shadow:var(--shadow)}
+h2{font-size:24px;line-height:1.25;margin:0 0 8px}
+h3{font-size:17px;margin:18px 0 7px}
+.lead{color:var(--muted);margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.metric{background:#f8faff;border:1px solid var(--line);padding:17px;border-radius:14px}
+.metric b{display:block;font-size:25px;line-height:1.25;letter-spacing:-.03em}
+.metric span{color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.callout{padding:15px 17px;border-radius:13px;margin:14px 0;background:var(--blue2);border-left:4px solid var(--blue)}
+.callout.green{background:var(--green2);border-color:var(--green)}
+.callout.amber{background:var(--amber2);border-color:#d28b20}
+.callout.red{background:var(--red2);border-color:var(--red)}
+table{width:100%;border-collapse:collapse;margin:12px 0 4px;font-size:14px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#536079;background:#f8faff}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 8px;border-radius:99px;background:#edf1f7;color:#46516a;white-space:nowrap}
+.tag.green{background:var(--green2);color:var(--green)}
+.tag.amber{background:var(--amber2);color:var(--amber)}
+ul,ol{padding-left:21px}
+li{margin:5px 0}
+.phase{border:1px solid var(--line);border-radius:14px;padding:17px;margin:13px 0}
+.phasehead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.phasehead strong{font-size:16px}
+.small{font-size:12px;color:var(--muted)}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line)}
+.checklist input{margin-top:5px;accent-color:var(--blue)}
+.project{border:1px solid var(--line);border-radius:14px;padding:18px;margin:13px 0}
+.project h3{margin:0 0 5px}
+.project .weight{float:right;color:var(--blue);font-weight:800;font-size:12px}
+.skillcols{columns:2;column-gap:28px}
+.skillcols li{break-inside:avoid}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:20px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}nav{position:static}.grid{grid-template-columns:1fr}.hero{padding:28px}.skillcols{columns:1}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero,section,.card,nav{box-shadow:none;break-inside:avoid}.layout{display:block}nav{display:none}a{color:inherit}.phase,.project{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">Personal career execution plan · Version 1.0</div>
+  <h1>Applied AI &amp; Agent Systems<br>Career Roadmap</h1>
+  <p>A practical transition plan built on an existing backend engineering career. The goal is to become a production-focused Applied AI engineer—not a beginner collecting AI certificates.</p>
+  <div class="hero-meta">
+    <span class="pill">14 Nov 2026 – 30 Jun 2027</span>
+    <span class="pill">India-first · remote roles also considered</span>
+    <span class="pill">3–4 focused hours/day</span>
+  </div>
+</header>
+
+<div class="layout">
+<nav>
+<strong>Contents</strong>
+<a href="#northstar">1. Career target</a>
+<a href="#salary">2. Compensation strategy</a>
+<a href="#positioning">3. Role positioning</a>
+<a href="#skills">4. Skills roadmap</a>
+<a href="#learning">5. Study sequence</a>
+<a href="#projects">6. Portfolio projects</a>
+<a href="#schedule">7. Weekly routine</a>
+<a href="#milestones">8. Timeline &amp; milestones</a>
+<a href="#profile">9. Resume &amp; LinkedIn</a>
+<a href="#interviews">10. Interview preparation</a>
+<a href="#search">11. Job search plan</a>
+<a href="#scorecard">12. Progress tracker</a>
+<a href="#rules">13. Execution rules</a>
+<a href="#sources">Sources &amp; assumptions</a>
+</nav>
+
+<main>
+<section id="northstar">
+<h2>1. Career target</h2>
+<p class="lead">Build on roughly five years of professional software engineering experience and move into production Applied AI / agent engineering.</p>
+<div class="grid">
+  <div class="metric"><span>Current CTC (reported)</span><b>₹19 LPA</b></div>
+  <div class="metric"><span>Primary next-move target</span><b>₹30–35 LPA</b></div>
+  <div class="metric"><span>Stretch outcome</span><b>₹35–40 LPA</b></div>
+  <div class="metric"><span>Target milestone</span><b>June 2027</b></div>
+</div>
+<div class="callout green"><strong>Positioning:</strong> Senior Software Engineer with strong backend, SaaS and workflow experience, specializing in Applied AI, LLM applications, agent systems, evaluation and production reliability.</div>
+<p>Your advantage is not that you know every AI framework. It is that you already understand APIs, databases, workflows, production systems, debugging, delivery and reliability—and can apply those skills to AI-enabled products.</p>
+</section>
+
+<section id="salary">
+<h2>2. Compensation strategy: what should you target?</h2>
+<p class="lead">Recommendation based on your reported ₹19 LPA CTC, approximately five years of software experience, current backend strengths and the AI skills you are building.</p>
+<table>
+<thead><tr><th>Number</th><th>Recommended approach</th><th>When it makes sense</th></tr></thead>
+<tbody>
+<tr><td><strong>₹34–38 LPA</strong></td><td><span class="tag green">Opening expectation</span></td><td>Use as an initial expectation for a well-matched product, GCC or AI-native role. Keep it flexible based on role scope and fixed pay.</td></tr>
+<tr><td><strong>₹30–35 LPA</strong></td><td><span class="tag green">Target close</span></td><td>Best primary target for the next move if you can demonstrate strong Python, LLM integration, agent workflows, evaluation and production deployment.</td></tr>
+<tr><td><strong>₹26–30 LPA</strong></td><td><span class="tag amber">Selective fallback</span></td><td>Consider only if the role materially improves your AI ownership, engineering quality, learning and future market value.</td></tr>
+<tr><td><strong>₹35–40 LPA+</strong></td><td><span class="tag amber">Stretch</span></td><td>Possible at stronger product companies, GCCs and well-funded AI teams; requires excellent interviews and evidence of production ownership.</td></tr>
+</tbody>
+</table>
+<div class="callout amber"><strong>Reality check:</strong> ₹30–35 LPA is a defensible target, not a guaranteed market entitlement. Your five years are software engineering experience, not five years of dedicated ML/AI experience. Do not market yourself as a senior ML researcher or foundation-model engineer.</div>
+<h3>Why this range is reasonable</h3>
+<ul>
+<li>2026 hiring and salary summaries show wide variation by employer type and role. Naukri's published guide gives ₹18–32 LPA for 3–5-year ML engineers, while Instahyre reports stronger product-company and specialist bands. These are directional market references, not guaranteed offers.</li>
+<li>A 2026 sample of Indian AI job ads found Python, LLMs, agents, RAG and evaluation among frequently requested capabilities. That supports the learning priorities in this plan.</li>
+<li>Recent agent-engineering role descriptions emphasize production reliability, tool permissions, state, recovery and observability—not just prompt writing.</li>
+</ul>
+<h3>How to negotiate</h3>
+<ul>
+<li>Ask about the fixed component, variable bonus, joining bonus, equity/ESOPs, benefits and appraisal cycle separately.</li>
+<li>Compare fixed-to-fixed and total CTC-to-total CTC. Do not accept a headline CTC that is inflated by uncertain variable pay.</li>
+<li>Do not quote a number before understanding the level, scope and compensation structure where possible.</li>
+<li>Do not switch only for a small increase if the role has weak engineering ownership or no meaningful AI exposure.</li>
+</ul>
+</section>
+
+<section id="positioning">
+<h2>3. Roles to target</h2>
+<p class="lead">Target roles where your backend experience is an advantage and AI systems are part of the actual engineering work.</p>
+<div class="grid">
+<div class="metric"><span>Primary role family</span><b style="font-size:19px">Senior Applied AI Engineer</b></div>
+<div class="metric"><span>Primary role family</span><b style="font-size:19px">AI Agent / Agent Systems Engineer</b></div>
+<div class="metric"><span>Adjacent role</span><b style="font-size:19px">AI Platform Engineer</b></div>
+<div class="metric"><span>Strong fallback</span><b style="font-size:19px">Senior Backend Engineer – AI</b></div>
+</div>
+<p>Also consider Forward Deployed AI Engineer / AI Solutions Engineer roles when they involve real implementation, integrations, architecture and customer problem-solving—not mostly sales or prompt configuration.</p>
+<h3>Company types to prioritize</h3>
+<ol>
+<li>Product companies and SaaS businesses building LLM-enabled features.</li>
+<li>Global Capability Centres (GCCs) with AI platform, automation or agent teams.</li>
+<li>AI-native startups with funded teams, production users and clear engineering standards.</li>
+<li>Engineering-led services companies only when the project, client and compensation are genuinely strong.</li>
+</ol>
+</section>
+
+<section id="skills">
+<h2>4. Skills: keep, improve, add and deprioritize</h2>
+<p class="lead">LinkedIn ordering is a positioning tool. It is not a substitute for demonstrable ability. Keep a skill only if you can explain where you used it and answer practical questions about it.</p>
+<h3>Priority skill stack</h3>
+<ol>
+<li>Python (Programming Language)</li>
+<li>Large Language Models (LLMs)</li>
+<li>AI Agents / Agentic AI</li>
+<li>LangGraph</li>
+<li>Retrieval-Augmented Generation (RAG)</li>
+<li>Model Context Protocol (MCP)</li>
+<li>LLM Evaluation</li>
+<li>Multi-agent Systems</li>
+<li>FastAPI</li>
+<li>Anthropic API / OpenAI API</li>
+<li>LangChain</li>
+<li>Vector Embeddings &amp; Vector Databases</li>
+<li>Prompt Engineering</li>
+<li>System Design</li>
+<li>Distributed Systems</li>
+<li>Node.js</li>
+<li>TypeScript</li>
+<li>PostgreSQL</li>
+<li>Redis</li>
+<li>REST APIs</li>
+<li>Express.js</li>
+<li>SQL</li>
+<li>MongoDB</li>
+<li>AWS</li>
+<li>Docker</li>
+<li>Kubernetes (only if hands-on)</li>
+<li>Git / GitHub</li>
+<li>JavaScript / React.js</li>
+</ol>
+<h3>Add as you gain hands-on proof</h3>
+<ul>
+<li>OpenTelemetry and AI observability / tracing</li>
+<li>Pytest and automated Python testing</li>
+<li>AI Security, prompt-injection defence and tool permission design</li>
+<li>Backend Development and API Design</li>
+<li>OpenAI API, if you have actually built with it</li>
+<li>Model routing, token/cost controls and semantic caching</li>
+</ul>
+<h3>Deprioritize or remove from the profile for now</h3>
+<ul>
+<li>Remove NestJS, Next.js and Java if you are not confident discussing or using them.</li>
+<li>Remove Wix Website Builder and Internet of Things (IoT) if they do not support your target role.</li>
+<li>HTML, Bootstrap, CSS and Material-UI can move to the bottom or be removed if you want a focused profile.</li>
+<li>Keep Node.js, TypeScript, React, MongoDB and Firebase only at a level consistent with your actual work.</li>
+</ul>
+<div class="callout"><strong>Important:</strong> Do not claim fine-tuning, model training, PyTorch or deep ML expertise unless you have genuinely done that work. Your intended lane is Applied AI systems and production agent engineering.</div>
+</section>
+
+<section id="learning">
+<h2>5. Study sequence: learn in dependency order</h2>
+<p class="lead">Avoid studying ten technologies at once. Learn the foundations, then use each topic immediately in a project.</p>
+<div class="phase">
+<div class="phasehead"><strong>Phase A — Python and service foundations</strong><span class="tag">Nov–Dec 2026</span></div>
+<ul><li>Python: data structures, typing, modules, exceptions, iterators, context managers.</li><li>Asyncio, async/await, concurrency basics and HTTP clients.</li><li>FastAPI: routes, dependency injection, request/response models and background work.</li><li>Pydantic: validation, settings and structured outputs.</li><li>PostgreSQL, SQL, transactions, indexes and migrations.</li><li>Pytest, fixtures, mocking, integration tests and debugging.</li><li>LLM fundamentals: tokens, context windows, sampling, structured output, tool/function calling, streaming and API errors.</li></ul>
+<strong>Exit test:</strong> Build a tested FastAPI service that calls an LLM, validates structured output, persists results in PostgreSQL and handles timeout/retry failures.
+</div>
+<div class="phase">
+<div class="phasehead"><strong>Phase B — Agent architecture and integrations</strong><span class="tag">Dec 2026–Jan 2027</span></div>
+<ul><li>Agent loop: observe → reason/plan → select tool → execute → verify → continue/stop.</li><li>LangGraph: state, nodes, edges, conditional routing, checkpointing and persistence.</li><li>Tool design: schemas, validation, idempotency, timeouts and error handling.</li><li>MCP: host/client/server concepts, tools, resources, prompts, transports and auth boundaries.</li><li>Human-in-the-loop approvals, resumability and multi-agent trade-offs.</li><li>RAG: chunking, embeddings, retrieval, reranking, citations and evaluation.</li></ul>
+<strong>Exit test:</strong> Build a multi-step agent that calls at least three tools, persists state, recovers from a tool failure and asks for approval before a write action.
+</div>
+<div class="phase">
+<div class="phasehead"><strong>Phase C — Evaluation, reliability and security</strong><span class="tag">Feb–Mar 2027</span></div>
+<ul><li>Offline evaluation datasets and repeatable test runs.</li><li>Task success, tool-selection accuracy, argument correctness, groundedness, latency and cost.</li><li>Trajectory-level evaluation, regression testing and failure categorization.</li><li>LLM-as-judge: calibration, rubrics, human review and limitations.</li><li>Prompt injection, tool poisoning, data leakage, least privilege and approval gates.</li><li>Retries, fallbacks, timeouts, rate limits, idempotency and graceful degradation.</li></ul>
+<strong>Exit test:</strong> Run a reproducible evaluation suite and show where the agent fails, why it fails and what changed after improvements.
+</div>
+<div class="phase">
+<div class="phasehead"><strong>Phase D — Production deployment and operations</strong><span class="tag">Mar–Apr 2027</span></div>
+<ul><li>Docker, environment configuration, secrets and deployment basics.</li><li>AWS fundamentals: compute, storage, IAM, networking and managed databases.</li><li>OpenTelemetry traces, structured logs, metrics and dashboards.</li><li>Redis for caching, queues or short-lived state where appropriate.</li><li>Streaming, concurrency, model routing, token budgets and semantic caching.</li><li>CI/CD, test automation, service health and operational runbooks.</li></ul>
+<strong>Exit test:</strong> Deploy an agent service with traces, logs, basic metrics, cost/latency reporting and documented failure handling.
+</div>
+<div class="phase">
+<div class="phasehead"><strong>Phase E — Interview and job-search execution</strong><span class="tag">May–Jun 2027</span></div>
+<ul><li>Polish project demos, architecture diagrams, READMEs and measured results.</li><li>Prepare system design, Python, backend, SQL and agent architecture interviews.</li><li>Practice explaining trade-offs, incidents, failures and design decisions.</li><li>Apply consistently, track interview outcomes and refine weak areas.</li><li>Negotiate based on role scope, fixed pay and market alternatives.</li></ul>
+<strong>Exit test:</strong> Explain and defend all three projects in a 45-minute technical discussion and complete a practical agent-building exercise.
+</div>
+</section>
+
+<section id="projects">
+<h2>6. Portfolio: three projects, not ten demos</h2>
+<p class="lead">The portfolio should prove that you can build, evaluate, secure and operate AI systems. Each project should have a working demo or reproducible local setup, tests, architecture diagram and clear technical write-up.</p>
+<div class="project">
+<span class="weight">~45% effort</span>
+<h3>Project 1 — AgentGuard (flagship)</h3>
+<p><strong>Purpose:</strong> An evaluation, observability, reliability and security layer for tool-using AI agents.</p>
+<ul><li>Record runs, traces and full tool trajectories.</li><li>Evaluate task completion, tool selection, argument validity and final-answer quality.</li><li>Track latency, token use, cost, retries and failure reasons.</li><li>Run regression datasets against prompt, model or code changes.</li><li>Test prompt injection, malicious tool descriptions and excessive permissions.</li><li>Show dashboards/reports and compare two versions of an agent.</li></ul>
+<p><strong>Proof to publish:</strong> Evaluation dataset, baseline results, failure taxonomy, before/after comparison, threat model and demo.</p>
+</div>
+<div class="project">
+<span class="weight">~30% effort</span>
+<h3>Project 2 — Enterprise Workflow Agent</h3>
+<p><strong>Purpose:</strong> An agent that investigates an engineering or business incident across multiple systems.</p>
+<ul><li>Connect GitHub, Jira, read-only PostgreSQL, internal docs and code search.</li><li>Collect evidence, summarize a timeline, identify likely causes and produce a report with citations.</li><li>Use MCP or well-defined tool adapters for integrations.</li><li>Require human approval before creating tickets, changing records or performing other write actions.</li><li>Handle missing data, tool timeouts, conflicting evidence and retries.</li><li>Send its traces and evaluation results into AgentGuard.</li></ul>
+<p><strong>Proof to publish:</strong> End-to-end demo, tool schemas, permission model, sample incident report and failure/recovery walkthrough.</p>
+</div>
+<div class="project">
+<span class="weight">~25% effort</span>
+<h3>Project 3 — CodeShift / Behavioral Verification Engine</h3>
+<p><strong>Purpose:</strong> Strengthen the existing AI-assisted code migration testing work.</p>
+<ul><li>Compare old and migrated implementations with differential execution.</li><li>Use property-based, metamorphic and stateful tests.</li><li>Check API contracts, database side effects and error behavior.</li><li>Record migration attempts and classify behavioral drift.</li><li>Report coverage, regressions and reproducible failing cases.</li></ul>
+<p><strong>Starting asset:</strong> Existing Behavioral Verification Engine and its prior 40+ migration attempts. Verify the dataset, metrics and claims before publishing them.</p>
+</div>
+<h3>Existing work to consolidate</h3>
+<ul><li>Agent Trajectory Evaluation Platform: fold its strongest trajectory capture/evaluation capabilities into AgentGuard.</li><li>MCP Tool-Poisoning Scanner: integrate its threat checks into AgentGuard rather than leaving it as an isolated toy project.</li><li>Behavioral Verification Engine: evolve it into CodeShift rather than restarting from scratch.</li></ul>
+<div class="callout amber"><strong>Do not invent metrics.</strong> Publish accuracy, time saved, reliability or test counts only when you can explain the measurement method, sample size, baseline and limitations.</div>
+</section>
+
+<section id="schedule">
+<h2>7. Weekly study and execution routine</h2>
+<p class="lead">Target around 3.5 focused hours on most workdays. Keep one lighter/rest day. Consistency and project output matter more than long study sessions.</p>
+<table>
+<thead><tr><th>Block</th><th>Time</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td>Learn</td><td>45 min</td><td>One focused concept from the current phase; take concise notes.</td></tr>
+<tr><td>Build</td><td>105 min</td><td>Implement the concept in the active project. Prioritize working code.</td></tr>
+<tr><td>Test &amp; debug</td><td>30 min</td><td>Write tests, reproduce failures, inspect logs and improve reliability.</td></tr>
+<tr><td>Career preparation</td><td>30 min</td><td>Resume/LinkedIn, system design, interview practice or job research.</td></tr>
+<tr><td>Buffer</td><td>20 min</td><td>Review progress, update the task list and plan tomorrow.</td></tr>
+</tbody>
+</table>
+<h3>Suggested weekly rhythm</h3>
+<ul><li><strong>Monday–Thursday:</strong> learning + implementation + tests.</li><li><strong>Friday:</strong> integration, refactoring, documentation and demo recording.</li><li><strong>Saturday:</strong> longer project session, mock interview or system design practice.</li><li><strong>Sunday:</strong> rest or a short weekly review only.</li></ul>
+<p>Use a single active learning topic and a single primary project at a time. Avoid switching frameworks because a new tool is trending.</p>
+</section>
+
+<section id="milestones">
+<h2>8. Timeline and measurable milestones</h2>
+<table>
+<thead><tr><th>Period</th><th>Main outcome</th><th>Deliverable</th></tr></thead>
+<tbody>
+<tr><td>14–30 Nov 2026</td><td>Set up the roadmap and Python baseline</td><td>Python diagnostic, repo structure, weekly task board</td></tr>
+<tr><td>Dec 2026</td><td>Python + FastAPI + SQL + LLM API foundation</td><td>Tested LLM-backed API service</td></tr>
+<tr><td>Jan 2027</td><td>LangGraph, MCP, RAG and tool orchestration</td><td>First Enterprise Workflow Agent prototype</td></tr>
+<tr><td>Feb 2027</td><td>Evaluation, tracing, security and reliability</td><td>AgentGuard evaluation harness and test dataset</td></tr>
+<tr><td>Mar 2027</td><td>Integrate projects and begin serious interview practice</td><td>AgentGuard + workflow agent connected; first polished demo</td></tr>
+<tr><td>Apr 2027</td><td>Deployment, observability and portfolio quality</td><td>Deployable projects, architecture docs, CI and demos</td></tr>
+<tr><td>May 2027</td><td>Interview and application volume</td><td>Consistent applications, mock interviews and feedback loop</td></tr>
+<tr><td>Jun 2027</td><td>Offer conversion and negotiation</td><td>Target role and compensation decision</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="profile">
+<h2>9. Resume and LinkedIn positioning</h2>
+<h3>Headline direction</h3>
+<div class="callout"><strong>Senior Software Engineer | Applied AI &amp; Agent Systems | Python, Node.js | LLM Evaluation, RAG, MCP</strong></div>
+<p>Keep the headline stable. Do not add technologies merely for keyword density. Add TypeScript if you can confidently discuss your actual usage.</p>
+<h3>About-section narrative</h3>
+<p>Lead with five years of backend/software engineering, SaaS products, workflow automation and distributed applications. Explain that your core strength is backend engineering and that your current focus is building reliable LLM applications and agent systems. Emphasize production concerns: evaluation, observability, security, tool integrations and reliability.</p>
+<h3>Experience bullets to strengthen</h3>
+<ul><li>Altisource: custom AI agents for legacy-code analysis/migration; MCP integrations with Jira, MSSQL, Bitbucket and Figma; form migration reduced from 1–2 weeks to about 2 hours at approximately 90% accuracy—publish only if the figure is defensible and approved for disclosure.</li><li>Altisource: legacy modernization to Node.js, workflow automation, scheduled jobs and quality improvements.</li><li>Flashaid: monolith-to-microservices work, operational automation, testing, API/database performance and technical leadership.</li><li>Keep the user/product impact and scale visible; avoid turning every bullet into a list of tools.</li></ul>
+<h3>Content strategy</h3>
+<ul><li>60% hands-on engineering: demos, benchmarks, architecture and lessons from building.</li><li>25% technical explainers: evaluation, agent reliability, MCP security, RAG trade-offs.</li><li>15% industry news/opinions: add original analysis and verify claims before reposting.</li></ul>
+</section>
+
+<section id="interviews">
+<h2>10. Interview preparation</h2>
+<div class="grid">
+<div>
+<h3>Python and backend</h3>
+<ul><li>Core Python, typing, async/await and concurrency.</li><li>FastAPI, Pydantic and API design.</li><li>SQL joins, indexes, transactions and query debugging.</li><li>Redis, caching, queues and idempotency.</li><li>Testing, error handling and performance.</li></ul>
+</div>
+<div>
+<h3>AI and agents</h3>
+<ul><li>LLM API patterns, structured output and tool calling.</li><li>RAG architecture, retrieval quality and citations.</li><li>LangGraph state, checkpointing and control flow.</li><li>MCP protocol concepts and secure integrations.</li><li>Agent evaluation, observability and failure recovery.</li></ul>
+</div>
+<div>
+<h3>System design</h3>
+<ul><li>Design a reliable multi-tenant agent service.</li><li>Rate limiting, retries, queues and backpressure.</li><li>Data isolation, secrets and least privilege.</li><li>Tracing, metrics, cost controls and graceful degradation.</li><li>Trade-offs: single agent vs multi-agent, sync vs async.</li></ul>
+</div>
+<div>
+<h3>Behavioral and leadership</h3>
+<ul><li>Explain the monolith-to-microservices migration.</li><li>Describe a production incident and what you changed.</li><li>Explain how you improved delivery or reliability.</li><li>Discuss mentoring, prioritization and stakeholder trade-offs.</li><li>Explain what you personally built in each AI project.</li></ul>
+</div>
+</div>
+<h3>Minimum weekly interview practice from March</h3>
+<ul><li>One system design exercise.</li><li>Two mock interviews or timed coding sessions.</li><li>One project deep-dive rehearsal.</li><li>Review every rejection or weak interview for a specific improvement.</li></ul>
+</section>
+
+<section id="search">
+<h2>11. Job-search execution</h2>
+<h3>Target titles / search phrases</h3>
+<ul><li>Senior Applied AI Engineer</li><li>AI Engineer – Agentic Systems</li><li>AI Systems Engineer</li><li>AI Platform Engineer</li><li>Forward Deployed AI Engineer</li><li>Senior Backend Engineer – GenAI / LLM</li><li>LLM Application Engineer</li></ul>
+<h3>Where to search</h3>
+<ul><li>LinkedIn Jobs and company career pages</li><li>Wellfound and YC Jobs</li><li>Hacker News “Who is hiring?”</li><li>RemoteOK and We Work Remotely</li><li>Relevant AI startup and GCC career pages</li></ul>
+<h3>Application cadence from March 2027</h3>
+<table>
+<tbody>
+<tr><td>Relevant applications</td><td><strong>10–15 per week</strong></td></tr>
+<tr><td>Recruiter / hiring-manager outreach</td><td><strong>5 per week</strong></td></tr>
+<tr><td>Mock interviews</td><td><strong>2 per week</strong></td></tr>
+<tr><td>System design</td><td><strong>1 exercise per week</strong></td></tr>
+<tr><td>Public project update / technical post</td><td><strong>1 every 2 weeks</strong></td></tr>
+</tbody>
+</table>
+<p>Track company, role, location, salary range, date applied, referral/contact, stage, feedback and next action. Apply to roles where you meet the core engineering requirements; do not self-reject because one framework is unfamiliar.</p>
+</section>
+
+<section id="scorecard">
+<h2>12. Progress tracker</h2>
+<p class="lead">Use these checklists as a recurring review. Tick them in your browser; progress is local to this open page and is not synced or saved automatically.</p>
+<h3>Foundation checklist</h3>
+<div class="checklist">
+<label><input type="checkbox"> I can build a clean Python service with typing, async and error handling.</label>
+<label><input type="checkbox"> I can build and test a FastAPI application with Pydantic.</label>
+<label><input type="checkbox"> I can design a PostgreSQL schema and write useful SQL queries.</label>
+<label><input type="checkbox"> I can call an LLM API with structured output, tool calling and retries.</label>
+<label><input type="checkbox"> I can explain RAG, embeddings, retrieval and evaluation trade-offs.</label>
+<label><input type="checkbox"> I can build a stateful LangGraph agent with tool integrations.</label>
+<label><input type="checkbox"> I understand MCP client/server concepts and security boundaries.</label>
+<label><input type="checkbox"> I can measure task success, tool accuracy, latency and cost.</label>
+<label><input type="checkbox"> I can trace, debug and recover a failed agent run.</label>
+<label><input type="checkbox"> I can deploy a containerized service and explain its operations.</label>
+</div>
+<h3>Portfolio checklist</h3>
+<div class="checklist">
+<label><input type="checkbox"> AgentGuard has a reproducible evaluation dataset and report.</label>
+<label><input type="checkbox"> Enterprise Workflow Agent completes an end-to-end workflow safely.</label>
+<label><input type="checkbox"> CodeShift demonstrates differential and property-based testing.</label>
+<label><input type="checkbox"> Each project has a clear README and architecture diagram.</label>
+<label><input type="checkbox"> Each project has tests, setup instructions and a short demo.</label>
+<label><input type="checkbox"> I can explain trade-offs and limitations without reading notes.</label>
+</div>
+<h3>Career readiness checklist</h3>
+<div class="checklist">
+<label><input type="checkbox"> Resume has measurable, defensible impact bullets.</label>
+<label><input type="checkbox"> LinkedIn headline, About and skills match target roles.</label>
+<label><input type="checkbox"> GitHub has pinned, documented portfolio repositories.</label>
+<label><input type="checkbox"> I have completed at least five realistic mock interviews.</label>
+<label><input type="checkbox"> I have a compensation comparison sheet for each serious offer.</label>
+</div>
+</section>
+
+<section id="rules">
+<h2>13. Rules to stay focused</h2>
+<ol>
+<li><strong>Build more than you watch.</strong> Keep passive learning to a small part of each session.</li>
+<li><strong>One main project at a time.</strong> Integrate smaller ideas into the three portfolio projects.</li>
+<li><strong>Understand fundamentals before framework hopping.</strong> Agent state, control flow, tools, evaluation and safety matter more than framework count.</li>
+<li><strong>Do not fake seniority.</strong> Present yourself as an experienced software engineer developing deep Applied AI specialization.</li>
+<li><strong>Measure outcomes honestly.</strong> Every metric needs a baseline, method and reproducible evidence.</li>
+<li><strong>Protect your current job performance.</strong> Do not sacrifice income or reliability for an unrealistic study schedule.</li>
+<li><strong>Review every Sunday.</strong> What did you ship? What did you learn? What is blocked? What is next?</li>
+<li><strong>Do not endlessly reorder LinkedIn skills.</strong> Update the profile when your demonstrated ability changes, not every few days.</li>
+</ol>
+<div class="callout green"><strong>North-star outcome by June 2027:</strong> Be able to design, build, evaluate, secure and deploy a real tool-using AI system; explain the architecture and trade-offs; show evidence in three focused projects; and interview as a senior software engineer specializing in Applied AI systems.</div>
+</section>
+
+<section id="sources">
+<h2>Sources and assumptions</h2>
+<p class="lead">Market information is directional and varies by company, city, level, fixed/variable mix and interview performance. Job postings and salary guides are not promises of an offer.</p>
+<ul>
+<li><a href="https://www.naukri.com/career-advice/ai-jobs-career-guide-india" target="_blank" rel="noopener">Naukri — AI jobs in India 2026 salary guide</a> (published 2026; role and experience bands).</li>
+<li><a href="https://resources.instahyre.com/blog/ai-engineer-salary-in-india/" target="_blank" rel="noopener">Instahyre — AI/ML Engineer Salary in India 2026</a> (May 2026; hiring and salary estimates).</li>
+<li><a href="https://www.square1ai.com/research/what-ai-employers-in-south-asia-ask-for-2026" target="_blank" rel="noopener">Square1 AI — What AI employers in South Asia ask for</a> (2026 job-ad skill sample).</li>
+<li><a href="https://sytalent.com/roles/agentic-ai-engineer/" target="_blank" rel="noopener">SYTalent — Hiring an Agentic AI Engineer in India</a> (updated November 2026; production skill expectations).</li>
+</ul>
+<p><strong>Personal assumptions used:</strong> current CTC ₹19 LPA; approximately five years of software engineering experience; backend/full-stack SaaS experience; current work at Altisource and previous work at Flashaid; focus on Applied AI and agent systems; 3–4 hours/day available for learning and building. Verify any compensation, work-history metrics and project claims before using them publicly.</p>
+</section>
+</main>
+</div>
+<footer>Prepared as a working reference · Review monthly · Last updated 14 November 2026</footer>
+</div>
+</body>
+</html>
